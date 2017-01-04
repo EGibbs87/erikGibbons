@@ -1,14 +1,47 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>EgMovieList</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+  <head>
+    <title>EG-Movie-List</title>
 
-<%= yield %>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <%= csrf_meta_tags %>
+    
+    <base href="/">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-2.1.4.js"> </script>
+    
+    <!-- Lodash -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"> </script>
+    
+    <!-- Angular Material Icons -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.7.0/angular-material-icons.min.js"></script>
+    
+    <!-- Chart JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.min.js"></script>
+    
+    <!-- Shadow Animation -->
+    <script src="//cdn.jsdelivr.net/jquery.shadow-animation/1/mainfile"></script>
+    
+    <!-- Angular-chart JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-chart.js/1.0.0/angular-chart.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
 
-</body>
+    <style> .glyphicon-thumbs-up { cursor:pointer } </style>
+  </head>
+  <body ng-app="EgMovieList" layout="column" flex>
+    
+    <md-content ng-cloak flex layout="column" id="content">
+      <div ui-view="main" layout="column" style='display: block;'></div>
+    </md-content>
+    
+  </body>
 </html>
