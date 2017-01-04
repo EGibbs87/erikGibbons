@@ -1,0 +1,17 @@
+.mdl-data-table {
+    table-layout:fixed;
+    width:100%; 
+}
+#listings td, th {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+}
+
+/* unrelated to responsive table css */
+#listings{
+  margin-top:24px;
+}

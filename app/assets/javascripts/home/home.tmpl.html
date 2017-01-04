@@ -5,19 +5,23 @@
 <input ng-model="homeCtrl.directorFilter" placeholder="Search by Director"/>
 <input ng-model="homeCtrl.locationFilter" placeholder="Search by Storage"/>
 
-<table class="table table-hover table-mc-light-blue">
-  <thead>
-    <tr class="table-row">
-      <th style="width:60%">Title</th>
-      <th style="width:20%">Type</th>
-      <th style="width:20%">Storage</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="listing in homeCtrl.listings | filter: {title: homeCtrl.titleFilter} | filter: {media_type: homeCtrl.typeFilter} | filter: {genres: homeCtrl.genreFilter} | filter: {actors: homeCtrl.actorFilter} | filter: {directors: homeCtrl.directorFilter} | filter: {location: homeCtrl.locationFilter}">
-      <td>{{ listing.title }}</td>
-      <td>{{ listing.media_type }}</td>
-      <td>{{ listing.location }}</td>
-    </tr>
-  </tbody>
-</table>
+<section class="mdl-grid" id="listings">
+  <div style="width:100%">
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+      <thead>
+        <tr>
+          <th style="width:60%; text-align: left">Title</th>
+          <th style="width:20%; text-align: left">Type</th>
+          <th style="width:20%; text-align: left">Storage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="listing in homeCtrl.listings | filter: {title: homeCtrl.titleFilter} | filter: {media_type: homeCtrl.typeFilter} | filter: {genres: homeCtrl.genreFilter} | filter: {actors: homeCtrl.actorFilter} | filter: {directors: homeCtrl.directorFilter} | filter: {location: homeCtrl.locationFilter}">
+          <td>{{ listing.title }}</td>
+          <td>{{ listing.media_type }}</td>
+          <td>{{ listing.location }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
