@@ -1,5 +1,5 @@
 (function(){
-  var listingsFactory = function($http){
+  var listingsFactory = ['$http', function($http){
     var factory = {};
     
     factory.getListings = function(){
@@ -7,9 +7,9 @@
     }
     
     return factory;
-  };
+  }];
   
-  listingsFactory.$inject = ['$http'];
+  //listingsFactory.$inject = ['$http'];
   
   angular.module('EgMovieList').factory('listingsFactory', listingsFactory);
   
