@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
       end
       unless params['directors'].nil?
         directors = params['directors'].split(", ")
-        directors.each { |d| director = Genre.where(name: d, role: "director").first_or_create; l.people << director }
+        directors.each { |d| director = Person.where(name: d, role: "director").first_or_create; l.people << director }
       end
       render :json => {'success' => true }
     else
