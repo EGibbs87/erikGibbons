@@ -25,3 +25,40 @@
     </table>
   </div>
 </section>
+
+<div style="width:100%;text-align:center; margin-bottom:30px">
+  <h3>Add a new listing</h3>
+  <form name="new_listing_form" style='width: 100%' ng-submit="homeCtrl.add_listing(homeCtrl.newListing.title, homeCtrl.newListing.media_type, homeCtrl.newListing.location, homeCtrl.newListing.owner, homeCtrl.newListing.genres, homeCtrl.newListing.actors, homeCtrl.newListing.directors)">
+    <div layout='column' layout-align='center stretch' style='width: 100%'>
+      <md-input-container md-no-float>
+        <input type="text" ng-model="homeCtrl.newListing.title" placeholder="Title">
+       </md-input-container>
+      <md-input-container md-no-float>
+        <input type="text" ng-model="homeCtrl.newListing.media_type" placeholder="Type">
+       </md-input-container>
+      <md-input-container md-no-float>
+        <input type="text" ng-model="homeCtrl.newListing.location" placeholder="Location">
+       </md-input-container>
+      <md-input-container md-no-float>
+        <input type="text" ng-model="homeCtrl.newListing.owner" placeholder="Owner">
+       </md-input-container>
+      <md-input-container md-no-float>
+        <input type="text" ng-model="homeCtrl.newListing.genres" placeholder="Genres">
+       </md-input-container>
+      <md-input-container md-no-float>
+        <input type="text" ng-model="homeCtrl.newListing.actors" placeholder="Actors">
+       </md-input-container>
+      <md-input-container md-no-float>
+        <input type="text" ng-model="homeCtrl.newListing.directors" placeholder="Directors">
+      </md-input-container>
+      <!--<md-input-container class="settings-input" ng-hide="teamsCtrl.league_settings.rank_type != 'Composite' || teamsCtrl.league_settings.update_frequency == 'Never' || teamsCtrl.league_settings.game_code === 'nfl'">
+        <label style="overflow:visible">Exclude Outlier?</label>
+        <md-select ng-model="teamsCtrl.league_settings.excl_outlier" ng-disabled="teamsCtrl.league_settings.rank_type != 'Composite' || teamsCtrl.league_settings.update_frequency == 'Never'">
+          <md-option label="Yes" value="true">Yes</md-option>
+          <md-option label="No" value="false">No</md-option>
+        </md-select>
+      </md-input-container>-->
+      <md-button class="md-raised" type="submit">Update</md-button>
+    </div>
+  </form>
+</div>

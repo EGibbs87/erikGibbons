@@ -20,13 +20,13 @@ angular.module('EgMovieList.Home', [
   
 .controller('HomeCtrl', function($http, $window, listingsFactory, $log, $location, $state, $filter){
   var homeCtrl = this;
+  homeCtrl.add_listing = add_listing;
   
   function init() {
     
     listingsFactory.getListings()
       .then(function(response) {
       homeCtrl.listings = response.data;
-      console.log(homeCtrl.listings);
     }, function(data, status) {
       $log.log(data.error + ' ' + status);
     });
@@ -34,5 +34,23 @@ angular.module('EgMovieList.Home', [
   } // end of init
   
   init();
-
+  
+  /*********************
+  *  Private functions *
+  * *******************/
+  function add_listing(title, media_type, location, owner, genres, actors, directors) {
+    $http.post('/api/add_listing', {
+      title: title,
+      media_type: media_type,
+      location: location,
+      owner: owner,
+      genres: genres,
+      actors: actors,
+      directors: directors
+    }).then(function(response){
+        
+    }, function(data, status) {
+      $log.log(data.error + ' ' + status);
+    });
+  }
 });

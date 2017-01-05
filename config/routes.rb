@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root to: "application#angular"
   
   get '/api/listings' => 'application#listings'
-  
+  post '/api/add_listing' => 'application#add_listing'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
