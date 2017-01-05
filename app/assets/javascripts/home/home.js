@@ -5,7 +5,7 @@ angular.module('EgMovieList.Home', [
   'ngMdIcons'
 ])
 
-.config(function($stateProvider){
+.config(['$stateProvider', function($stateProvider){
   $stateProvider
     .state('egmovielist.home', {
       url: '/',
@@ -16,7 +16,7 @@ angular.module('EgMovieList.Home', [
         }
       }
     })
-  })
+  }])
   
 .controller('HomeCtrl', ['$http', '$window', 'listingsFactory', '$log', '$location', '$state', '$filter', function($http, $window, listingsFactory, $log, $location, $state, $filter){
   var homeCtrl = this;
