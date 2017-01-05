@@ -8,4 +8,4 @@ function toggleTooltips() {
   });
 }
 
-$(document).ready(setTimeout(toggleTooltips,1500));
+$(document).ready(setTimeout(toggleTooltips,1000));
