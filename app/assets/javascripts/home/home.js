@@ -18,7 +18,7 @@ angular.module('EgMovieList.Home', [
     })
   })
   
-.controller('HomeCtrl', function($http, $window, listingsFactory, $log, $location, $state, $filter){
+.controller('HomeCtrl', ['$http', '$window', 'listingsFactory', '$log', '$location', '$state', '$filter', function($http, $window, listingsFactory, $log, $location, $state, $filter){
   var homeCtrl = this;
   homeCtrl.add_listing = add_listing;
   
@@ -53,4 +53,4 @@ angular.module('EgMovieList.Home', [
       $log.log(data.error + ' ' + status);
     });
   }
-});
+}]);
