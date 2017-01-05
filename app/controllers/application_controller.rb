@@ -21,8 +21,20 @@ class ApplicationController < ActionController::Base
   end
   
   def add_listing
-    l = Listing.new(params.except('genres', 'actors', 'directors', 'controller', 'action', 'application').symbolize_keys)
+    l = Listing.where(params.except('genres', 'actors', 'directors', 'controller', 'action', 'application').symbolize_keys).first_or_initialize
     if l.save
+      unless params['genres'].nil?
+        genres = params['genres'].split(", ")
+        genres.each { |g| genre = Genre.where(name: g).first_or_create; l.genres << genre }
+      end
+      unless params['actors'].nil?
+        actors = params['actors'].split(", ")
+        actors.each { |a| actor = Person.where(name: a, role: "actor").first_or_create; l.people << actor }
+      end
+      unless params['directors'].nil?
+        directors = params['directors'].split(", ")
+        directors.each { |d| director = Genre.where(name: d, role: "director").first_or_create; l.people << director }
+      end
       render :json => {'success' => true }
     else
       render :json => {'success' => false }
