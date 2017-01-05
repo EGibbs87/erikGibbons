@@ -9,8 +9,6 @@
     return factory;
   }];
   
-  //listingsFactory.$inject = ['$http'];
-  
   angular.module('EgMovieList').factory('listingsFactory', listingsFactory);
   
 }());

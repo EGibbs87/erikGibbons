@@ -48,7 +48,7 @@ angular.module('EgMovieList.Home', [
       actors: actors,
       directors: directors
     }).then(function(response){
-        
+      init();
     }, function(data, status) {
       $log.log(data.error + ' ' + status);
     });

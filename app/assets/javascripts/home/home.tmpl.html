@@ -17,7 +17,19 @@
       </thead>
       <tbody>
         <tr ng-repeat="listing in homeCtrl.listings | filter: {title: homeCtrl.titleFilter} | filter: {media_type: homeCtrl.typeFilter} | filter: {genres: homeCtrl.genreFilter} | filter: {actors: homeCtrl.actorFilter} | filter: {directors: homeCtrl.directorFilter} | filter: {location: homeCtrl.locationFilter}">
-          <td>{{ listing.title }}</td>
+          <td>
+            {{ listing.title }}
+            <div class="relative-wrap">
+              <div class="overflow-wrap">
+                <div class="popover">
+                  <b>Title:</b>  {{ listing.title }} <br />
+                  <b>Genre:</b>  {{ listing.genres.join(", ") }} <br />
+                  <b>Actors:</b>  {{ listing.actors.join(", ") }} <br />
+                  <b>Directors:</b> {{ listing.directors.join(", ") }}
+                </div>
+              </div>
+            </div>
+          </td>
           <td>{{ listing.media_type }}</td>
           <td>{{ listing.location }}</td>
         </tr>
