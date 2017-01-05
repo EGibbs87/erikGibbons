@@ -21,20 +21,31 @@ class ApplicationController < ActionController::Base
   end
   
   def add_listing
-    l = Listing.where(params.except('genres', 'actors', 'directors', 'controller', 'action', 'application').symbolize_keys).first_or_initialize
+    l = Listing.where(params.except('genres', 'actors', 'directors', 'location', 'owner', 'controller', 'action', 'application').symbolize_keys).first_or_initialize
+    if l.location.nil?
+      l.location = params['location']
+    else
+      l.location = "#{l.location}, #{params['location']}"
+    end
+    if l.owner.nil?
+      l.owner = params['owner']
+    else
+      l.owner = "#{l.owner}, #{params['owner']}"
+    end
     if l.save
       unless params['genres'].nil?
         genres = params['genres'].split(", ")
-        genres.each { |g| genre = Genre.where(name: g).first_or_create; l.genres << genre }
+        genres.each { |g| genre = Genre.where(name: g).first_or_create; l.genres << genre unless l.genres.include?(genre) }
       end
       unless params['actors'].nil?
         actors = params['actors'].split(", ")
-        actors.each { |a| actor = Person.where(name: a, role: "actor").first_or_create; l.people << actor }
+        actors.each { |a| actor = Person.where(name: a, role: "actor").first_or_create; l.people << actor unless l.people.include?(actor) }
       end
       unless params['directors'].nil?
         directors = params['directors'].split(", ")
-        directors.each { |d| director = Person.where(name: d, role: "director").first_or_create; l.people << director }
+        directors.each { |d| director = Person.where(name: d, role: "director").first_or_create; l.people << director unless l.people.include?(director) }
       end
+      
       render :json => {'success' => true }
     else
       render :json => {'success' => false }

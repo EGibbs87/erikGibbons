@@ -21,6 +21,10 @@ angular.module('EgMovieList.Home', [
 .controller('HomeCtrl', ['$http', '$window', 'listingsFactory', '$log', '$location', '$state', '$filter', function($http, $window, listingsFactory, $log, $location, $state, $filter){
   var homeCtrl = this;
   homeCtrl.add_listing = add_listing;
+  homeCtrl.sort = 'title';
+  homeCtrl.sort_reverse = false;
+  homeCtrl.sortFunction = sortFunction;
+  homeCtrl.icon = 'keyboard_arrow_up';
   
   function init() {
     
@@ -52,5 +56,16 @@ angular.module('EgMovieList.Home', [
     }, function(data, status) {
       $log.log(data.error + ' ' + status);
     });
+  }
+  
+  function sortFunction(column){
+    if(homeCtrl.sort === column){
+      homeCtrl.sort_reverse = !homeCtrl.sort_reverse;
+      homeCtrl.icon == 'keyboard_arrow_up' ? homeCtrl.icon = 'keyboard_arrow_down' : homeCtrl.icon = 'keyboard_arrow_up';
+    }else{
+      homeCtrl.sort = column;
+      homeCtrl.sort_reverse = false;
+      homeCtrl.icon = 'keyboard_arrow_up'
+    }
   }
 }]);
