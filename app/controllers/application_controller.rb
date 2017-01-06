@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
       end
     end
     unless l.owner.include?(params['owner'])
-      if l.owner.nil? && !l.owner.include?(params['owner'])
+      if l.owner.nil?
         l.owner = params['owner']
       else
         l.owner = "#{l.owner}, #{params['owner']}"
