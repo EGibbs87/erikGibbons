@@ -22,19 +22,15 @@ class ApplicationController < ActionController::Base
   
   def add_listing
     l = Listing.where(params.except('genres', 'actors', 'directors', 'location', 'owner', 'controller', 'action', 'application').symbolize_keys).first_or_initialize
-    unless l.location.include?(params['location'])
-      if l.location.nil?
-        l.location = params['location']
-      else
-        l.location = "#{l.location}, #{params['location']}"
-      end
+    if l.location.nil?
+      l.location = params['location']
+    else
+      l.location = "#{l.location}, #{params['location']}" unless l.location.include?(params['location'])
     end
-    unless l.owner.include?(params['owner'])
-      if l.owner.nil?
-        l.owner = params['owner']
-      else
-        l.owner = "#{l.owner}, #{params['owner']}"
-      end
+    if l.owner.nil?
+      l.owner = params['owner']
+    else
+      l.owner = "#{l.owner}, #{params['owner']}" unless l.owner.include?(params['owner'])
     end
     if l.save
       unless params['genres'].nil?
