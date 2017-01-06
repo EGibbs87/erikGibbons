@@ -46,7 +46,6 @@ angular.module('EgMovieList.Home', [
       homeCtrl.listings = $filter('orderBy')(response.data, homeCtrl.sort);
       if(homeCtrl.reverseSort){ homeCtrl.listings.reverse() };
       homeCtrl.listingsToDisplay();
-      console.log(homeCtrl.listings);
     }, function(data, status) {
       $log.log(data.error + ' ' + status);
     });
