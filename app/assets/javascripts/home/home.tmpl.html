@@ -1,14 +1,23 @@
-
-
 <div style="width:100%; text-align:center">
   <h1>Available Movies and Shows</h1>
+  <hr>
   <input ng-model="homeCtrl.titleFilter" placeholder="Search by Title"/>
   <input ng-model="homeCtrl.typeFilter" placeholder="Search by Type"/>
   <input ng-model="homeCtrl.genreFilter" placeholder="Search by Genre"/>
   <input ng-model="homeCtrl.actorFilter" placeholder="Search by Actor"/>
   <input ng-model="homeCtrl.directorFilter" placeholder="Search by Director"/>
   <input ng-model="homeCtrl.locationFilter" placeholder="Search by Storage"/>
+  <hr>
+  <pagination boundary-links="true" 
+      max-size="130" 
+      items-per-page="homeCtrl.itemsPerPage"
+      total-items="homeCtrl.listings.length" 
+      ng-model="homeCtrl.currentPage" 
+      ng-change="homeCtrl.pageChanged()"></pagination>
+  <p>Showing <b>{{ filtered.length }}</b> listing(s) out of <b>{{ homeCtrl.listings.length }}</b></p>
+  <hr>
 </div>
+
 
 <section class="mdl-grid" id="listings">
   <div style="width:100%">
@@ -30,7 +39,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="listing in homeCtrl.listings | orderBy: homeCtrl.sort : homeCtrl.sort_reverse | filter: {title: homeCtrl.titleFilter} | filter: {media_type: homeCtrl.typeFilter} | filter: {genres: homeCtrl.genreFilter} | filter: {actors: homeCtrl.actorFilter} | filter: {directors: homeCtrl.directorFilter} | filter: {location: homeCtrl.locationFilter}">
+        <tr ng-repeat="listing in filtered = (homeCtrl.filteredListings | orderBy: homeCtrl.sort : homeCtrl.reverseSort | filter: {title: homeCtrl.titleFilter} | filter: {media_type: homeCtrl.typeFilter} | filter: {genres: homeCtrl.genreFilter} | filter: {actors: homeCtrl.actorFilter} | filter: {directors: homeCtrl.directorFilter} | filter: {location: homeCtrl.locationFilter})">
           <td>
             {{ listing.title }}
             <div class="relative-wrap">
@@ -51,6 +60,15 @@
     </table>
   </div>
 </section>
+
+<div style="width:100%; text-align:center">
+  <pagination boundary-links="true" 
+      max-size="10" 
+      items-per-page="homeCtrl.itemsPerPage"
+      total-items="homeCtrl.listings.length" 
+      ng-model="homeCtrl.currentPage" 
+      ng-change="homeCtrl.pageChanged()"></pagination>
+</div>
 
 <div style="width:100%;text-align:center; margin-bottom:30px">
   <h3>Add a new listing</h3>

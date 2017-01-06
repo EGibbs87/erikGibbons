@@ -2,7 +2,8 @@ angular.module('EgMovieList.Home', [
   'ui.router',
   'templates',
   'ngMaterial',
-  'ngMdIcons'
+  'ngMdIcons',
+  'ui.bootstrap'
 ])
 
 .config(['$stateProvider', function($stateProvider){
@@ -18,19 +19,34 @@ angular.module('EgMovieList.Home', [
     })
   }])
   
+/*.directive('testDirective', function(){
+  return {
+    template: "<h1>hello bitches</h1>"
+  }
+})*/
+  
 .controller('HomeCtrl', ['$http', '$window', 'listingsFactory', '$log', '$location', '$state', '$filter', function($http, $window, listingsFactory, $log, $location, $state, $filter){
   var homeCtrl = this;
   homeCtrl.add_listing = add_listing;
   homeCtrl.sort = 'title';
-  homeCtrl.sort_reverse = false;
+  homeCtrl.reverseSort = false;
   homeCtrl.sortFunction = sortFunction;
   homeCtrl.icon = 'keyboard_arrow_up';
+  
+  homeCtrl.filteredListings = [];
+  homeCtrl.itemsPerPage = 30;
+  homeCtrl.currentPage = 1;
+  homeCtrl.listingsToDisplay = listingsToDisplay;
+  homeCtrl.pageChanged = pageChanged;
   
   function init() {
     
     listingsFactory.getListings()
       .then(function(response) {
-      homeCtrl.listings = response.data;
+      homeCtrl.listings = $filter('orderBy')(response.data, homeCtrl.sort);
+      if(homeCtrl.reverseSort){ homeCtrl.listings.reverse() };
+      homeCtrl.listingsToDisplay();
+      console.log(homeCtrl.listings);
     }, function(data, status) {
       $log.log(data.error + ' ' + status);
     });
@@ -42,6 +58,20 @@ angular.module('EgMovieList.Home', [
   /*********************
   *  Private functions *
   * *******************/
+  function pageChanged() {
+    homeCtrl.listingsToDisplay();
+  }
+  
+  function listingsToDisplay() {
+    var begin = ((homeCtrl.currentPage - 1) * homeCtrl.itemsPerPage);
+    var end = begin + homeCtrl.itemsPerPage;
+    if(homeCtrl.reverseSort){
+      homeCtrl.filteredListings = homeCtrl.listings.slice(homeCtrl.listings.length-end, homeCtrl.listings.length-begin);
+    }else{
+      homeCtrl.filteredListings = homeCtrl.listings.slice(begin, end);
+    }
+  }
+  
   function add_listing(title, media_type, location, owner, genres, actors, directors) {
     $http.post('/api/add_listing', {
       title: title,
@@ -60,12 +90,16 @@ angular.module('EgMovieList.Home', [
   
   function sortFunction(column){
     if(homeCtrl.sort === column){
-      homeCtrl.sort_reverse = !homeCtrl.sort_reverse;
+      homeCtrl.reverseSort = !homeCtrl.reverseSort;
       homeCtrl.icon == 'keyboard_arrow_up' ? homeCtrl.icon = 'keyboard_arrow_down' : homeCtrl.icon = 'keyboard_arrow_up';
+      homeCtrl.currentPage = 1;
+      homeCtrl.pageChanged();
     }else{
       homeCtrl.sort = column;
-      homeCtrl.sort_reverse = false;
-      homeCtrl.icon = 'keyboard_arrow_up'
+      homeCtrl.reverseSort = false;
+      homeCtrl.icon = 'keyboard_arrow_up';
+      homeCtrl.currentPage = 1;
+      homeCtrl.pageChanged();
     }
   }
 }]);
