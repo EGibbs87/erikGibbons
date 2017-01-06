@@ -33,19 +33,20 @@ angular.module('EgMovieList.Home', [
   homeCtrl.sortFunction = sortFunction;
   homeCtrl.icon = 'keyboard_arrow_up';
   
-  homeCtrl.filteredListings = [];
-  homeCtrl.itemsPerPage = 30;
-  homeCtrl.currentPage = 1;
-  homeCtrl.listingsToDisplay = listingsToDisplay;
-  homeCtrl.pageChanged = pageChanged;
+  // Pagination disabled for now -- causing more problems than worth
+  // homeCtrl.filteredListings = [];
+  // homeCtrl.itemsPerPage = 5;
+  // homeCtrl.currentPage = 1;
+  // homeCtrl.listingsToDisplay = listingsToDisplay;
+  // homeCtrl.pageChanged = pageChanged;
   
   function init() {
     
     listingsFactory.getListings()
       .then(function(response) {
       homeCtrl.listings = $filter('orderBy')(response.data, homeCtrl.sort);
-      if(homeCtrl.reverseSort){ homeCtrl.listings.reverse() };
-      homeCtrl.listingsToDisplay();
+      // if(homeCtrl.reverseSort){ homeCtrl.listings.reverse() };
+      // homeCtrl.listingsToDisplay();
     }, function(data, status) {
       $log.log(data.error + ' ' + status);
     });
@@ -57,19 +58,19 @@ angular.module('EgMovieList.Home', [
   /*********************
   *  Private functions *
   * *******************/
-  function pageChanged() {
-    homeCtrl.listingsToDisplay();
-  }
+  // function pageChanged() {
+  //   homeCtrl.listingsToDisplay();
+  // }
   
-  function listingsToDisplay() {
-    var begin = ((homeCtrl.currentPage - 1) * homeCtrl.itemsPerPage);
-    var end = begin + homeCtrl.itemsPerPage;
-    if(homeCtrl.reverseSort){
-      homeCtrl.filteredListings = homeCtrl.listings.slice(homeCtrl.listings.length-end, homeCtrl.listings.length-begin);
-    }else{
-      homeCtrl.filteredListings = homeCtrl.listings.slice(begin, end);
-    }
-  }
+  // function listingsToDisplay() {
+  //   var begin = ((homeCtrl.currentPage - 1) * homeCtrl.itemsPerPage);
+  //   var end = begin + homeCtrl.itemsPerPage;
+  //   if(homeCtrl.reverseSort){
+  //     homeCtrl.filteredListings = homeCtrl.listings.slice(homeCtrl.listings.length-end, homeCtrl.listings.length-begin);
+  //   }else{
+  //     homeCtrl.filteredListings = homeCtrl.listings.slice(begin, end);
+  //   }
+  // }
   
   function add_listing(title, media_type, location, owner, genres, actors, directors) {
     $http.post('/api/add_listing', {
@@ -91,14 +92,14 @@ angular.module('EgMovieList.Home', [
     if(homeCtrl.sort === column){
       homeCtrl.reverseSort = !homeCtrl.reverseSort;
       homeCtrl.icon == 'keyboard_arrow_up' ? homeCtrl.icon = 'keyboard_arrow_down' : homeCtrl.icon = 'keyboard_arrow_up';
-      homeCtrl.currentPage = 1;
-      homeCtrl.pageChanged();
+      // homeCtrl.currentPage = 1;
+      // homeCtrl.pageChanged();
     }else{
       homeCtrl.sort = column;
       homeCtrl.reverseSort = false;
       homeCtrl.icon = 'keyboard_arrow_up';
-      homeCtrl.currentPage = 1;
-      homeCtrl.pageChanged();
+      // homeCtrl.currentPage = 1;
+      // homeCtrl.pageChanged();
     }
   }
 }]);
