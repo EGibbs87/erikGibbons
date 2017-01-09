@@ -16,6 +16,7 @@
 //= require angular-material
 //= require angular-animate
 //= require angular-aria
+//= require v-accordion
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks

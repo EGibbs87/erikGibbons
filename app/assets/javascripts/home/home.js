@@ -3,7 +3,8 @@ angular.module('EgMovieList.Home', [
   'templates',
   'ngMaterial',
   'ngMdIcons',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'vAccordion',
 ])
 
 .config(['$stateProvider', function($stateProvider){
@@ -25,9 +26,10 @@ angular.module('EgMovieList.Home', [
   }
 })*/
   
-.controller('HomeCtrl', ['$http', '$window', 'listingsFactory', '$log', '$location', '$state', '$filter', function($http, $window, listingsFactory, $log, $location, $state, $filter){
+.controller('HomeCtrl', ['$http', '$window', 'listingsFactory', 'genresFactory', 'actorsFactory', 'directorsFactory', '$log', '$location', '$state', '$filter', function($http, $window, listingsFactory, genresFactory, actorsFactory, directorsFactory, $log, $location, $state, $filter){
   var homeCtrl = this;
   homeCtrl.add_listing = add_listing;
+  homeCtrl.browseButton = browseButton;
   homeCtrl.sort = 'title';
   homeCtrl.reverseSort = false;
   homeCtrl.sortFunction = sortFunction;
@@ -41,6 +43,27 @@ angular.module('EgMovieList.Home', [
   // homeCtrl.pageChanged = pageChanged;
   
   function init() {
+    
+    genresFactory.getGenres()
+      .then(function(response){
+      homeCtrl.genres = $filter('orderBy')(response.data, 'name');
+    }, function(data, status) {
+      $log.log(data.error + ' ' + status);
+    });
+    
+    actorsFactory.getActors()
+      .then(function(response){
+      homeCtrl.actors = $filter('orderBy')(response.data, 'name');
+    }, function(data, status) {
+      $log.log(data.error + ' ' + status);
+    });
+    
+    directorsFactory.getDirectors()
+      .then(function(response){
+      homeCtrl.directors = $filter('orderBy')(response.data, 'name');
+    }, function(data, status) {
+      $log.log(data.error + ' ' + status);
+    });
     
     listingsFactory.getListings()
       .then(function(response) {
@@ -90,6 +113,18 @@ angular.module('EgMovieList.Home', [
   //     homeCtrl.filteredListings = homeCtrl.listings.slice(begin, end);
   //   }
   // }
+
+  function browseButton(category, query){
+    if(category == 'genre'){
+      homeCtrl.genreFilter = query;
+    }else if(category == 'actor'){
+      homeCtrl.actorFilter = query;
+    }else if(category == 'director'){
+      homeCtrl.directorFilter = query;
+    }else{
+      console.log('Invalid input');
+    }
+  }
   
   function add_listing(title, media_type, location, owner, genres, actors, directors) {
     $http.post('/api/add_listing', {

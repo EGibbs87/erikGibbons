@@ -8,6 +8,49 @@
   <input ng-model="homeCtrl.directorFilter" placeholder="Search by Director"/>
   <input ng-model="homeCtrl.locationFilter" placeholder="Search by Storage"/>
   <hr>
+  
+  <v-accordion class="vAccordion--default">
+
+    <!-- add expanded attribute to open the section -->
+    <v-pane>
+      <v-pane-header>
+        <b><i>Browse Genres, Actors, or Directors</i></b>
+      </v-pane-header>
+  
+      <v-pane-content>
+        <v-accordion class="vAccordion--default">
+    
+          <!-- add expanded attribute to open the section -->
+          <v-pane>
+            <v-pane-header>
+              <span class="browse-header"><b>Genres</b></span>
+            </v-pane-header>
+            <v-pane-content style="display: inline-block">
+              <span class="browse-items" ng-repeat="genre in homeCtrl.genres" ng-click="homeCtrl.browseButton('genre', genre.name)"><u>{{ genre.name }}</u></span>
+            </v-pane-content>
+          </v-pane>
+          <v-pane>
+            <v-pane-header>
+              <span class="browse-header"><b>Actors</b></span>
+            </v-pane-header>
+            <v-pane-content style="display: inline-block">
+              <span class="browse-items" ng-repeat="actor in homeCtrl.actors" ng-click="homeCtrl.browseButton('actor', actor.name)"><u>{{ actor.name }}</u></span>
+            </v-pane-content>
+          </v-pane>
+          <v-pane>
+            <v-pane-header>
+              <span class="browse-header"><b>Directors</b></span>
+            </v-pane-header>
+            <v-pane-content style="display: inline-block">
+              <span class="browse-items" ng-repeat="director in homeCtrl.directors" ng-click="homeCtrl.browseButton('director', director.name)"><u>{{ director.name }}</u></span>
+            </v-pane-content>
+          </v-pane>
+        
+        </v-accordion>
+      </v-pane-content>
+    </v-pane>
+  
+  </v-accordion>
   <!--<pagination boundary-links="true" -->
   <!--    max-size="10" -->
   <!--    items-per-page="homeCtrl.itemsPerPage"-->

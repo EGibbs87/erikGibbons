@@ -14,6 +14,24 @@ class ApplicationController < ActionController::Base
     render :json => listings_array
   end
   
+  def genres
+    genres_array = Genre.all.to_json
+    
+    render :json => genres_array
+  end
+  
+  def actors
+    actors_array = Person.where(role: "actor").to_json
+    
+    render :json => actors_array
+  end
+  
+  def directors
+    directors_array = Person.where(role: "director").to_json
+    
+    render :json => directors_array
+  end
+  
   def add_listing
     l = Listing.where(params.except('genres', 'actors', 'directors', 'location', 'owner', 'controller', 'action', 'application').symbolize_keys).first_or_initialize
     if l.location.nil?
