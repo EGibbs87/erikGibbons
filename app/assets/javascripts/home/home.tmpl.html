@@ -26,7 +26,9 @@
               <span class="browse-header"><b>Genres</b></span>
             </v-pane-header>
             <v-pane-content style="display: inline-block">
-              <span class="browse-items" ng-repeat="genre in homeCtrl.genres" ng-click="homeCtrl.browseButton('genre', genre.name)"><u>{{ genre.name }}</u></span>
+              <ul>
+                <span class="browse-items" ng-repeat="genre in homeCtrl.genres" ng-click="homeCtrl.browseButton('genre', genre.name)"><u>{{ genre.name }}</u></span>
+              </ul>
             </v-pane-content>
           </v-pane>
           <v-pane>

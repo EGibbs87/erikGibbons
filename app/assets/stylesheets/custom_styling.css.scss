@@ -132,11 +132,13 @@
 /**************/
 
 .browse-items{
-  width: 300px;
-  margin-right: 50px;
+  width: 200px;
+  padding-right: 25px;
   color: #3366BB;
   cursor: pointer;
-  
+  list-style-type: none;
+  float: left;
+  text-align: left;
 }
 
 .browse-header{
