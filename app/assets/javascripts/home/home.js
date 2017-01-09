@@ -44,7 +44,26 @@ angular.module('EgMovieList.Home', [
     
     listingsFactory.getListings()
       .then(function(response) {
+      // set default order for listings from API
       homeCtrl.listings = $filter('orderBy')(response.data, homeCtrl.sort);
+      // set genres, actors, and directors on listings object
+      angular.forEach(homeCtrl.listings, function(obj){ 
+        // map
+        obj.genres=obj.genres.map(function(g){ 
+          return g['name']
+        }).join(", "); 
+        var actors = new Array();
+        var directors = new Array();
+        angular.forEach(obj.people, function(p){
+          if(p.role === "actor"){
+            actors.push(p.name)
+          }else{
+            directors.push(p.name);
+          };
+        });
+        obj.actors = actors.join(", ");
+        obj.directors = directors.join(", ");
+      });
       // if(homeCtrl.reverseSort){ homeCtrl.listings.reverse() };
       // homeCtrl.listingsToDisplay();
     }, function(data, status) {

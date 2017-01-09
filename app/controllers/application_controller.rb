@@ -9,15 +9,9 @@ class ApplicationController < ActionController::Base
   end
   
   def listings
-    listings_array = JSON.parse(Listing.all.to_json)
-    listings_array.each do |l| 
-      listing = Listing.find(l["id"])
-      !listing.genres.empty? ? l["genres"] = listing.genres.map { |g| g.name } : l["genres"] = ["Empty"]
-      !listing.people.select { |p| p.role == "actor" }.empty? ? l["actors"] = listing.people.map { |p| p.name if p.role == "actor" }.compact : l["actors"] = ["Empty"]
-      !listing.people.select { |p| p.role == "director" }.empty? ? l["directors"] = listing.people.map { |p| p.name if p.role == "director" }.compact : l["directors"] = ["Empty"]
-    end
+    listings_array = Listing.all.to_json(:include => [:genres, :people])
     
-    render :json => listings_array.to_json
+    render :json => listings_array
   end
   
   def add_listing
