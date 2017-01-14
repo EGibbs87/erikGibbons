@@ -126,7 +126,7 @@ angular.module('EgMovieList.Home', [
     }
   }
   
-  function add_listing(title, media_type, location, owner, genres, actors, directors) {
+  function add_listing(title, media_type, location, owner, genres, actors, directors, imdb_rating) {
     $http.post('/api/add_listing', {
       title: title,
       media_type: media_type,
@@ -134,7 +134,8 @@ angular.module('EgMovieList.Home', [
       owner: owner,
       genres: genres,
       actors: actors,
-      directors: directors
+      directors: directors,
+      imdb_rating: imdb_rating;
     }).then(function(response){
       init();
     }, function(data, status) {
