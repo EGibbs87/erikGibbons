@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get '/api/actors' => 'application#actors'
   get '/api/directors' => 'application#directors'
   post '/api/add_listing' => 'application#add_listing'
+  post '/api/add_rating' => 'application#add_rating'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -29,6 +29,7 @@ angular.module('EgMovieList.Home', [
 .controller('HomeCtrl', ['$http', '$window', 'listingsFactory', 'genresFactory', 'actorsFactory', 'directorsFactory', '$log', '$location', '$state', '$filter', function($http, $window, listingsFactory, genresFactory, actorsFactory, directorsFactory, $log, $location, $state, $filter){
   var homeCtrl = this;
   homeCtrl.add_listing = add_listing;
+  homeCtrl.add_rating = add_rating;
   homeCtrl.browseButton = browseButton;
   homeCtrl.sort = 'title';
   homeCtrl.reverseSort = false;
@@ -139,6 +140,16 @@ angular.module('EgMovieList.Home', [
     }).then(function(response){
       init();
     }, function(data, status) {
+      $log.log(data.error + ' ' + status);
+    });
+  }
+  
+  function add_rating(rating, id){
+    $http.post('/api/add_rating', {
+      imdb_rating: rating,
+      id: id
+    }).then(function(response){
+    }, function(data, status){
       $log.log(data.error + ' ' + status);
     });
   }

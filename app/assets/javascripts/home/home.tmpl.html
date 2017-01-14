@@ -104,7 +104,18 @@
           </td>
           <td>{{ listing.media_type }}</td>
           <td>{{ listing.location }}</td>
-          <td>{{ listing.imdb_rating }}</td>
+          <td>
+            <form name="new_rating_form" style='width: 100%' ng-submit="homeCtrl.add_rating(listing.imdb_rating, listing.id)">
+              <md-input-container md-no-float>
+                <input style="width:50px" type="text" ng-model="listing.imdb_rating" placeholder="Rating">
+              </md-input-container>
+              <md-input-container md-no-float>
+                <input style="width:50px" type="text" ng-model="listing.id">
+              </md-input-container>
+              <button style="margin-top:15px" type="submit">Update</button>
+            </form>
+            {{ listing.imdb_rating }}
+          </td>
         </tr>
       </tbody>
     </table>

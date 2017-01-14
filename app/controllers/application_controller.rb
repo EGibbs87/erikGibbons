@@ -32,6 +32,14 @@ class ApplicationController < ActionController::Base
     render :json => directors_array
   end
   
+  def add_rating
+    l = Listing.find(params['id'])
+    l.update(imdb_rating: params['imdb_rating'])
+    puts "====#{l.inspect}"
+    
+    render :json => "success"
+  end
+  
   def add_listing
     l = Listing.where(params.except('genres', 'actors', 'directors', 'location', 'owner', 'controller', 'action', 'application').symbolize_keys).first_or_initialize
     if l.location.nil?
@@ -67,6 +75,6 @@ class ApplicationController < ActionController::Base
   private
   
   def listing_params
-    params.require(:listing).permit(:title, :media_type, :location, :owner)
+    params.require(:listing).permit(:title, :media_type, :location, :owner, :imdb_rating)
   end
 end
