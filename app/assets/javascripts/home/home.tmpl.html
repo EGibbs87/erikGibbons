@@ -105,6 +105,7 @@
           <td>{{ listing.media_type }}</td>
           <td>{{ listing.location }}</td>
           <td>
+            <!-- ### commented form below is only for if many listings need IMDB ratings; simply for efficiency -->
             <!--<form name="new_rating_form" style='width: 100%' ng-submit="homeCtrl.add_rating(listing.imdb_rating, listing.id)">-->
             <!--  <md-input-container md-no-float>-->
             <!--    <input style="width:50px" type="text" ng-model="listing.imdb_rating" placeholder="Rating">-->
@@ -133,7 +134,7 @@
 
 <div style="width:100%;text-align:center; margin-bottom:30px">
   <h3>Add a new listing</h3>
-  <form name="new_listing_form" style='width: 100%' ng-submit="homeCtrl.add_listing(homeCtrl.newListing.title, homeCtrl.newListing.media_type, homeCtrl.newListing.location, homeCtrl.newListing.owner, homeCtrl.newListing.genres, homeCtrl.newListing.actors, homeCtrl.newListing.directors)">
+  <form name="new_listing_form" style='width: 100%' ng-submit="homeCtrl.add_listing(homeCtrl.newListing.title, homeCtrl.newListing.media_type, homeCtrl.newListing.location, homeCtrl.newListing.owner, homeCtrl.newListing.genres, homeCtrl.newListing.actors, homeCtrl.newListing.directors, homeCtrl.newListing.imdb_rating)">
     <div layout='column' layout-align='center stretch' style='width: 100%'>
       <md-input-container md-no-float>
         <input type="text" ng-model="homeCtrl.newListing.title" placeholder="Title">

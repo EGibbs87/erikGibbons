@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
   end
   
   def add_listing
-    l = Listing.where(params.except('genres', 'actors', 'directors', 'location', 'owner', 'controller', 'action', 'application').symbolize_keys).first_or_initialize
+    l = Listing.where(params.except('genres', 'actors', 'directors', 'location', 'owner', 'controller', 'action', 'application', 'imdb_rating').symbolize_keys).first_or_initialize
     if l.location.nil?
       l.location = params['location']
     else
@@ -52,6 +52,7 @@ class ApplicationController < ActionController::Base
     else
       l.owner = "#{l.owner}, #{params['owner']}" unless l.owner.include?(params['owner'])
     end
+    l.imdb_rating = params['imdb_rating']
     if l.save
       unless params['genres'].nil?
         genres = params['genres'].split(", ")
