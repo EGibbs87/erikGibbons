@@ -132,7 +132,12 @@
 <!--      ng-change="homeCtrl.pageChanged()"></pagination>-->
 <!--</div>-->
 
-<div style="width:100%;text-align:center; margin-bottom:30px">
+<div style="width:100%; text-align:center">
+  <label>Add listings password</label>
+  <input type="password" ng-model="homeCtrl.password">
+</div>
+
+<div style="width:100%;text-align:center; margin-bottom:30px" ng-show="homeCtrl.password == homeCtrl.password_check">
   <h3>Add a new listing</h3>
   <form name="new_listing_form" style='width: 100%' ng-submit="homeCtrl.add_listing(homeCtrl.newListing.title, homeCtrl.newListing.media_type, homeCtrl.newListing.location, homeCtrl.newListing.owner, homeCtrl.newListing.genres, homeCtrl.newListing.actors, homeCtrl.newListing.directors, homeCtrl.newListing.imdb_rating)">
     <div layout='column' layout-align='center stretch' style='width: 100%'>

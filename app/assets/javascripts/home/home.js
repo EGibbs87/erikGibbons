@@ -35,6 +35,7 @@ angular.module('EgMovieList.Home', [
   homeCtrl.reverseSort = false;
   homeCtrl.sortFunction = sortFunction;
   homeCtrl.icon = 'keyboard_arrow_up';
+  homeCtrl.password_check = 'Movies2017'
   
   // Pagination disabled for now -- causing more problems than worth
   // homeCtrl.filteredListings = [];
