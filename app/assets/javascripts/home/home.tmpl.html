@@ -1,3 +1,26 @@
+<form name="myForm">
+  <fieldset>
+    <legend>Upload on form submit</legend>
+    File:
+    <input type="file" ngf-select ng-model="homeCtrl.file" name="file"    
+           accept=".xls,.csv,.xlsx" ngf-max-size="20MB" required
+           ngf-model-invalid="errorFile">
+    <i ng-show="myForm.file.$error.required">*required</i><br>
+    <i ng-show="myForm.file.$error.maxSize">File too large 
+        {{errorFile.size / 1000000|number:1}}MB: max 20M</i>
+    <br>
+    <button ng-disabled="!myForm.$valid" 
+            ng-click="homeCtrl.uploadFile(homeCtrl.file)">Submit</button>
+    <span class="progress" ng-show="homeCtrl.file.progress >= 0">
+      <div style="width:{{homeCtrl.file.progress}}%" 
+          ng-bind="homeCtrl.file.progress + '%'"></div>
+    </span>
+    <span ng-show="homeCtrl.file.result">Upload Successful</span>
+    <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+  </fieldset>
+  <br>
+</form>
+
 <div style="width:100%; text-align:center">
   <h1>Available Movies and Shows</h1>
   <hr>

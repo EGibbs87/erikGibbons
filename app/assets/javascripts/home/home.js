@@ -5,6 +5,7 @@ angular.module('EgMovieList.Home', [
   'ngMdIcons',
   'ui.bootstrap',
   'vAccordion',
+  'ngFileUpload',
 ])
 
 .config(['$stateProvider', function($stateProvider){
@@ -26,11 +27,12 @@ angular.module('EgMovieList.Home', [
   }
 })*/
   
-.controller('HomeCtrl', ['$http', '$window', 'listingsFactory', 'genresFactory', 'actorsFactory', 'directorsFactory', '$log', '$location', '$state', '$filter', function($http, $window, listingsFactory, genresFactory, actorsFactory, directorsFactory, $log, $location, $state, $filter){
+.controller('HomeCtrl', ['$http', '$window', 'listingsFactory', 'genresFactory', 'actorsFactory', 'directorsFactory', '$log', '$location', '$state', '$filter', '$timeout', 'Upload', function($http, $window, listingsFactory, genresFactory, actorsFactory, directorsFactory, $log, $location, $state, $filter, $timeout, Upload){
   var homeCtrl = this;
   homeCtrl.add_listing = add_listing;
   homeCtrl.add_rating = add_rating;
   homeCtrl.browseButton = browseButton;
+  homeCtrl.uploadFile = uploadFile;
   homeCtrl.sort = 'title';
   homeCtrl.reverseSort = false;
   homeCtrl.sortFunction = sortFunction;
@@ -115,6 +117,25 @@ angular.module('EgMovieList.Home', [
   //     homeCtrl.filteredListings = homeCtrl.listings.slice(begin, end);
   //   }
   // }
+  
+  function uploadFile(file){
+    file.upload = Upload.upload({
+      url: '/api/upload_file',
+      data: {file: file},
+    });
+
+    file.upload.then(function (response) {
+      $timeout(function () {
+        file.result = response.data;
+      });
+    }, function (response) {
+      if (response.status > 0)
+        homeCtrl.errorMsg = response.status + ': ' + response.data;
+    }, function (evt) {
+      // Math.min is to fix IE which reports 200% sometimes
+      file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+    });
+  }
 
   function browseButton(category, query){
     if(category == 'genre'){

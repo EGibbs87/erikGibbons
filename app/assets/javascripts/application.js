@@ -17,6 +17,7 @@
 //= require angular-animate
 //= require angular-aria
 //= require v-accordion
+//= require ng-file-upload
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks

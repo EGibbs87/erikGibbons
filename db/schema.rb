@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170114041342) do
+ActiveRecord::Schema.define(version: 20170423144518) do
 
   create_table "genre_listings", force: :cascade do |t|
     t.integer  "genre_id"
@@ -26,16 +26,16 @@ ActiveRecord::Schema.define(version: 20170114041342) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "listings", force: :cascade do |t|
+  create_table "import_failures", force: :cascade do |t|
     t.string   "title"
-    t.string   "media_type"
-    t.string   "location"
-    t.string   "owner"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.float    "imdb_rating"
-    t.float    "eg_rating"
+    t.string   "year"
+    t.string   "failed_attempt"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
+
+# Could not dump table "listings" because of following NoMethodError
+#   undefined method `[]' for nil:NilClass
 
   create_table "people", force: :cascade do |t|
     t.string   "name"

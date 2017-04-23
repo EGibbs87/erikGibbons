@@ -8,10 +8,6 @@ function toggleTooltips() {
   });
 }
 
-function tableChange() {
-  $('table').on('update', console.log("working"));
-}
-
 $(document).ready(setTimeout(toggleTooltips,1000));
 //$(document).ready(setTimeout(tableChange,1000));
 $(document).keypress(function(){

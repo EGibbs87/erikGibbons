@@ -73,6 +73,32 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def upload_file
+    file = params["file"]
+    spreadsheet = Roo::Excelx.new(file.path)
+    
+    # cycle through each row of the spreadsheet (after the header)
+    range = 2..spreadsheet.last_row
+    range.each do |i|
+      row = spreadsheet.row(i)
+      season = row[0] || ""
+      title = row[1]
+      year = row[2]
+      owner = row[4]
+      holiday = row[5] || ""
+      form = row[6]
+      notes = row[7]
+      series = row[8] || ""
+      
+      season.nil? ? media = "movie" : media = "series"
+      
+      next if i == 0
+      listing = Listing.import_listing(title, year, media, { 'season' => season, 'owner' => owner, 'holiday' => holiday, 'form' => form, 'notes' => notes, 'series' => series })
+    end
+    puts spreadsheet.last_row
+    render :json => {'success' => true }
+  end
+  
   private
   
   def listing_params
