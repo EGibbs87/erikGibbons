@@ -28,6 +28,7 @@ class Listing < ActiveRecord::Base
         ImportFailure.create(title: title, year: year, failed_attempt: "2")
         return false
       end
+    end
     
     # find or create movie listing
     # data = { 'season' => season, 'owner' => owner, 'holiday' => holiday, 'form' => form, 'notes' => notes, 'series' => series }
