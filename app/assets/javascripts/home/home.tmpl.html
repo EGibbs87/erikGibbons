@@ -104,14 +104,22 @@
             Storage
             <md-icon ng-show="homeCtrl.sort == 'location'" md-font-library="material-icons">{{ homeCtrl.icon }}</md-icon>
           </th>
+          <th style="width:15%; text-align: left" ng-click="homeCtrl.sortFunction('runtime')">
+            Runtime
+            <md-icon ng-show="homeCtrl.sort == 'runtime'" md-font-library="material-icons">{{ homeCtrl.icon }}</md-icon>
+          </th>
           <th style="width:10%; text-align: left" ng-click="homeCtrl.sortFunction('imdb_rating')">
             IMDB
             <md-icon ng-show="homeCtrl.sort == 'imdb_rating'" md-font-library="material-icons">{{ homeCtrl.icon }}</md-icon>
           </th>
+          <th style="width:10%; text-align: left" ng-click="homeCtrl.sortFunction('rt_rating')">
+            RT
+            <md-icon ng-show="homeCtrl.sort == 'rt_rating'" md-font-library="material-icons">{{ homeCtrl.icon }}</md-icon>
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="listing in filtered = (homeCtrl.listings | orderBy: homeCtrl.sort : homeCtrl.reverseSort | filter: {title: homeCtrl.titleFilter} | filter: {media_type: homeCtrl.typeFilter} | filter: {genres: homeCtrl.genreFilter} | filter: {actors: homeCtrl.actorFilter} | filter: {directors: homeCtrl.directorFilter} | filter: {location: homeCtrl.locationFilter})">
+        <tr ng-repeat="listing in filtered = (homeCtrl.listings | orderBy: homeCtrl.sort : homeCtrl.reverseSort | filter: {title: homeCtrl.titleFilter} | filter: {media_type: homeCtrl.typeFilter} | filter: {genres: homeCtrl.genreFilter} | filter: {actors: homeCtrl.actorFilter} | filter: {directors: homeCtrl.directorFilter} | filter: {writers: homeCtrl.writerFilter} | filter: {location: homeCtrl.locationFilter})">
           <td>
             {{ listing.title }}
             <div class="relative-wrap">
@@ -120,26 +128,18 @@
                   <b>Title:</b>  {{ listing.title }} <br />
                   <b>Genre:</b>  {{ listing.genres }} <br />
                   <b>Actors:</b>  {{ listing.actors }} <br />
-                  <b>Directors:</b> {{ listing.directors }}
+                  <b>Directors:</b> {{ listing.directors }} <br />
+                  <b>Plot:</b> {{ listing.plot }} <br />
+                  <b>Owner:</b> {{ listing.owner }}
                 </div>
               </div>
             </div>
           </td>
           <td>{{ listing.media_type }}</td>
           <td>{{ listing.location }}</td>
-          <td>
-            <!-- ### commented form below is only for if many listings need IMDB ratings; simply for efficiency -->
-            <!--<form name="new_rating_form" style='width: 100%' ng-submit="homeCtrl.add_rating(listing.imdb_rating, listing.id)">-->
-            <!--  <md-input-container md-no-float>-->
-            <!--    <input style="width:50px" type="text" ng-model="listing.imdb_rating" placeholder="Rating">-->
-            <!--  </md-input-container>-->
-            <!--  <md-input-container md-no-float>-->
-            <!--    <input style="width:50px" type="text" ng-model="listing.id">-->
-            <!--  </md-input-container>-->
-            <!--  <button style="margin-top:15px" type="submit">Update</button>-->
-            <!--</form>-->
-            {{ listing.imdb_rating | number:1 }}
-          </td>
+          <td>{{ listing.runtime }}</td>
+          <td>{{ listing.imdb_rating | number:1 }}</td>
+          <td>{{ listing.rt_rating | number:1 }}</td>
         </tr>
       </tbody>
     </table>

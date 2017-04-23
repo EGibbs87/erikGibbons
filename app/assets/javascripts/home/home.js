@@ -39,13 +39,6 @@ angular.module('EgMovieList.Home', [
   homeCtrl.icon = 'keyboard_arrow_up';
   homeCtrl.password_check = 'Movies2017'
   
-  // Pagination disabled for now -- causing more problems than worth
-  // homeCtrl.filteredListings = [];
-  // homeCtrl.itemsPerPage = 5;
-  // homeCtrl.currentPage = 1;
-  // homeCtrl.listingsToDisplay = listingsToDisplay;
-  // homeCtrl.pageChanged = pageChanged;
-  
   function init() {
     
     genresFactory.getGenres()
@@ -180,14 +173,10 @@ angular.module('EgMovieList.Home', [
     if(homeCtrl.sort === column){
       homeCtrl.reverseSort = !homeCtrl.reverseSort;
       homeCtrl.icon == 'keyboard_arrow_up' ? homeCtrl.icon = 'keyboard_arrow_down' : homeCtrl.icon = 'keyboard_arrow_up';
-      // homeCtrl.currentPage = 1;
-      // homeCtrl.pageChanged();
     }else{
       homeCtrl.sort = column;
       homeCtrl.reverseSort = false;
       homeCtrl.icon = 'keyboard_arrow_up';
-      // homeCtrl.currentPage = 1;
-      // homeCtrl.pageChanged();
     }
   }
 }]);

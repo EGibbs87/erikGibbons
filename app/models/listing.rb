@@ -39,7 +39,9 @@ class Listing < ActiveRecord::Base
     if data['season'] == ""
       season = ""
       runtime = hash["Runtime"]
+      type = "Movie"
     else
+      type = "TV"
       runtime = ""
       if data['season'].match(/\A\d*\z/)
         if season.length == 1
@@ -77,6 +79,7 @@ class Listing < ActiveRecord::Base
     
     # update listing with all updated params
     listing.update(
+      media_type: type,
       notes: notes,
       location: location,
       owner: owner, 
