@@ -89,11 +89,18 @@ class ApplicationController < ActionController::Base
       form = row[6]
       notes = row[7]
       row[8].nil? ? series = "" : series = row[8]
+      imdb_id = row[9]
       
-      season.blank? ? media = "movie" : media = "series"
+      if season.blank? 
+        media = "movie" 
+      elsif season.to_s.match(/S\d{2}E\d{2}/)
+        media = "episode"
+      else
+        media = "series"
+      end
       
       next if i == 0
-      listing = Listing.import_listing(title, year, media, { 'season' => season, 'owner' => owner, 'holiday' => holiday, 'form' => form, 'notes' => notes, 'series' => series })
+      listing = Listing.import_listing(title, year, media, imdb_id, { 'season' => season, 'owner' => owner, 'holiday' => holiday, 'form' => form, 'notes' => notes, 'series' => series })
     end
     puts spreadsheet.last_row
     render :json => {'success' => true }
@@ -102,6 +109,6 @@ class ApplicationController < ActionController::Base
   private
   
   def listing_params
-    params.require(:listing).permit(:title, :media_type, :location, :owner, :imdb_rating, :rt_rating, :year, :runtime, :plot, :poster_url, :notes)
+    params.require(:listing).permit(:title, :media_type, :location, :owner, :imdb_rating, :rt_rating, :year, :runtime, :plot, :poster_url, :notes, :imdb_id)
   end
 end

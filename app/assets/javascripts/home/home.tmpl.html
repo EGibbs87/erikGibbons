@@ -96,6 +96,10 @@
             Title
             <md-icon ng-show="homeCtrl.sort == 'title'" md-font-library="material-icons">{{ homeCtrl.icon }}</md-icon>
           </th>
+          <th style="width:15%; text-align: left" ng-click="homeCtrl.sortFunction('year')">
+            Year
+            <md-icon ng-show="homeCtrl.sort == 'year'" md-font-library="material-icons">{{ homeCtrl.icon }}</md-icon>
+          </th>
           <th style="width:15%; text-align: left" ng-click="homeCtrl.sortFunction('media_type')">
             Type
             <md-icon ng-show="homeCtrl.sort == 'media_type'" md-font-library="material-icons">{{ homeCtrl.icon }}</md-icon>
@@ -130,11 +134,13 @@
                   <b>Actors:</b>  {{ listing.actors }} <br />
                   <b>Directors:</b> {{ listing.directors }} <br />
                   <b>Plot:</b> {{ listing.plot }} <br />
-                  <b>Owner:</b> {{ listing.owner }}
+                  <b>Owner:</b> {{ listing.owner }}  <br />
+                  <b>Notes:</b> {{ listing.notes }}
                 </div>
               </div>
             </div>
           </td>
+          <td>{{ listing.year }}</td>
           <td>{{ listing.media_type }}</td>
           <td>{{ listing.location }}</td>
           <td>{{ listing.runtime }}</td>
