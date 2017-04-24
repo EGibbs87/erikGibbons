@@ -121,7 +121,7 @@
       <tbody>
         <tr ng-repeat="listing in filtered = (homeCtrl.listings | orderBy: homeCtrl.sort : homeCtrl.reverseSort | filter: {title: homeCtrl.titleFilter} | filter: {media_type: homeCtrl.typeFilter} | filter: {genres: homeCtrl.genreFilter} | filter: {actors: homeCtrl.actorFilter} | filter: {directors: homeCtrl.directorFilter} | filter: {writers: homeCtrl.writerFilter} | filter: {location: homeCtrl.locationFilter})">
           <td>
-            {{ listing.title }}
+            <a ng-href="http://www.imdb.com/title/{{ listing.imdb_id }}" target="_blank" >{{ listing.title }}</a>
             <div class="relative-wrap">
               <div class="overflow-wrap">
                 <div class="popover">
@@ -139,7 +139,7 @@
           <td>{{ listing.location }}</td>
           <td>{{ listing.runtime }}</td>
           <td>{{ listing.imdb_rating | number:1 }}</td>
-          <td>{{ listing.rt_rating | number:1 }}</td>
+          <td>{{ listing.rt_rating }}</td>
         </tr>
       </tbody>
     </table>

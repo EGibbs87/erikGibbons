@@ -81,16 +81,16 @@ class ApplicationController < ActionController::Base
     range = 2..spreadsheet.last_row
     range.each do |i|
       row = spreadsheet.row(i)
-      season = row[0] || ""
+      row[0].nil? ? season = "" : season = row[0]
       title = row[1]
       year = row[2]
       owner = row[4]
-      holiday = row[5] || ""
+      row[5].nil? ? holiday = "" : holiday = row[5]
       form = row[6]
       notes = row[7]
-      series = row[8] || ""
+      row[8].nil? ? series = "" : series = row[8]
       
-      season.nil? ? media = "movie" : media = "series"
+      season.blank? ? media = "movie" : media = "series"
       
       next if i == 0
       listing = Listing.import_listing(title, year, media, { 'season' => season, 'owner' => owner, 'holiday' => holiday, 'form' => form, 'notes' => notes, 'series' => series })
@@ -102,6 +102,6 @@ class ApplicationController < ActionController::Base
   private
   
   def listing_params
-    params.require(:listing).permit(:title, :media_type, :location, :owner, :imdb_rating)
+    params.require(:listing).permit(:title, :media_type, :location, :owner, :imdb_rating, :rt_rating, :year, :runtime, :plot, :poster_url, :notes)
   end
 end
