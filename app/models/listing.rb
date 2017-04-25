@@ -146,6 +146,7 @@ class Listing < ActiveRecord::Base
     genres.push(xl_data["holiday"]) unless xl_data["holiday"].blank?
     directors = hash["Director"].split(",")
     writers = hash["Writer"].split(",")
+    writers.each { |w| w.gsub!(/\s\(.*\)/,"") } # need to remove roles from writer names
     actors = hash["Actors"].split(",")
     
     puts "finding, creating, and associating genres..."

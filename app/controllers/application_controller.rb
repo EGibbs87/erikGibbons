@@ -32,6 +32,12 @@ class ApplicationController < ActionController::Base
     render :json => directors_array
   end
   
+  def writers
+    writers_array = Person.where(role: "writer").to_json
+    
+    render :json => writers_array
+  end
+  
   def add_rating
     l = Listing.find(params['id'])
     l.update(imdb_rating: params['imdb_rating'])
@@ -41,7 +47,7 @@ class ApplicationController < ActionController::Base
   end
   
   def add_listing
-    l = Listing.where(params.except('genres', 'actors', 'directors', 'location', 'owner', 'controller', 'action', 'application', 'imdb_rating').symbolize_keys).first_or_initialize
+    l = Listing.where(params.except('genres', 'actors', 'directors', 'location', 'owner', 'controller', 'action', 'application', 'imdb_rating', 'rt_rating', 'notes', 'writers', 'runtime').symbolize_keys).first_or_initialize
     if l.location.nil?
       l.location = params['location']
     else
@@ -53,6 +59,9 @@ class ApplicationController < ActionController::Base
       l.owner = "#{l.owner}, #{params['owner']}" unless l.owner.include?(params['owner'])
     end
     l.imdb_rating = params['imdb_rating']
+    l.rt_rating = params['rt_rating']
+    l.runtime = params['runtime']
+    l.notes = params['notes']
     if l.save
       unless params['genres'].nil?
         genres = params['genres'].split(", ")
@@ -65,6 +74,10 @@ class ApplicationController < ActionController::Base
       unless params['directors'].nil?
         directors = params['directors'].split(", ")
         directors.each { |d| director = Person.where(name: d, role: "director").first_or_create; l.people << director unless l.people.include?(director) }
+      end
+      unless params['writers'].nil?
+        writers = params['writers'].split(", ")
+        writers.each { |w| writer = Person.where(name: w, role: "writer").first_or_create; l.people << writer unless l.people.include?(writer) }
       end
       
       render :json => {'success' => true }

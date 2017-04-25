@@ -27,7 +27,7 @@ angular.module('EgMovieList.Home', [
   }
 })*/
   
-.controller('HomeCtrl', ['$http', '$window', 'listingsFactory', 'genresFactory', 'actorsFactory', 'directorsFactory', '$log', '$location', '$state', '$filter', '$timeout', 'Upload', function($http, $window, listingsFactory, genresFactory, actorsFactory, directorsFactory, $log, $location, $state, $filter, $timeout, Upload){
+.controller('HomeCtrl', ['$http', '$window', 'listingsFactory', 'genresFactory', 'actorsFactory', 'directorsFactory', 'writersFactory', '$log', '$location', '$state', '$filter', '$timeout', 'Upload', function($http, $window, listingsFactory, genresFactory, actorsFactory, directorsFactory, writersFactory, $log, $location, $state, $filter, $timeout, Upload){
   var homeCtrl = this;
   homeCtrl.add_listing = add_listing;
   homeCtrl.add_rating = add_rating;
@@ -61,6 +61,13 @@ angular.module('EgMovieList.Home', [
     }, function(data, status) {
       $log.log(data.error + ' ' + status);
     });
+    
+    // writersFactory.getWriters()
+    //   .then(function(response){
+    //   homeCtrl.writers = $filter('orderBy')(response.data, 'name');
+    // }, function(data, status) {
+    //   $log.log(data.error + ' ' + status);
+    // });
     
     listingsFactory.getListings()
       .then(function(response) {
@@ -137,21 +144,30 @@ angular.module('EgMovieList.Home', [
       homeCtrl.actorFilter = query;
     }else if(category == 'director'){
       homeCtrl.directorFilter = query;
+    // }else if(category == 'writer'){
+    //   homeCtrl.writerFilter = query;
     }else{
       console.log('Invalid input');
     }
   }
   
-  function add_listing(title, media_type, location, owner, genres, actors, directors, imdb_rating) {
+ //"homeCtrl.add_listing(homeCtrl.newListing.title, homeCtrl.newListing.year, homeCtrl.newListing.media_type, homeCtrl.newListing.runtime, homeCtrl.newListing.location, homeCtrl.newListing.owner, homeCtrl.newListing.genres, homeCtrl.newListing.actors, homeCtrl.newListing.directors, homeCtrl.newListing.writers, homeCtrl.newListing.imdb_rating, homeCtrl.newListing.rt_rating, homeCtrl.newListing.notes)">
+
+  function add_listing(title, year, media_type, runtime, location, owner, genres, actors, directors, writers, imdb_rating, rt_rating, notes) {
     $http.post('/api/add_listing', {
       title: title,
+      year: year,
       media_type: media_type,
+      runtime: runtime,
       location: location,
       owner: owner,
       genres: genres,
       actors: actors,
       directors: directors,
-      imdb_rating: imdb_rating
+      writers: writers,
+      imdb_rating: imdb_rating,
+      rt_rating: rt_rating,
+      notes: notes
     }).then(function(response){
       init();
     }, function(data, status) {

@@ -29,6 +29,7 @@
   <input ng-model="homeCtrl.genreFilter" placeholder="Search by Genre"/>
   <input ng-model="homeCtrl.actorFilter" placeholder="Search by Actor"/>
   <input ng-model="homeCtrl.directorFilter" placeholder="Search by Director"/>
+  <!--<input ng-model="homeCtrl.writerFilter" placeholder="Search by Writer"/>-->
   <input ng-model="homeCtrl.locationFilter" placeholder="Search by Storage"/>
   <hr>
   
@@ -70,6 +71,14 @@
               <span class="browse-items" ng-repeat="director in homeCtrl.directors" ng-click="homeCtrl.browseButton('director', director.name)"><u>{{ director.name }}</u></span>
             </v-pane-content>
           </v-pane>
+          <!--<v-pane>-->
+          <!--  <v-pane-header>-->
+          <!--    <span class="browse-header"><b>Writers</b></span>-->
+          <!--  </v-pane-header>-->
+          <!--  <v-pane-content style="display: inline-block">-->
+          <!--    <span class="browse-items" ng-repeat="writer in homeCtrl.writers" ng-click="homeCtrl.browseButton('writer', writer.name)"><u>{{ writer.name }}</u></span>-->
+          <!--  </v-pane-content>-->
+          <!--</v-pane>-->
         
         </v-accordion>
       </v-pane-content>
@@ -82,14 +91,14 @@
   <!--    total-items="homeCtrl.listings.length" -->
   <!--    ng-model="homeCtrl.currentPage" -->
   <!--    ng-change="homeCtrl.pageChanged()"></pagination>-->
-  <p>Showing <b>{{ filtered.length }}</b> listing(s) out of <b>{{ homeCtrl.listings.length }}</b></p>
+  <p id="listings-count">Showing <b>{{ filtered.length }}</b> listing(s) out of <b>{{ homeCtrl.listings.length }}</b></p>
   <hr>
 </div>
 
 
 <section class="mdl-grid" id="listings">
   <div style="width:100%">
-    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" id="listings-table">
       <thead>
         <tr style="background-color:#cccccc;">
           <th style="width:60%; text-align: left" ng-click="homeCtrl.sortFunction('title')">
@@ -133,6 +142,7 @@
                   <b>Genre:</b>  {{ listing.genres }} <br />
                   <b>Actors:</b>  {{ listing.actors }} <br />
                   <b>Directors:</b> {{ listing.directors }} <br />
+                  <b>Writers:</b> {{ listing.writers }} <br />
                   <b>Plot:</b> {{ listing.plot }} <br />
                   <b>Owner:</b> {{ listing.owner }}  <br />
                   <b>Notes:</b> {{ listing.notes }}
@@ -168,13 +178,19 @@
 
 <div style="width:100%;text-align:center; margin-bottom:30px" ng-show="homeCtrl.password == homeCtrl.password_check">
   <h3>Add a new listing</h3>
-  <form name="new_listing_form" style='width: 100%' ng-submit="homeCtrl.add_listing(homeCtrl.newListing.title, homeCtrl.newListing.media_type, homeCtrl.newListing.location, homeCtrl.newListing.owner, homeCtrl.newListing.genres, homeCtrl.newListing.actors, homeCtrl.newListing.directors, homeCtrl.newListing.imdb_rating)">
+  <form name="new_listing_form" style='width: 100%' ng-submit="homeCtrl.add_listing(homeCtrl.newListing.title, homeCtrl.newListing.year, homeCtrl.newListing.media_type, homeCtrl.newListing.runtime, homeCtrl.newListing.location, homeCtrl.newListing.owner, homeCtrl.newListing.genres, homeCtrl.newListing.actors, homeCtrl.newListing.directors, homeCtrl.newListing.writers, homeCtrl.newListing.imdb_rating, homeCtrl.newListing.rt_rating, homeCtrl.newListing.notes)">
     <div layout='column' layout-align='center stretch' style='width: 100%'>
       <md-input-container md-no-float>
         <input type="text" ng-model="homeCtrl.newListing.title" placeholder="Title">
        </md-input-container>
       <md-input-container md-no-float>
+        <input type="text" ng-model="homeCtrl.newListing.year" placeholder="Year">
+       </md-input-container>
+      <md-input-container md-no-float>
         <input type="text" ng-model="homeCtrl.newListing.media_type" placeholder="Type">
+       </md-input-container>
+      <md-input-container md-no-float>
+        <input type="text" ng-model="homeCtrl.newListing.runtime" placeholder="Runtime">
        </md-input-container>
       <md-input-container md-no-float>
         <input type="text" ng-model="homeCtrl.newListing.location" placeholder="Location">
@@ -192,7 +208,16 @@
         <input type="text" ng-model="homeCtrl.newListing.directors" placeholder="Directors">
       </md-input-container>
       <md-input-container md-no-float>
+        <input type="text" ng-model="homeCtrl.newListing.writers" placeholder="Writers">
+      </md-input-container>
+      <md-input-container md-no-float>
         <input type="text" ng-model="homeCtrl.newListing.imdb_rating" placeholder="IMDB Rating">
+      </md-input-container>
+      <md-input-container md-no-float>
+        <input type="text" ng-model="homeCtrl.newListing.rt_rating" placeholder="Rotten Tomatoes Rating">
+      </md-input-container>
+      <md-input-container md-no-float>
+        <input type="text" ng-model="homeCtrl.newListing.notes" placeholder="Notes">
       </md-input-container>
       <!--<md-input-container class="settings-input" ng-hide="teamsCtrl.league_settings.rank_type != 'Composite' || teamsCtrl.league_settings.update_frequency == 'Never' || teamsCtrl.league_settings.game_code === 'nfl'">
         <label style="overflow:visible">Exclude Outlier?</label>
