@@ -1,26 +1,3 @@
-<form name="myForm">
-  <fieldset>
-    <legend>Upload on form submit</legend>
-    File:
-    <input type="file" ngf-select ng-model="homeCtrl.file" name="file"    
-           accept=".xls,.csv,.xlsx" ngf-max-size="20MB" required
-           ngf-model-invalid="errorFile">
-    <i ng-show="myForm.file.$error.required">*required</i><br>
-    <i ng-show="myForm.file.$error.maxSize">File too large 
-        {{errorFile.size / 1000000|number:1}}MB: max 20M</i>
-    <br>
-    <button ng-disabled="!myForm.$valid" 
-            ng-click="homeCtrl.uploadFile(homeCtrl.file)">Submit</button>
-    <span class="progress" ng-show="homeCtrl.file.progress >= 0">
-      <div style="width:{{homeCtrl.file.progress}}%" 
-          ng-bind="homeCtrl.file.progress + '%'"></div>
-    </span>
-    <span ng-show="homeCtrl.file.result">Upload Successful</span>
-    <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
-  </fieldset>
-  <br>
-</form>
-
 <div style="width:100%; text-align:center">
   <h1>Available Movies and Shows</h1>
   <hr>
@@ -169,64 +146,137 @@
 <!--      total-items="homeCtrl.listings.length" -->
 <!--      ng-model="homeCtrl.currentPage" -->
 <!--      ng-change="homeCtrl.pageChanged()"></pagination>-->
-<!--</div>-->
+<!--</div> -->
+
+<h3 style="text-align:center">Enter password to add entries</h3>
 
 <div style="width:100%; text-align:center">
-  <label>Add listings password</label>
-  <input type="password" ng-model="homeCtrl.password">
+  <label>Input password to add listings</label>
+  <input type="password" ng-model="homeCtrl.password" style="margin-bottom:20px">
 </div>
 
-<div style="width:100%;text-align:center; margin-bottom:30px" ng-show="homeCtrl.password == homeCtrl.password_check">
-  <h3>Add a new listing</h3>
-  <form name="new_listing_form" style='width: 100%' ng-submit="homeCtrl.add_listing(homeCtrl.newListing.title, homeCtrl.newListing.year, homeCtrl.newListing.media_type, homeCtrl.newListing.runtime, homeCtrl.newListing.location, homeCtrl.newListing.owner, homeCtrl.newListing.genres, homeCtrl.newListing.actors, homeCtrl.newListing.directors, homeCtrl.newListing.writers, homeCtrl.newListing.imdb_rating, homeCtrl.newListing.rt_rating, homeCtrl.newListing.notes)">
-    <div layout='column' layout-align='center stretch' style='width: 100%'>
-      <md-input-container md-no-float>
-        <input type="text" ng-model="homeCtrl.newListing.title" placeholder="Title">
-       </md-input-container>
-      <md-input-container md-no-float>
-        <input type="text" ng-model="homeCtrl.newListing.year" placeholder="Year">
-       </md-input-container>
-      <md-input-container md-no-float>
-        <input type="text" ng-model="homeCtrl.newListing.media_type" placeholder="Type">
-       </md-input-container>
-      <md-input-container md-no-float>
-        <input type="text" ng-model="homeCtrl.newListing.runtime" placeholder="Runtime">
-       </md-input-container>
-      <md-input-container md-no-float>
-        <input type="text" ng-model="homeCtrl.newListing.location" placeholder="Location">
-       </md-input-container>
-      <md-input-container md-no-float>
-        <input type="text" ng-model="homeCtrl.newListing.owner" placeholder="Owner">
-       </md-input-container>
-      <md-input-container md-no-float>
-        <input type="text" ng-model="homeCtrl.newListing.genres" placeholder="Genres">
-       </md-input-container>
-      <md-input-container md-no-float>
-        <input type="text" ng-model="homeCtrl.newListing.actors" placeholder="Actors">
-       </md-input-container>
-      <md-input-container md-no-float>
-        <input type="text" ng-model="homeCtrl.newListing.directors" placeholder="Directors">
-      </md-input-container>
-      <md-input-container md-no-float>
-        <input type="text" ng-model="homeCtrl.newListing.writers" placeholder="Writers">
-      </md-input-container>
-      <md-input-container md-no-float>
-        <input type="text" ng-model="homeCtrl.newListing.imdb_rating" placeholder="IMDB Rating">
-      </md-input-container>
-      <md-input-container md-no-float>
-        <input type="text" ng-model="homeCtrl.newListing.rt_rating" placeholder="Rotten Tomatoes Rating">
-      </md-input-container>
-      <md-input-container md-no-float>
-        <input type="text" ng-model="homeCtrl.newListing.notes" placeholder="Notes">
-      </md-input-container>
-      <!--<md-input-container class="settings-input" ng-hide="teamsCtrl.league_settings.rank_type != 'Composite' || teamsCtrl.league_settings.update_frequency == 'Never' || teamsCtrl.league_settings.game_code === 'nfl'">
-        <label style="overflow:visible">Exclude Outlier?</label>
-        <md-select ng-model="teamsCtrl.league_settings.excl_outlier" ng-disabled="teamsCtrl.league_settings.rank_type != 'Composite' || teamsCtrl.league_settings.update_frequency == 'Never'">
-          <md-option label="Yes" value="true">Yes</md-option>
-          <md-option label="No" value="false">No</md-option>
-        </md-select>
-      </md-input-container>-->
-      <button class="md-raised" style="margin-top:15px" type="submit">Update</button>
-    </div>
-  </form>
-</div>
+<section ng-show="homeCtrl.password == homeCtrl.password_check">
+  <div class="tabs" style="margin-bottom:20px">
+  	<span class="tabs" ng-class="{active:homeCtrl.isSelected(1) }">
+  		<a href ng-click="homeCtrl.selectTab(1)">Single Entry Auto</a>
+  	</span>
+  	<span class="tabs" ng-class="{active:homeCtrl.isSelected(2)  }">
+  		<a href ng-click="homeCtrl.selectTab(2)">Single Entry Manual</a>
+  	</span>
+  	<span class="tabs" ng-class="{active:homeCtrl.isSelected(3)}">
+  		<a href ng-click="homeCtrl.selectTab(3)">Excel Import</a>
+  	</span>
+  </div>
+  
+  <!-- Tab 1 -->
+  <div ng-show="homeCtrl.isSelected(1)">
+    <p>Note:  Either IMDB ID (recommended) or Search Title (year also recommended for this option) must be provided</p>
+		<form name="listing_import_form" style='width: 100%' ng-submit="homeCtrl.import_listing(homeCtrl.importListing.imdb_id, homeCtrl.importListing.search_title, homeCtrl.importListing.display_title, homeCtrl.importListing.year, homeCtrl.importListing.media, homeCtrl.importListing.location, homeCtrl.importListing.owner, homeCtrl.importListing.notes)">
+      <div layout='column' layout-align='center stretch' style='width: 100%'>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.importListing.imdb_id" placeholder="IMDB ID">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.importListing.search_title" placeholder="Search Title (IMDB search)">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.importListing.display_title" placeholder="Display Title (Database display)">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.importListing.year" placeholder="Year">
+        </md-input-container>
+        <md-input-container>
+          <md-select ng-model="homeCtrl.importListing.media" placeholder="Media Type">
+            <md-option ng-value="opt[1]" ng-repeat="opt in homeCtrl.mediaOpts">{{ opt[0] }}</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container md-no-float ng-show="homeCtrl.importListing.media != 'movie'">
+          <input type="text" ng-model="homeCtrl.newListing.season" placeholder="Season/Episode (e.g. S03 or S01E12)">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.newListing.location" placeholder="Storage">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.newListing.owner" placeholder="Owner(s)">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.newListing.notes" placeholder="Notes">
+        </md-input-container>
+        <button class="md-raised" style="margin-top:15px" type="submit">Submit</button>
+      </div>
+    </form>
+	</div> <!-- Tab 1 -->
+	
+	<!-- Tab 2 -->
+	<div ng-show="homeCtrl.isSelected(2)"> 
+	  <form name="new_listing_form" style='width: 100%' ng-submit="homeCtrl.add_listing(homeCtrl.newListing.title, homeCtrl.newListing.year, homeCtrl.newListing.media_type, homeCtrl.newListing.runtime, homeCtrl.newListing.location, homeCtrl.newListing.owner, homeCtrl.newListing.genres, homeCtrl.newListing.actors, homeCtrl.newListing.directors, homeCtrl.newListing.writers, homeCtrl.newListing.imdb_rating, homeCtrl.newListing.rt_rating, homeCtrl.newListing.notes)">
+      <div layout='column' layout-align='center stretch' style='width: 100%'>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.newListing.title" placeholder="Title">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.newListing.year" placeholder="Year">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.newListing.media_type" placeholder="Type">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.newListing.runtime" placeholder="Runtime">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.newListing.location" placeholder="Storage">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.newListing.owner" placeholder="Owner">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.newListing.genres" placeholder="Genres">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.newListing.actors" placeholder="Actors">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.newListing.directors" placeholder="Directors">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.newListing.writers" placeholder="Writers">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.newListing.imdb_rating" placeholder="IMDB Rating">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.newListing.rt_rating" placeholder="Rotten Tomatoes Rating">
+        </md-input-container>
+        <md-input-container md-no-float>
+          <input type="text" ng-model="homeCtrl.newListing.notes" placeholder="Notes">
+        </md-input-container>
+        <button class="md-raised" style="margin-top:15px" type="submit">Submit</button>
+      </div>
+    </form>
+	</div> <!-- Tab 2 -->
+	
+	<!-- Tab 3 -->
+	<div ng-show="homeCtrl.isSelected(3)"> 
+	  <form name="myForm">
+      <fieldset>
+        <legend>Import from Excel</legend>
+        File:
+        <input type="file" ngf-select ng-model="homeCtrl.file" name="file"    
+               accept=".xls,.csv,.xlsx" ngf-max-size="20MB" required
+               ngf-model-invalid="errorFile">
+        <i ng-show="myForm.file.$error.maxSize">File too large 
+            {{errorFile.size / 1000000|number:1}}MB: max 20M</i>
+        <br>
+        <button ng-disabled="!myForm.$valid" 
+                ng-click="homeCtrl.uploadFile(homeCtrl.file)">Submit</button>
+        <span class="progress" ng-show="homeCtrl.file.progress >= 0">
+          <div style="width:{{homeCtrl.file.progress}}%" 
+              ng-bind="homeCtrl.file.progress + '%'"></div>
+        </span>
+        <span ng-show="homeCtrl.file.result">Upload Successful</span>
+        <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+      </fieldset>
+      <br>
+    </form>
+	</div> <!-- Tab 3 -->
+</section>

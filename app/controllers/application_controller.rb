@@ -86,6 +86,11 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def import_listing
+    Listing.import_listing(params['imdb_id'], params['search_title'], params['display_title'], params['year'], params['media'], params['season'], params['location'], params['owner'], params['notes'])
+    render :json => {'success' => true }
+  end
+  
   def upload_file
     file = params["file"]
     spreadsheet = Roo::Excelx.new(file.path)

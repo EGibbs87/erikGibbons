@@ -38,6 +38,14 @@ angular.module('EgMovieList.Home', [
   homeCtrl.sortFunction = sortFunction;
   homeCtrl.icon = 'keyboard_arrow_up';
   homeCtrl.password_check = 'Movies2017'
+  homeCtrl.tab = 1
+  homeCtrl.selectTab = function (setTab){
+  	homeCtrl.tab = setTab;
+  };
+  homeCtrl.isSelected = function(checkTab) {
+  	return homeCtrl.tab === checkTab;
+  };
+  homeCtrl.mediaOpts = [['Movie','movie'],['Show or Mini-Series','series'],['Single Episode','episoe']];
   
   function init() {
     
@@ -118,6 +126,8 @@ angular.module('EgMovieList.Home', [
   //   }
   // }
   
+  
+  
   function uploadFile(file){
     file.upload = Upload.upload({
       url: '/api/upload_file',
@@ -151,7 +161,24 @@ angular.module('EgMovieList.Home', [
     }
   }
   
- //"homeCtrl.add_listing(homeCtrl.newListing.title, homeCtrl.newListing.year, homeCtrl.newListing.media_type, homeCtrl.newListing.runtime, homeCtrl.newListing.location, homeCtrl.newListing.owner, homeCtrl.newListing.genres, homeCtrl.newListing.actors, homeCtrl.newListing.directors, homeCtrl.newListing.writers, homeCtrl.newListing.imdb_rating, homeCtrl.newListing.rt_rating, homeCtrl.newListing.notes)">
+
+  function import_listing(imdb_id, search_title, display_title, year, media, season, location, owner, notes) {
+    $http.post('/api/import_listing', {
+      imdb_id: imdb_id,
+      search_title: search_title,
+      display_title: display_title,
+      year: year,
+      media: media,
+      location: location,
+      season: season,
+      owner: owner,
+      notes: notes
+    }).then(function(response){
+      init();
+    }, function(data, status) {
+      $log.log(data.error + ' ' + status);
+    });
+  }
 
   function add_listing(title, year, media_type, runtime, location, owner, genres, actors, directors, writers, imdb_rating, rt_rating, notes) {
     $http.post('/api/add_listing', {
