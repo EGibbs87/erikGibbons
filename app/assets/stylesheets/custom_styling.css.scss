@@ -189,3 +189,37 @@ span.tabs:nth-child(3) { border-radius: 0px 20px 20px 0px;}
 /****************/
 /* End Tabs CSS */
 /****************/
+
+.md-icon-float{
+  margin: 0px 0px 0px 0px !important;
+  width: 500px !important;
+}
+
+.md-input-container{
+  width: 500px !important;
+}
+
+.select-box{
+  margin-top: 0px !important;
+  margin-bottom: 24px !important;
+  width: 500px !important;
+}
+
+/*****************/
+/* Button styles */
+/*****************/
+
+.pending{
+  background-color: yellow;
+  color: black;
+}
+
+.success{
+  background-color: green;
+  color: black;
+}
+
+.failure{
+  background-color: darkred;
+  color: black;
+}

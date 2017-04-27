@@ -30,6 +30,7 @@ angular.module('EgMovieList.Home', [
 .controller('HomeCtrl', ['$http', '$window', 'listingsFactory', 'genresFactory', 'actorsFactory', 'directorsFactory', 'writersFactory', '$log', '$location', '$state', '$filter', '$timeout', 'Upload', function($http, $window, listingsFactory, genresFactory, actorsFactory, directorsFactory, writersFactory, $log, $location, $state, $filter, $timeout, Upload){
   var homeCtrl = this;
   homeCtrl.add_listing = add_listing;
+  homeCtrl.import_listing = import_listing;
   homeCtrl.add_rating = add_rating;
   homeCtrl.browseButton = browseButton;
   homeCtrl.uploadFile = uploadFile;
@@ -45,7 +46,10 @@ angular.module('EgMovieList.Home', [
   homeCtrl.isSelected = function(checkTab) {
   	return homeCtrl.tab === checkTab;
   };
-  homeCtrl.mediaOpts = [['Movie','movie'],['Show or Mini-Series','series'],['Single Episode','episoe']];
+  homeCtrl.mediaOpts = [['Movie','movie'],['Show or Mini-Series','series'],['Single Episode','episode']];
+  homeCtrl.httpCall = { }
+  homeCtrl.httpCallText = "Submit"
+  homeCtrl.httpResponse = httpResponse;
   
   function init() {
     
@@ -126,7 +130,27 @@ angular.module('EgMovieList.Home', [
   //   }
   // }
   
-  
+  function httpResponse(status){
+    var buttonColor;
+    var buttonText;
+    if(status == "success"){
+      buttonColor = "green";
+      buttonText = "SUCCESS!";
+    }else if(status == "pending"){
+      buttonColor = "yellow";
+      buttonText = "PENDING...";
+    }else if(status == "failure"){
+      buttonColor = "red";
+      buttonText = "FAILURE";
+    }else{
+      buttonColor = "none";
+      buttonText = "Submit";
+    }
+    homeCtrl.httpCallText = buttonText;
+    homeCtrl.httpCall = {
+      'background-color': buttonColor
+    }
+  }
   
   function uploadFile(file){
     file.upload = Upload.upload({
@@ -135,11 +159,15 @@ angular.module('EgMovieList.Home', [
     });
 
     file.upload.then(function (response) {
-      $timeout(function () {
+      httpResponse("success");
+      $timeout(function(){ httpResponse("revert") }, 3000);
+      $timeout(function() {
         file.result = response.data;
       });
     }, function (response) {
       if (response.status > 0)
+        httpResponse("failure");
+        $timeout(function(){ httpResponse("revert") }, 3000);
         homeCtrl.errorMsg = response.status + ': ' + response.data;
     }, function (evt) {
       // Math.min is to fix IE which reports 200% sometimes
@@ -162,7 +190,7 @@ angular.module('EgMovieList.Home', [
   }
   
 
-  function import_listing(imdb_id, search_title, display_title, year, media, season, location, owner, notes) {
+  function import_listing(imdb_id, search_title, display_title, year, media, season, location, owner, notes, holiday) {
     $http.post('/api/import_listing', {
       imdb_id: imdb_id,
       search_title: search_title,
@@ -172,10 +200,15 @@ angular.module('EgMovieList.Home', [
       location: location,
       season: season,
       owner: owner,
-      notes: notes
+      notes: notes,
+      holiday: holiday
     }).then(function(response){
       init();
+      httpResponse("success");
+      $timeout(function(){ httpResponse("revert") }, 3000);
     }, function(data, status) {
+      httpResponse("failure");
+      $timeout(function(){ httpResponse("revert") }, 3000);
       $log.log(data.error + ' ' + status);
     });
   }
@@ -196,8 +229,12 @@ angular.module('EgMovieList.Home', [
       rt_rating: rt_rating,
       notes: notes
     }).then(function(response){
+      homeCtrl.httpResponse("success");
+      $timeout(function(){ httpResponse("revert") }, 3000);
       init();
     }, function(data, status) {
+      httpResponse("failure");
+      $timeout(function(){ httpResponse("revert") }, 3000);
       $log.log(data.error + ' ' + status);
     });
   }

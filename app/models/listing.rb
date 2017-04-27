@@ -171,7 +171,7 @@ class Listing < ActiveRecord::Base
     puts "complete!"
   end
   
-  def self.import_single_listing(imdb_id, search_title, display_title, year, media, season_str, location, owner, notes)
+  def self.import_single_listing(imdb_id, search_title, display_title, year, media, season_str, location, owner, notes, holiday)
     if imdb_id.nil?
       year = year.to_s
       # get information from OMDb API
@@ -228,6 +228,8 @@ class Listing < ActiveRecord::Base
       season = " (" + season_str + ")"
     else
       season = " (" + season_str + ")"
+      type = "TV"
+      runtime = ""
     end
     
     title = display_title + season
@@ -280,7 +282,7 @@ class Listing < ActiveRecord::Base
     # generate and associate peripheral data
     genres = hash["Genre"].split(", ")
     # add holiday genre
-    genres.push(xl_data["holiday"]) unless xl_data["holiday"].blank?
+    genres.push(holiday) unless holiday.blank?
     directors = hash["Director"].split(", ")
     writers = hash["Writer"].split(", ")
     writers = writers.each { |w| w.gsub!(/\s?\(.*\)\s?/,"") }.uniq # need to remove roles from writer names

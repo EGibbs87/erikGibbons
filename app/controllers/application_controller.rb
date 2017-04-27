@@ -41,7 +41,6 @@ class ApplicationController < ActionController::Base
   def add_rating
     l = Listing.find(params['id'])
     l.update(imdb_rating: params['imdb_rating'])
-    puts "====#{l.inspect}"
     
     render :json => "success"
   end
@@ -87,7 +86,7 @@ class ApplicationController < ActionController::Base
   end
   
   def import_listing
-    Listing.import_listing(params['imdb_id'], params['search_title'], params['display_title'], params['year'], params['media'], params['season'], params['location'], params['owner'], params['notes'])
+    Listing.import_single_listing(params['imdb_id'], params['search_title'], params['display_title'], params['year'], params['media'], params['season'], params['location'], params['owner'], params['notes'], params['holiday'])
     render :json => {'success' => true }
   end
   
@@ -120,7 +119,6 @@ class ApplicationController < ActionController::Base
       next if i == 0
       listing = Listing.import_listing(title, year, media, imdb_id, { 'season' => season, 'owner' => owner, 'holiday' => holiday, 'form' => form, 'notes' => notes, 'series' => series })
     end
-    puts spreadsheet.last_row
     render :json => {'success' => true }
   end
   
