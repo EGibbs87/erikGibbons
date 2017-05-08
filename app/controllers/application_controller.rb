@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
     render "layouts/application", layout: false
   end
   
+  ###### !!!!! ###### Can directors/actors/directors/writers calls be interpolated from the single Listings call?  Why are the other two necessary?
   def listings
     listings_array = Listing.all.to_json(:include => [:genres, :people])
     
@@ -83,6 +84,90 @@ class ApplicationController < ActionController::Base
     else
       render :json => {'success' => false }
     end
+  end
+  
+  def edit_listing
+    g = Genre.all
+    a = Person.where(role: "actor")
+    d = Person.where(role: "director")
+    w = Person.where(role: "writer")
+    # find relevant Listing
+    l = Listing.find(params['id'])
+    # set parameters for updating
+    title = params['title']
+    genres = params['genres'].split(", ")
+    actors = params['actors'].split(", ")
+    directors = params['directors'].split(", ")
+    writers = params['writers'].split(", ")
+    media_type = params['media_type']
+    location = params['location']
+    owner = params['owner']
+    imdb_rating = params['imdb_rating']
+    rt_rating = params['rt_rating']
+    year = params['year']
+    runtime = params['runtime']
+    plot = params['plot']
+    poster_url = params['poster_url']
+    notes = params['notes']
+    imdb_id = params['imdb_id']
+    
+    # update all non-associative fields
+    l.update(title: title, media_type: media_type, location: location, owner: owner, imdb_rating: imdb_rating, rt_rating: rt_rating, year: year, runtime: runtime, plot: plot, poster_url: poster_url, notes: notes, imdb_id: imdb_id)
+    # update associatiations
+    l_genres = l.genres.map { |gen| gen.name }
+    l_actors = l.people.where(role: "actor").map { |act| act.name }
+    l_directors = l.people.where(role: "director").map { |dir| dir.name }
+    l_writers = l.people.where(role: "writer").map { |wri| wri.name }
+    
+    # find add/removes of each association
+    remove_genres = l_genres - genres
+    add_genres = genres - l_genres
+    remove_actors = l_actors - actors
+    add_actors = actors - l_actors
+    remove_directors = l_directors - directors
+    add_directors = directors - l_directors
+    remove_writers = l_writers - writers
+    add_writers = writers - l_writers
+    
+    # add/remove each association
+    
+    # genres
+    if !remove_genres.empty?
+      r_g_ids = remove_genres.map { |rg| g.find_by(name: rg).id }
+      r_g_ids.each { |rg| l.genres.delete(rg) }
+    end
+    if !add_genres.empty?
+      add_genres.each { |ag| a_g = g.where(name: ag).first_or_create; l.genres << a_g }
+    end
+    
+    # actors
+    if !remove_actors.empty?
+      r_a_ids = remove_actors.map { |ra| a.find_by(name: ra, role: "actor").id }
+      r_a_ids.each { |ra| l.people.delete(ra) }
+    end
+    if !add_actors.empty?
+      add_actors.each { |aa| a_a = a.where(name: aa, role: "actor").first_or_create; l.people << a_a }
+    end
+    
+    # directors
+    if !remove_directors.empty?
+      r_d_ids = remove_directors.map { |rd| d.find_by(name: rd, role: "director").id }
+      r_d_ids.each { |rd| l.people.delete(rd) }
+    end
+    if !add_directors.empty?
+      add_directors.each { |ad| a_d = d.where(name: ad, role: "director").first_or_create; l.people << a_d }
+    end
+    
+    # writers
+    if !remove_writers.empty?
+      r_w_ids = remove_writers.map { |rw| w.find_by(name: rw, role: "writer").id }
+      r_w_ids.each { |rw| l.people.delete(rw) }
+    end
+    if !add_writers.empty?
+      add_writers.each { |aw| a_w = w.where(name: aw, role: "writer").first_or_create; l.people << a_w }
+    end
+    
+    render :json => {'success' => true }
   end
   
   def import_listing

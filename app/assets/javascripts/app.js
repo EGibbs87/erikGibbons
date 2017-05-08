@@ -3,7 +3,8 @@ angular.module('EgMovieList', [
   'templates', // templates for rails
   'ngMaterial', // angular material -- done correctly
   'ngAnimate', // angular animations
-  'EgMovieList.Home'
+  'EgMovieList.Home',
+  'ui.bootstrap'
 ])
 
 .config(['$mdThemingProvider', function($mdThemingProvider) {

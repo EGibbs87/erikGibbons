@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get '/api/directors' => 'application#directors'
   get '/api/writers' => 'application#writers'
   post '/api/add_listing' => 'application#add_listing'
+  post '/api/edit_listing' => 'application#edit_listing'
   post '/api/import_listing' => 'application#import_listing'
   post '/api/add_rating' => 'application#add_rating'
   post '/api/upload_file' => 'application#upload_file'

@@ -6,6 +6,7 @@ angular.module('EgMovieList.Home', [
   'ui.bootstrap',
   'vAccordion',
   'ngFileUpload',
+  'ngSanitize',
 ])
 
 .config(['$stateProvider', function($stateProvider){
@@ -27,7 +28,7 @@ angular.module('EgMovieList.Home', [
   }
 })*/
   
-.controller('HomeCtrl', ['$http', '$window', 'listingsFactory', 'genresFactory', 'actorsFactory', 'directorsFactory', 'writersFactory', '$log', '$location', '$state', '$filter', '$timeout', 'Upload', function($http, $window, listingsFactory, genresFactory, actorsFactory, directorsFactory, writersFactory, $log, $location, $state, $filter, $timeout, Upload){
+.controller('HomeCtrl', ['$uibModal', '$http', '$window', 'listingsFactory', 'genresFactory', 'actorsFactory', 'directorsFactory', 'writersFactory', '$log', '$location', '$state', '$filter', '$timeout', '$document', 'Upload', function($uibModal, $http, $window, listingsFactory, genresFactory, actorsFactory, directorsFactory, writersFactory, $log, $location, $state, $filter, $timeout, $document, Upload){
   var homeCtrl = this;
   homeCtrl.add_listing = add_listing;
   homeCtrl.import_listing = import_listing;
@@ -38,8 +39,8 @@ angular.module('EgMovieList.Home', [
   homeCtrl.reverseSort = false;
   homeCtrl.sortFunction = sortFunction;
   homeCtrl.icon = 'keyboard_arrow_up';
-  homeCtrl.password_check = 'Movies2017'
-  homeCtrl.tab = 1
+  homeCtrl.password_check = 'Movies2017';
+  homeCtrl.tab = 1;
   homeCtrl.selectTab = function (setTab){
   	homeCtrl.tab = setTab;
   };
@@ -47,10 +48,12 @@ angular.module('EgMovieList.Home', [
   	return homeCtrl.tab === checkTab;
   };
   homeCtrl.mediaOpts = [['Movie','movie'],['Show or Mini-Series','series'],['Single Episode','episode']];
-  homeCtrl.httpCall = { }
-  homeCtrl.httpCallText = "Submit"
+  homeCtrl.httpCall = { };
+  homeCtrl.httpCallText = "Submit";
   homeCtrl.httpResponse = httpResponse;
-  
+  homeCtrl.updateListing = updateListing;
+  homeCtrl.editListing = editListing;
+
   function init() {
     
     genresFactory.getGenres()
@@ -93,15 +96,19 @@ angular.module('EgMovieList.Home', [
         }).join(", "); 
         var actors = new Array();
         var directors = new Array();
+        var writers = new Array();
         angular.forEach(obj.people, function(p){
           if(p.role === "actor"){
             actors.push(p.name)
-          }else{
+          }else if(p.role === "director"){
             directors.push(p.name);
+          }else{
+            writers.push(p.name);
           };
         });
         obj.actors = actors.join(", ");
         obj.directors = directors.join(", ");
+        obj.writers = writers.join(", ");
       });
       // if(homeCtrl.reverseSort){ homeCtrl.listings.reverse() };
       // homeCtrl.listingsToDisplay();
@@ -259,4 +266,159 @@ angular.module('EgMovieList.Home', [
       homeCtrl.icon = 'keyboard_arrow_up';
     }
   }
-}]);
+  
+  // function open(){
+  //   //homeCtrl.listingParams = { title: listing.title, genres: listing.genres, actors: listing.actors, directors: listing.actors, writers: listing.writers, media_type: listing.media_type, location: listing.location, owner: listing.owner, imdb_rating: listing.imdb_rating, rt_rating: listing.rt_rating, year: listing.year, runtime: listing.runtime, plot: listing.plot, poster_url: listing.poster_url, notes: listing.notes, imdb_id: listing.imdb_id };
+  //   var modalInstance = $modal.open({
+  //     templateUrl: 'home/modal.html',
+  //     controller: 'HomeCtrl',
+  //     resolve: {
+  //       params: function () {
+  //         return homeCtrl.listingParams;
+  //       }
+  //     }
+  //   });
+  //   console.log('modal opened');
+  //   modalInstance.result.then(function () {
+  //     console.log(homeCtrl.selected);
+  //   }, function () {
+  //     console.log('dismissed');
+  //   });
+  // };
+  
+  function updateListing(listing){
+    homeCtrl.params = { id: listing.id, title: listing.title, genres: listing.genres, actors: listing.actors, directors: listing.directors, writers: listing.writers, media_type: listing.media_type, location: listing.location, owner: listing.owner, imdb_rating: listing.imdb_rating, rt_rating: listing.rt_rating, year: listing.year, runtime: listing.runtime, plot: listing.plot, poster_url: listing.poster_url, notes: listing.notes, imdb_id: listing.imdb_id };
+  }
+  
+  function editListing(id, title, genres, actors, directors, writers, media_type, location, owner, imdb_rating, rt_rating, year, runtime, plot, poster_url, notes, imdb_id){
+    $http.post('/api/edit_listing', {
+      id: id,
+      title: title,
+      genres: genres,
+      actors: actors,
+      directors: directors,
+      writers: writers,
+      media_type: media_type,
+      location: location,
+      owner: owner,
+      imdb_rating: imdb_rating,
+      rt_rating: rt_rating,
+      year: year,
+      runtime: runtime,
+      plot: plot,
+      poster_url: poster_url,
+      notes: notes,
+      imdb_id: imdb_id
+    }).then(function(response){
+      homeCtrl.httpResponse("success");
+      $timeout(function(){ httpResponse("revert") }, 3000);
+      init();
+    }, function(data, status) {
+      httpResponse("failure");
+      $timeout(function(){ httpResponse("revert") }, 3000);
+      $log.log(data.error + ' ' + status);
+    });
+  }
+
+  homeCtrl.animationsEnabled = true;
+
+  homeCtrl.open = function (size, parentSelector) {
+    var parentElem = parentSelector ? 
+      angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
+    var modalInstance = $uibModal.open({
+      animation: homeCtrl.animationsEnabled,
+      ariaLabelledBy: 'modal-title',
+      ariaDescribedBy: 'modal-body',
+      controller: 'ModalInstanceCtrl',
+      templateUrl: 'myModalContent.html',
+      controllerAs: 'homeCtrl',
+      size: size,
+      appendTo: parentElem,
+      resolve: {
+        params: function () {
+          return homeCtrl.params;
+        }
+      }
+    });
+
+    modalInstance.result.then(function(params) {
+      homeCtrl.editListing(
+        params[0], //id
+        params[1], //title
+        params[2], //genres
+        params[3], //actors
+        params[4], //directors
+        params[5], //writers
+        params[6], //media_type
+        params[7], //location
+        params[8], //owner
+        params[9], //imdb_rating
+        params[10], //rt_rating
+        params[11], //year
+        params[12], //runtime
+        params[13], //plot
+        params[14], //poster_url
+        params[15], //notes
+        params[16]  //imdb_id
+      );
+    }, function () {
+      $log.info('Canceled');
+    });
+  };
+
+  
+}])
+
+// Modal Controller
+.controller('ModalInstanceCtrl', ['$uibModalInstance', 'params', function ($uibModalInstance, params) {
+  var homeCtrl = this;
+
+  homeCtrl.params = params;
+  homeCtrl.selected = {
+    param: homeCtrl.params[0]
+  };
+
+  homeCtrl.ok = function () {
+    $uibModalInstance.close([homeCtrl.params.id, homeCtrl.params.title, homeCtrl.params.genres, homeCtrl.params.actors, homeCtrl.params.directors, homeCtrl.params.writers, homeCtrl.params.media_type, homeCtrl.params.location, homeCtrl.params.owner, homeCtrl.params.imdb_rating, homeCtrl.params.rt_rating, homeCtrl.params.year, homeCtrl.params.runtime, homeCtrl.params.plot, homeCtrl.params.poster_url, homeCtrl.params.notes, homeCtrl.params.imdb_id]);
+  };
+
+  homeCtrl.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+}])
+
+.component('modalComponent', {
+  templateUrl: 'myModalContent.html',
+  bindings: {
+    resolve: '<',
+    close: '&',
+    dismiss: '&'
+  },
+  controller: function () {
+    var comp = this;
+
+    comp.$onInit = function () {
+      comp.params = comp.resolve.params;
+      comp.selected = {
+        param: comp.params[0]
+      };
+    };
+
+    comp.ok = function () {
+      comp.close({$value: comp.selected.param});
+    };
+
+    comp.cancel = function () {
+      comp.dismiss({$value: 'cancel'});
+    };
+  }
+});
+
+// // Modal controller
+// .controller('ModalCtrl', ['$scope', 'close', function($scope, close) {
+  
+//   $scope.close = function(result) {
+//     close(result, 500); // close, but give 500ms for bootstrap to animate
+//   };
+
+// }]);
