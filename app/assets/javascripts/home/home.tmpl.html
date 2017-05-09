@@ -1,6 +1,4 @@
 <div>
-  {{ homeCtrl.params.title }}
-  
   <div style="width:100%; text-align:center">
     <h1>Available Movies and Shows</h1>
     <hr>
@@ -75,7 +73,12 @@
     <hr>
     <md-checkbox ng-model="homeCtrl.edit" aria-label="Edit Listings">
       Edit Listings
-    </md-checkbox>
+    </md-checkbox>&nbsp;&nbsp;&nbsp;
+    <a href ng-click="homeCtrl.refreshListings()">
+      <md-icon md-font-library="material-icons">refresh</md-icon>
+    </a>
+    Refresh Listings
+    <p ng-show="homeCtrl.loading"><i style="color:red">Loading or refreshing listings.  Please wait....</i></p>
   </div>
 
   

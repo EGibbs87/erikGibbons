@@ -56,8 +56,10 @@ angular.module('EgMovieList.Home', [
   homeCtrl.deleteListing = deleteListing;
   homeCtrl.removeFailure = removeFailure;
   homeCtrl.removeAllFailures = removeAllFailures;
+  homeCtrl.refreshListings = refreshListings;
 
   function init() {
+    homeCtrl.loading = true;
     // collapse commented genres, actors, directors, and writers factories; unnecessary DB calls (contained withing listingsFactory return)
     // if(false){
     // genresFactory.getGenres()
@@ -130,6 +132,7 @@ angular.module('EgMovieList.Home', [
       });
       // if(homeCtrl.reverseSort){ homeCtrl.listings.reverse() };
       // homeCtrl.listingsToDisplay();
+      homeCtrl.loading = false;
     }, function(data, status) {
       $log.log(data.error + ' ' + status);
     });
@@ -140,6 +143,8 @@ angular.module('EgMovieList.Home', [
     }, function(data, status) {
       $log.log(data.error + ' ' + status);
     });
+    
+    // set loading to false
     
   } // end of init
   
@@ -263,7 +268,8 @@ angular.module('EgMovieList.Home', [
     }).then(function(response){
       homeCtrl.httpResponse("success");
       $timeout(function(){ httpResponse("revert") }, 3000);
-      init();
+      // Instead of running init() automatically, should leave as is and allow user to refresh manually
+      // init();
     }, function(data, status) {
       httpResponse("failure");
       $timeout(function(){ httpResponse("revert") }, 3000);
@@ -296,6 +302,10 @@ angular.module('EgMovieList.Home', [
       homeCtrl.reverseSort = false;
       homeCtrl.icon = 'keyboard_arrow_up';
     }
+  }
+  
+  function refreshListings(){
+    init();
   }
 
   /*****************
