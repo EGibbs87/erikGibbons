@@ -58,7 +58,6 @@ angular.module('EgMovieList.Home', [
   homeCtrl.removeAllFailures = removeAllFailures;
 
   function init() {
-    
     // collapse commented genres, actors, directors, and writers factories; unnecessary DB calls (contained withing listingsFactory return)
     // if(false){
     // genresFactory.getGenres()
