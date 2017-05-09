@@ -137,7 +137,7 @@ angular.module('EgMovieList.Home', [
     
     failuresFactory.getFailures()
       .then(function(response){
-      homeCtrl.failures = $filter('orderBy')(response.data, 'created_at');
+      homeCtrl.failures = $filter('orderBy')($filter('filter')(response.data, {'failed_attempt':'2'}), 'created_at');
     }, function(data, status) {
       $log.log(data.error + ' ' + status);
     });
@@ -167,7 +167,7 @@ angular.module('EgMovieList.Home', [
     var buttonColor;
     var buttonText;
     if(status == "success"){
-      buttonColor = "green";
+      buttonColor = "lightgreen";
       buttonText = "SUCCESS!";
     }else if(status == "pending"){
       buttonColor = "yellow";

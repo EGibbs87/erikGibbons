@@ -226,7 +226,7 @@ class ApplicationController < ActionController::Base
       end
       
       next if i == 0
-      listing = Listing.import_listing(title, year, media, imdb_id, { 'season' => season, 'owner' => owner, 'holiday' => holiday, 'form' => form, 'notes' => notes, 'series' => series })
+      listing = Listing.xl_import_listing(title, year, media, imdb_id, { 'season' => season, 'owner' => owner, 'holiday' => holiday, 'form' => form, 'notes' => notes, 'series' => series })
     end
     render :json => {'success' => true }
   end

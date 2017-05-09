@@ -282,8 +282,7 @@
           <i ng-show="myForm.file.$error.maxSize">File too large 
             {{errorFile.size / 1000000|number:1}}MB: max 20M</i>
           <br>
-          <button ng-class="{pending: homeCtrl.pending, success: homeCtrl.success, failure: homeCtrl.failure}" ng-click="homeCtrl.httpResponse('pending')" ng-disabled="!myForm.$valid" 
-                  ng-click="homeCtrl.uploadFile(homeCtrl.file)">Submit</button>
+          <button ng-style="homeCtrl.httpCall" ng-disabled="!myForm.$valid" ng-click="homeCtrl.uploadFile(homeCtrl.file); homeCtrl.httpResponse('pending')">{{ homeCtrl.httpCallText }}</button>
           <span class="progress" ng-show="homeCtrl.file.progress >= 0">
             <div style="width:{{homeCtrl.file.progress}}%" 
                 ng-bind="homeCtrl.file.progress + '%'"></div>
