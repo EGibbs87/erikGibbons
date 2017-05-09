@@ -59,33 +59,28 @@ angular.module('EgMovieList.Home', [
 
   function init() {
     
-    genresFactory.getGenres()
-      .then(function(response){
-      homeCtrl.genres = $filter('orderBy')(response.data, 'name');
-    }, function(data, status) {
-      $log.log(data.error + ' ' + status);
-    });
+    // collapse commented genres, actors, directors, and writers factories; unnecessary DB calls (contained withing listingsFactory return)
+    if(false){
+    // genresFactory.getGenres()
+    //   .then(function(response){
+    //   homeCtrl.genres = $filter('orderBy')(response.data, 'name');
+    // }, function(data, status) {
+    //   $log.log(data.error + ' ' + status);
+    // });
     
-    actorsFactory.getActors()
-      .then(function(response){
-      homeCtrl.actors = $filter('orderBy')(response.data, 'name');
-    }, function(data, status) {
-      $log.log(data.error + ' ' + status);
-    });
+    // actorsFactory.getActors()
+    //   .then(function(response){
+    //   homeCtrl.actors = $filter('orderBy')(response.data, 'name');
+    // }, function(data, status) {
+    //   $log.log(data.error + ' ' + status);
+    // // });
     
-    directorsFactory.getDirectors()
-      .then(function(response){
-      homeCtrl.directors = $filter('orderBy')(response.data, 'name');
-    }, function(data, status) {
-      $log.log(data.error + ' ' + status);
-    });
-    
-    failuresFactory.getFailures()
-      .then(function(response){
-      homeCtrl.failures = $filter('orderBy')(response.data, 'created_at');
-    }, function(data, status) {
-      $log.log(data.error + ' ' + status);
-    });
+    // directorsFactory.getDirectors()
+    //   .then(function(response){
+    //   homeCtrl.directors = $filter('orderBy')(response.data, 'name');
+    // }, function(data, status) {
+    //   $log.log(data.error + ' ' + status);
+    // });
     
     // writersFactory.getWriters()
     //   .then(function(response){
@@ -93,12 +88,26 @@ angular.module('EgMovieList.Home', [
     // }, function(data, status) {
     //   $log.log(data.error + ' ' + status);
     // });
+    }
     
     listingsFactory.getListings()
       .then(function(response) {
       // set default order for listings from API
       homeCtrl.listings = $filter('orderBy')(response.data, homeCtrl.sort);
-      // set genres, actors, and directors on listings object
+      // set genres and order alphabetically
+      homeCtrl.genres = $filter('orderBy')(dedupeByKey(
+        [].concat.apply([],response.data.map(function(r){
+          return r.genres
+        })), "name"
+      ),'name');
+      // set actors and order alphabetically
+      
+      var people = dedupeByKey([].concat.apply([],response.data.map(function(r){return r.people})),'name', 'role');
+      homeCtrl.actors = $filter('orderBy')($filter('filter')(people, {role: 'actor'}),'name');
+      homeCtrl.directors = $filter('orderBy')($filter('filter')(people, {role: 'director'}),'name');
+      homeCtrl.writers = $filter('orderBy')($filter('filter')(people, {role: 'writer'}),'name');
+      
+      // set genres, actors, and directors for listings object
       angular.forEach(homeCtrl.listings, function(obj){ 
         // map
         obj.genres=obj.genres.map(function(g){ 
@@ -122,6 +131,13 @@ angular.module('EgMovieList.Home', [
       });
       // if(homeCtrl.reverseSort){ homeCtrl.listings.reverse() };
       // homeCtrl.listingsToDisplay();
+    }, function(data, status) {
+      $log.log(data.error + ' ' + status);
+    });
+    
+    failuresFactory.getFailures()
+      .then(function(response){
+      homeCtrl.failures = $filter('orderBy')(response.data, 'created_at');
     }, function(data, status) {
       $log.log(data.error + ' ' + status);
     });
@@ -283,6 +299,27 @@ angular.module('EgMovieList.Home', [
     }
   }
 
+  /*****************
+  * UNIQUE FILTERS *
+  * ***************/
+  
+  // Return object
+  function dedupeByKey(arr, key1, key2) {
+    const tmp = {};
+    return arr.reduce((p, c) => {
+      const k1 = c[key1];
+      const k2 = c[key2];
+      if (tmp[k1+k2]) return p;
+      (tmp[k1+k2]) = 1;
+      return p.concat(c);
+    }, []);
+  }
+  
+  // Return unique value
+  function unique(array){
+    const unique = [...new Set(array.map(item => item.name))];
+    console.log(unique)
+  }
   
   /**************************
    * FUNCTIONS FOR FAILURES *
