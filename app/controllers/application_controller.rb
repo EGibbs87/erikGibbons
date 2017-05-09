@@ -39,6 +39,30 @@ class ApplicationController < ActionController::Base
     render :json => writers_array
   end
   
+  def failures
+    failures_array = ImportFailure.all.to_json
+    
+    render :json => failures_array
+  end
+  
+  def delete_listing
+    Listing.find(params['id']).destroy
+    
+    head :no_content
+  end
+  
+  def delete_failure
+    ImportFailure.find(params['id']).destroy
+    
+    head :no_content
+  end
+  
+  def delete_all_failures
+    ImportFailure.destroy_all
+    
+    head :no_content
+  end
+  
   def add_rating
     l = Listing.find(params['id'])
     l.update(imdb_rating: params['imdb_rating'])

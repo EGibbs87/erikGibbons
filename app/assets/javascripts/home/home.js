@@ -28,7 +28,7 @@ angular.module('EgMovieList.Home', [
   }
 })*/
   
-.controller('HomeCtrl', ['$uibModal', '$http', '$window', 'listingsFactory', 'genresFactory', 'actorsFactory', 'directorsFactory', 'writersFactory', '$log', '$location', '$state', '$filter', '$timeout', '$document', 'Upload', function($uibModal, $http, $window, listingsFactory, genresFactory, actorsFactory, directorsFactory, writersFactory, $log, $location, $state, $filter, $timeout, $document, Upload){
+.controller('HomeCtrl', ['$uibModal', '$http', '$window', 'listingsFactory', 'genresFactory', 'actorsFactory', 'directorsFactory', 'writersFactory', 'failuresFactory', '$log', '$location', '$state', '$filter', '$timeout', '$document', 'Upload', function($uibModal, $http, $window, listingsFactory, genresFactory, actorsFactory, directorsFactory, writersFactory, failuresFactory, $log, $location, $state, $filter, $timeout, $document, Upload){
   var homeCtrl = this;
   homeCtrl.add_listing = add_listing;
   homeCtrl.import_listing = import_listing;
@@ -53,6 +53,9 @@ angular.module('EgMovieList.Home', [
   homeCtrl.httpResponse = httpResponse;
   homeCtrl.updateListing = updateListing;
   homeCtrl.editListing = editListing;
+  homeCtrl.deleteListing = deleteListing;
+  homeCtrl.removeFailure = removeFailure;
+  homeCtrl.removeAllFailures = removeAllFailures;
 
   function init() {
     
@@ -73,6 +76,13 @@ angular.module('EgMovieList.Home', [
     directorsFactory.getDirectors()
       .then(function(response){
       homeCtrl.directors = $filter('orderBy')(response.data, 'name');
+    }, function(data, status) {
+      $log.log(data.error + ' ' + status);
+    });
+    
+    failuresFactory.getFailures()
+      .then(function(response){
+      homeCtrl.failures = $filter('orderBy')(response.data, 'created_at');
     }, function(data, status) {
       $log.log(data.error + ' ' + status);
     });
@@ -256,6 +266,12 @@ angular.module('EgMovieList.Home', [
     });
   }
   
+  function deleteListing(id){
+    $http.delete('/api/delete_listing/' + id + '.json').then(function(){
+      init();
+    })
+  }
+  
   function sortFunction(column){
     if(homeCtrl.sort === column){
       homeCtrl.reverseSort = !homeCtrl.reverseSort;
@@ -266,25 +282,38 @@ angular.module('EgMovieList.Home', [
       homeCtrl.icon = 'keyboard_arrow_up';
     }
   }
+
   
-  // function open(){
-  //   //homeCtrl.listingParams = { title: listing.title, genres: listing.genres, actors: listing.actors, directors: listing.actors, writers: listing.writers, media_type: listing.media_type, location: listing.location, owner: listing.owner, imdb_rating: listing.imdb_rating, rt_rating: listing.rt_rating, year: listing.year, runtime: listing.runtime, plot: listing.plot, poster_url: listing.poster_url, notes: listing.notes, imdb_id: listing.imdb_id };
-  //   var modalInstance = $modal.open({
-  //     templateUrl: 'home/modal.html',
-  //     controller: 'HomeCtrl',
-  //     resolve: {
-  //       params: function () {
-  //         return homeCtrl.listingParams;
-  //       }
-  //     }
-  //   });
-  //   console.log('modal opened');
-  //   modalInstance.result.then(function () {
-  //     console.log(homeCtrl.selected);
-  //   }, function () {
-  //     console.log('dismissed');
-  //   });
-  // };
+  /**************************
+   * FUNCTIONS FOR FAILURES *
+   * ***********************/
+   
+  function removeFailure(id){
+    $http.delete('/api/delete_failure/' + id + '.json').then(function(response){
+      failuresFactory.getFailures()
+        .then(function(response2){
+        homeCtrl.failures = $filter('orderBy')(response2.data, 'created_at');
+      }, function(data, status) {
+        $log.log(data.error + ' ' + status);
+      });
+    })
+  }
+ 
+  function removeAllFailures(){
+    $http.delete('/api/delete_all_failures').then(function(response){
+      failuresFactory.getFailures()
+        .then(function(response2){
+        homeCtrl.failures = $filter('orderBy')(response2.data, 'created_at');
+      }, function(data, status) {
+        $log.log(data.error + ' ' + status);
+      });
+
+    })
+  }
+  
+  /***************************
+   * FUNCTIONS FOR MODAL USE *
+   * ************************/
   
   function updateListing(listing){
     homeCtrl.params = { id: listing.id, title: listing.title, genres: listing.genres, actors: listing.actors, directors: listing.directors, writers: listing.writers, media_type: listing.media_type, location: listing.location, owner: listing.owner, imdb_rating: listing.imdb_rating, rt_rating: listing.rt_rating, year: listing.year, runtime: listing.runtime, plot: listing.plot, poster_url: listing.poster_url, notes: listing.notes, imdb_id: listing.imdb_id };
@@ -342,25 +371,29 @@ angular.module('EgMovieList.Home', [
     });
 
     modalInstance.result.then(function(params) {
-      homeCtrl.editListing(
-        params[0], //id
-        params[1], //title
-        params[2], //genres
-        params[3], //actors
-        params[4], //directors
-        params[5], //writers
-        params[6], //media_type
-        params[7], //location
-        params[8], //owner
-        params[9], //imdb_rating
-        params[10], //rt_rating
-        params[11], //year
-        params[12], //runtime
-        params[13], //plot
-        params[14], //poster_url
-        params[15], //notes
-        params[16]  //imdb_id
-      );
+      if(params[0] == "submit"){
+        homeCtrl.editListing(
+          params[1], //id
+          params[2], //title
+          params[3], //genres
+          params[4], //actors
+          params[5], //directors
+          params[6], //writers
+          params[7], //media_type
+          params[8], //location
+          params[9], //owner
+          params[10], //imdb_rating
+          params[11], //rt_rating
+          params[12], //year
+          params[13], //runtime
+          params[14], //plot
+          params[15], //poster_url
+          params[16], //notes
+          params[17]  //imdb_id
+        );
+      }else{
+        homeCtrl.deleteListing(params[1]);
+      }
     }, function () {
       $log.info('Canceled');
     });
@@ -379,11 +412,15 @@ angular.module('EgMovieList.Home', [
   };
 
   homeCtrl.ok = function () {
-    $uibModalInstance.close([homeCtrl.params.id, homeCtrl.params.title, homeCtrl.params.genres, homeCtrl.params.actors, homeCtrl.params.directors, homeCtrl.params.writers, homeCtrl.params.media_type, homeCtrl.params.location, homeCtrl.params.owner, homeCtrl.params.imdb_rating, homeCtrl.params.rt_rating, homeCtrl.params.year, homeCtrl.params.runtime, homeCtrl.params.plot, homeCtrl.params.poster_url, homeCtrl.params.notes, homeCtrl.params.imdb_id]);
+    $uibModalInstance.close(['submit', homeCtrl.params.id, homeCtrl.params.title, homeCtrl.params.genres, homeCtrl.params.actors, homeCtrl.params.directors, homeCtrl.params.writers, homeCtrl.params.media_type, homeCtrl.params.location, homeCtrl.params.owner, homeCtrl.params.imdb_rating, homeCtrl.params.rt_rating, homeCtrl.params.year, homeCtrl.params.runtime, homeCtrl.params.plot, homeCtrl.params.poster_url, homeCtrl.params.notes, homeCtrl.params.imdb_id]);
   };
 
   homeCtrl.cancel = function () {
     $uibModalInstance.dismiss('cancel');
+  };
+  
+  homeCtrl.delete = function () {
+    $uibModalInstance.close(['delete', homeCtrl.params.id]);
   };
 }])
 
@@ -411,14 +448,23 @@ angular.module('EgMovieList.Home', [
     comp.cancel = function () {
       comp.dismiss({$value: 'cancel'});
     };
+    
+    comp.delete = function () {
+      comp.dismiss({$value: 'delete'});
+    };
   }
-});
+})
 
-// // Modal controller
-// .controller('ModalCtrl', ['$scope', 'close', function($scope, close) {
-  
-//   $scope.close = function(result) {
-//     close(result, 500); // close, but give 500ms for bootstrap to animate
-//   };
-
-// }]);
+.directive('ngReallyClick', [function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            element.bind('click', function() {
+                var message = attrs.ngReallyMessage;
+                if (message && confirm(message)) {
+                    scope.$apply(attrs.ngReallyClick);
+                }
+            });
+        }
+    }
+}]);

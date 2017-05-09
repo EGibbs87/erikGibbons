@@ -29,6 +29,13 @@
   box-shadow: 5px 5px 1px black;
 }
 
+.edit-link {
+  color: blue;
+}
+.edit-link:hover {
+  color: lightblue;
+}
+
 /******************/
 /* Pagination CSS */
 /******************/
@@ -172,7 +179,7 @@ span.tabs {
 	color: black;
 }
 span.tabs:hover, span.tabs:hover a {
-	background-color: rgb(6,179,6);
+	background-color: rgb(90,200,90) !important;
 	color:white;
 }
 span.tabs a {
@@ -183,9 +190,9 @@ span.tabs a {
 	text-shadow: 1px 0px 3px rgb(157, 157, 157);
 }
 span.tabs:nth-child(1) { border-radius: 20px 0px 0px 20px; margin-left: 1px;}
-span.tabs:nth-child(3) { border-radius: 0px 20px 20px 0px;}
+span.tabs:nth-child(4) { border-radius: 0px 20px 20px 0px;}
 .active {
-	background-color: rgb(6,179,6);
+	background-color: rgb(6,179,6) !important;
 }
 
 /****************/
