@@ -316,10 +316,10 @@ angular.module('EgMovieList.Home', [
   }
   
   // Return unique value
-  function unique(array){
-    const unique = [...new Set(array.map(item => item.name))];
-    console.log(unique)
-  }
+  // function unique(array){
+  //   const unique = [...new Set(array.map(item => item.name))];
+  //   console.log(unique)
+  // }
   
   /**************************
    * FUNCTIONS FOR FAILURES *
