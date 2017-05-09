@@ -95,21 +95,17 @@ angular.module('EgMovieList.Home', [
       // set default order for listings from API
       homeCtrl.listings = $filter('orderBy')(response.data, homeCtrl.sort);
       // set genres and order alphabetically
-      // homeCtrl.genres = $filter('orderBy')(dedupeByKey(
-      //   [].concat.apply([],response.data.map(function(r){
-      //     return r.genres
-      //   })), "name"
-      // ),'name');
-      // // set actors and order alphabetically
-      homeCtrl.genres = [];
-      homeCtrl.actors = [];
-      homeCtrl.directors = [];
-      homeCtrl.writers = [];
+      homeCtrl.genres = $filter('orderBy')(dedupeByKey(
+        [].concat.apply([],response.data.map(function(r){
+          return r.genres
+        })), "name"
+      ),'name');
+      // set actors and order alphabetically
       
-      // var people = dedupeByKey([].concat.apply([],response.data.map(function(r){return r.people})),'name', 'role');
-      // homeCtrl.actors = $filter('orderBy')($filter('filter')(people, {role: 'actor'}),'name');
-      // homeCtrl.directors = $filter('orderBy')($filter('filter')(people, {role: 'director'}),'name');
-      // homeCtrl.writers = $filter('orderBy')($filter('filter')(people, {role: 'writer'}),'name');
+      var people = dedupeByKey([].concat.apply([],response.data.map(function(r){return r.people})),'name', 'role');
+      homeCtrl.actors = $filter('orderBy')($filter('filter')(people, {role: 'actor'}),'name');
+      homeCtrl.directors = $filter('orderBy')($filter('filter')(people, {role: 'director'}),'name');
+      homeCtrl.writers = $filter('orderBy')($filter('filter')(people, {role: 'writer'}),'name');
       
       // set genres, actors, and directors for listings object
       angular.forEach(homeCtrl.listings, function(obj){ 
@@ -308,16 +304,16 @@ angular.module('EgMovieList.Home', [
   * ***************/
   
   // Return object
-  // function dedupeByKey(arr, key1, key2) {
-  //   const tmp = {};
-  //   return arr.reduce((p, c) => {
-  //     const k1 = c[key1];
-  //     const k2 = c[key2];
-  //     if (tmp[k1+k2]) return p;
-  //     (tmp[k1+k2]) = 1;
-  //     return p.concat(c);
-  //   }, []);
-  // }
+  function dedupeByKey(arr, key1, key2) {
+    const tmp = {};
+    return arr.reduce((p, c) => {
+      const k1 = c[key1];
+      const k2 = c[key2];
+      if (tmp[k1+k2]) return p;
+      (tmp[k1+k2]) = 1;
+      return p.concat(c);
+    }, []);
+  }
   
   // Return unique value
   // function unique(array){
