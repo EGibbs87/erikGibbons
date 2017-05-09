@@ -306,7 +306,7 @@ angular.module('EgMovieList.Home', [
   // Return object
   function dedupeByKey(arr, key1, key2) {
     const tmp = {};
-    return arr.reduce((p, c) => {
+    return arr.reduce(function(p, c){
       const k1 = c[key1];
       const k2 = c[key2];
       if (tmp[k1+k2]) return p;
