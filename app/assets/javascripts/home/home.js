@@ -136,7 +136,7 @@ angular.module('EgMovieList.Home', [
     
     failuresFactory.getFailures()
       .then(function(response){
-      homeCtrl.failures = $filter('orderBy')($filter('filter')(response.data, {'failed_attempt':'2'}), 'created_at');
+      homeCtrl.failures = $filter('orderBy')($filter('filter')(response.data, { 'failed_attempt':'2' } ), 'created_at');
     }, function(data, status) {
       $log.log(data.error + ' ' + status);
     });
@@ -328,7 +328,7 @@ angular.module('EgMovieList.Home', [
     $http.delete('/api/delete_failure/' + id + '.json').then(function(response){
       failuresFactory.getFailures()
         .then(function(response2){
-        homeCtrl.failures = $filter('orderBy')(response2.data, 'created_at');
+        homeCtrl.failures = $filter('orderBy')($filter('filter')(response2.data, { 'failed_attempt':'2' } ), 'created_at');
       }, function(data, status) {
         $log.log(data.error + ' ' + status);
       });
@@ -339,7 +339,7 @@ angular.module('EgMovieList.Home', [
     $http.delete('/api/delete_all_failures').then(function(response){
       failuresFactory.getFailures()
         .then(function(response2){
-        homeCtrl.failures = $filter('orderBy')(response2.data, 'created_at');
+        homeCtrl.failures = $filter('orderBy')($filter('filter')(response2.data, { 'failed_attempt':'2' } ), 'created_at');
       }, function(data, status) {
         $log.log(data.error + ' ' + status);
       });
