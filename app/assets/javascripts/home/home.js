@@ -57,6 +57,7 @@ angular.module('EgMovieList.Home', [
   homeCtrl.removeFailure = removeFailure;
   homeCtrl.removeAllFailures = removeAllFailures;
   homeCtrl.refreshListings = refreshListings;
+  homeCtrl.createListing = createListing
 
   function init() {
     homeCtrl.loading = true;
@@ -275,6 +276,12 @@ angular.module('EgMovieList.Home', [
       $timeout(function(){ httpResponse("revert") }, 3000);
       $log.log(data.error + ' ' + status);
     });
+  }
+  
+  function createListing(title){
+    homeCtrl.selectTab(2);
+    homeCtrl.newListing = {};
+    homeCtrl.newListing.title = title;
   }
   
   function add_rating(rating, id){

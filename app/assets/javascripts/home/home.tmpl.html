@@ -317,7 +317,7 @@
         </thead>
         <tbody>
           <tr ng-repeat="failure in homeCtrl.failures">
-            <td style="text-align:left">{{ failure.title }}</td>
+            <td style="text-align:left"><a href ng-click="homeCtrl.createListing(failure.title)"><span class="edit-link">{{ failure.title }}</span></a></td>
             <td>{{ failure.year }}</td>
             <td><a href ng-click="homeCtrl.removeFailure(failure.id)">Remove</a></td>
           </tr>
