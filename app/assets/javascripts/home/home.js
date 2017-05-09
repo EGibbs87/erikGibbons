@@ -60,7 +60,7 @@ angular.module('EgMovieList.Home', [
   function init() {
     
     // collapse commented genres, actors, directors, and writers factories; unnecessary DB calls (contained withing listingsFactory return)
-    if(false){
+    // if(false){
     // genresFactory.getGenres()
     //   .then(function(response){
     //   homeCtrl.genres = $filter('orderBy')(response.data, 'name');
@@ -88,7 +88,7 @@ angular.module('EgMovieList.Home', [
     // }, function(data, status) {
     //   $log.log(data.error + ' ' + status);
     // });
-    }
+    // }
     
     listingsFactory.getListings()
       .then(function(response) {
