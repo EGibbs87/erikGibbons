@@ -144,7 +144,7 @@
             <td>{{ listing.location }}</td>
             <td>{{ listing.runtime }}</td>
             <td>{{ listing.imdb_rating | number:1 }}</td>
-            <td>{{ listing.rt_rating }}</td>
+            <td>{{ listing.rt_rating | number:0 }}</td>
             <td ng-show="homeCtrl.edit == true"><a href ng-click="homeCtrl.updateListing(listing); homeCtrl.open()"><i class="edit-link">Edit</i></a></td>
           </tr>
         </tbody>

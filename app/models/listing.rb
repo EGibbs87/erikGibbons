@@ -128,14 +128,14 @@ class Listing < ActiveRecord::Base
     # add ratings if they exist
     if hash["Ratings"].nil?
       if hash["imdbRating"].nil?
-        imdb_rating = nil
+        imdb_rating = 0
       else
         imdb_rating = hash["imdbRating"]
       end
-      rt_rating = nil
+      rt_rating = 0
     else
-      hash["Ratings"].find { |r| r["Source"] == "Internet Movie Database" }.nil? ? imdb_rating = nil : imdb_rating = hash["Ratings"].find { |r| r["Source"] == "Internet Movie Database" }["Value"]
-      hash["Ratings"].find { |r| r["Source"] == "Rotten Tomatoes" }.nil? ? rt_rating = nil : rt_rating = hash["Ratings"].find { |r| r["Source"] == "Rotten Tomatoes" }["Value"].to_i
+      hash["Ratings"].find { |r| r["Source"] == "Internet Movie Database" }.nil? ? imdb_rating = 0 : imdb_rating = hash["Ratings"].find { |r| r["Source"] == "Internet Movie Database" }["Value"]
+      hash["Ratings"].find { |r| r["Source"] == "Rotten Tomatoes" }.nil? ? rt_rating = 0 : rt_rating = hash["Ratings"].find { |r| r["Source"] == "Rotten Tomatoes" }["Value"].to_i
     end
     
     # update listing with all updated params
@@ -256,14 +256,14 @@ class Listing < ActiveRecord::Base
     # add ratings if they exist
     if hash["Ratings"].nil?
       if hash["imdbRating"].nil?
-        imdb_rating = nil
+        imdb_rating = 0
       else
         imdb_rating = hash["imdbRating"]
       end
-      rt_rating = nil
+      rt_rating = 0
     else
-      hash["Ratings"].find { |r| r["Source"] == "Internet Movie Database" }.nil? ? imdb_rating = nil : imdb_rating = hash["Ratings"].find { |r| r["Source"] == "Internet Movie Database" }["Value"]
-      hash["Ratings"].find { |r| r["Source"] == "Rotten Tomatoes" }.nil? ? rt_rating = nil : rt_rating = hash["Ratings"].find { |r| r["Source"] == "Rotten Tomatoes" }["Value"].to_i
+      hash["Ratings"].find { |r| r["Source"] == "Internet Movie Database" }.nil? ? imdb_rating = 0 : imdb_rating = hash["Ratings"].find { |r| r["Source"] == "Internet Movie Database" }["Value"]
+      hash["Ratings"].find { |r| r["Source"] == "Rotten Tomatoes" }.nil? ? rt_rating = 0 : rt_rating = hash["Ratings"].find { |r| r["Source"] == "Rotten Tomatoes" }["Value"].to_i
     end
     
     # update listing with all updated params

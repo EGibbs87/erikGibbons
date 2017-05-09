@@ -57,7 +57,7 @@ angular.module('EgMovieList.Home', [
   homeCtrl.removeFailure = removeFailure;
   homeCtrl.removeAllFailures = removeAllFailures;
   homeCtrl.refreshListings = refreshListings;
-  homeCtrl.createListing = createListing
+  homeCtrl.createListing = createListing;
 
   function init() {
     homeCtrl.loading = true;
@@ -263,8 +263,8 @@ angular.module('EgMovieList.Home', [
       actors: actors,
       directors: directors,
       writers: writers,
-      imdb_rating: imdb_rating,
-      rt_rating: rt_rating,
+      imdb_rating: imdb_rating || 0,
+      rt_rating: rt_rating || 0,
       notes: notes
     }).then(function(response){
       homeCtrl.httpResponse("success");

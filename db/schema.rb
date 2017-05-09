@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170423204134) do
+ActiveRecord::Schema.define(version: 20170509183342) do
 
   create_table "genre_listings", force: :cascade do |t|
     t.integer  "genre_id"
@@ -39,15 +39,15 @@ ActiveRecord::Schema.define(version: 20170423204134) do
     t.string   "media_type"
     t.string   "location"
     t.string   "owner"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.float    "imdb_rating"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "imdb_rating", default: 0, null: false
     t.float    "eg_rating"
     t.string   "year"
     t.integer  "runtime"
     t.text     "plot"
     t.text     "poster_url"
-    t.string   "rt_rating"
+    t.integer  "rt_rating",   default: 0, null: false
     t.text     "notes"
     t.string   "imdb_id"
   end

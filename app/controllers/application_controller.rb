@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
     render "layouts/application", layout: false
   end
   
-  ###### !!!!! ###### Can directors/actors/directors/writers calls be interpolated from the single Listings call?  Why are the other two necessary?
   def listings
     listings_array = Listing.all.to_json(:include => [:genres, :people])
     
