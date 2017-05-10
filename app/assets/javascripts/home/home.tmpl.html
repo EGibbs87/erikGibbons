@@ -2,13 +2,25 @@
   <div style="width:100%; text-align:center">
     <h1>Available Movies and Shows</h1>
     <hr>
-    <input ng-model="homeCtrl.titleFilter" placeholder="Search by Title"/>
-    <input ng-model="homeCtrl.typeFilter" placeholder="Search by Type"/>
-    <input ng-model="homeCtrl.genreFilter" placeholder="Search by Genre"/>
-    <input ng-model="homeCtrl.actorFilter" placeholder="Search by Actor"/>
-    <input ng-model="homeCtrl.directorFilter" placeholder="Search by Director"/>
-    <!--<input ng-model="homeCtrl.writerFilter" placeholder="Search by Writer"/>-->
-    <input ng-model="homeCtrl.locationFilter" placeholder="Search by Storage"/>
+    <md-input-container class="filter-search">
+      <input ng-model="homeCtrl.titleFilter" placeholder="Filter by Title"/>
+    </md-input-container>
+    <md-input-container class="filter-search">
+      <input ng-model="homeCtrl.typeFilter" placeholder="Filter by Type"/>
+    </md-input-container>
+    <md-input-container class="filter-search">
+      <input ng-model="homeCtrl.genreFilter" placeholder="Filter by Genre"/>
+    </md-input-container>
+    <md-input-container class="filter-search">
+      <input ng-model="homeCtrl.actorFilter" placeholder="Filter by Actor"/>
+    </md-input-container>
+    <md-input-container class="filter-search">
+      <input ng-model="homeCtrl.directorFilter" placeholder="Filter by Director"/>
+    </md-input-container>
+    <!--<input ng-model="homeCtrl.writerFilter" placeholder="Filter by Writer"/>-->
+    <md-input-container class="filter-search">
+      <input ng-model="homeCtrl.locationFilter" placeholder="Filter by Storage"/>
+    </md-input-container>
     <hr>
     
     <v-accordion class="vAccordion--default">
@@ -84,6 +96,11 @@
   
   <section class="mdl-grid" id="listings">
     <div style="width:100%">
+    <md-input-container class="rpp">
+      <input ng-model="homeCtrl.itemsPerPage" placeholder="Results Per Page"/>
+    </md-input-container>
+    <br />
+      <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" ></dir-pagination-controls>
       <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" id="listings-table">
         <thead>
           <tr style="background-color:#cccccc;">
@@ -121,7 +138,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="listing in filtered = (homeCtrl.listings | orderBy: homeCtrl.sort : homeCtrl.reverseSort | filter: {title: homeCtrl.titleFilter} | filter: {media_type: homeCtrl.typeFilter} | filter: {genres: homeCtrl.genreFilter} | filter: {actors: homeCtrl.actorFilter} | filter: {directors: homeCtrl.directorFilter} | filter: {writers: homeCtrl.writerFilter} | filter: {location: homeCtrl.locationFilter})">
+          <tr dir-paginate="listing in filtered = (homeCtrl.listings | orderBy: homeCtrl.sort : homeCtrl.reverseSort | filter: {title: homeCtrl.titleFilter} | filter: {media_type: homeCtrl.typeFilter} | filter: {genres: homeCtrl.genreFilter} | filter: {actors: homeCtrl.actorFilter} | filter: {directors: homeCtrl.directorFilter} | filter: {writers: homeCtrl.writerFilter} | filter: {location: homeCtrl.locationFilter} | itemsPerPage: homeCtrl.itemsPerPage)">
             <td>
               <a ng-href="http://www.imdb.com/title/{{ listing.imdb_id }}" target="_blank" >{{ listing.title }}</a>
               <div class="relative-wrap">
@@ -149,6 +166,7 @@
           </tr>
         </tbody>
       </table>
+      <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" ></dir-pagination-controls>
     </div>
   </section>
   

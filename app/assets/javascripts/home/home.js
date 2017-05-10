@@ -7,6 +7,7 @@ angular.module('EgMovieList.Home', [
   'vAccordion',
   'ngFileUpload',
   'ngSanitize',
+  'angularUtils.directives.dirPagination'
 ])
 
 .config(['$stateProvider', function($stateProvider){
@@ -30,6 +31,7 @@ angular.module('EgMovieList.Home', [
   
 .controller('HomeCtrl', ['$uibModal', '$http', '$window', 'listingsFactory', 'genresFactory', 'actorsFactory', 'directorsFactory', 'writersFactory', 'failuresFactory', '$log', '$location', '$state', '$filter', '$timeout', '$document', 'Upload', function($uibModal, $http, $window, listingsFactory, genresFactory, actorsFactory, directorsFactory, writersFactory, failuresFactory, $log, $location, $state, $filter, $timeout, $document, Upload){
   var homeCtrl = this;
+  homeCtrl.listings = [];
   homeCtrl.add_listing = add_listing;
   homeCtrl.import_listing = import_listing;
   homeCtrl.add_rating = add_rating;
@@ -58,6 +60,7 @@ angular.module('EgMovieList.Home', [
   homeCtrl.removeAllFailures = removeAllFailures;
   homeCtrl.refreshListings = refreshListings;
   homeCtrl.createListing = createListing;
+  homeCtrl.itemsPerPage = 50;
 
   function init() {
     homeCtrl.loading = true;

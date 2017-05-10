@@ -215,9 +215,9 @@ span.tabs:nth-child(4) { border-radius: 0px 20px 20px 0px;}
   width: 500px !important;
 }
 
-/*****************/
-/* Button styles */
-/*****************/
+/****************
+* Button styles *
+****************/
 
 .pending{
   background-color: yellow;
@@ -232,4 +232,14 @@ span.tabs:nth-child(4) { border-radius: 0px 20px 20px 0px;}
 .failure{
   background-color: darkred;
   color: black;
+}
+
+/****************
+* Filter Inputs *
+****************/
+.filter-search{
+  max-width:150px;
+}
+.rpp{
+  max-width:120px;
 }
