@@ -157,19 +157,6 @@ angular.module('EgMovieList.Home', [
   /*********************
   *  Private functions *
   * *******************/
-  // function pageChanged() {
-  //   homeCtrl.listingsToDisplay();
-  // }
-  
-  // function listingsToDisplay() {
-  //   var begin = ((homeCtrl.currentPage - 1) * homeCtrl.itemsPerPage);
-  //   var end = begin + homeCtrl.itemsPerPage;
-  //   if(homeCtrl.reverseSort){
-  //     homeCtrl.filteredListings = homeCtrl.listings.slice(homeCtrl.listings.length-end, homeCtrl.listings.length-begin);
-  //   }else{
-  //     homeCtrl.filteredListings = homeCtrl.listings.slice(begin, end);
-  //   }
-  // }
   
   function httpResponse(status){
     var buttonColor;
