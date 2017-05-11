@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170509183342) do
+ActiveRecord::Schema.define(version: 20170511182217) do
 
   create_table "genre_listings", force: :cascade do |t|
     t.integer  "genre_id"
@@ -25,6 +25,14 @@ ActiveRecord::Schema.define(version: 20170509183342) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "genres_listings", id: false, force: :cascade do |t|
+    t.integer "genre_id"
+    t.integer "listing_id"
+  end
+
+  add_index "genres_listings", ["genre_id"], name: "index_genres_listings_on_genre_id"
+  add_index "genres_listings", ["listing_id"], name: "index_genres_listings_on_listing_id"
 
   create_table "import_failures", force: :cascade do |t|
     t.string   "title"
@@ -51,6 +59,14 @@ ActiveRecord::Schema.define(version: 20170509183342) do
     t.text     "notes"
     t.string   "imdb_id"
   end
+
+  create_table "listings_people", id: false, force: :cascade do |t|
+    t.integer "listing_id"
+    t.integer "person_id"
+  end
+
+  add_index "listings_people", ["listing_id"], name: "index_listings_people_on_listing_id"
+  add_index "listings_people", ["person_id"], name: "index_listings_people_on_person_id"
 
   create_table "people", force: :cascade do |t|
     t.string   "name"
