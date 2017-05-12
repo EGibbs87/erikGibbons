@@ -1,8 +1,8 @@
 class Listing < ActiveRecord::Base
-  #has_many :genre_listings, dependent: :destroy
-  has_and_belongs_to_many :genres #, :through => :genre_listings
-  #has_many :person_listings, dependent: :destroy
-  has_and_belongs_to_many :people #, :through => :person_listings
+  has_many :genre_listings, dependent: :destroy
+  has_many :genres, :through => :genre_listings
+  has_many :person_listings, dependent: :destroy
+  has_many :people, :through => :person_listings
   
   def self.xl_import_listing(title, year, media, imdb_id, xl_data) # media must be 'movie', 'series', or 'episode'
     # xl_data = { 'season' => season, 'owner' => owner, 'holiday' => holiday, 'form' => form, 'notes' => notes, 'series' => series }
