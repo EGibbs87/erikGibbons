@@ -42,6 +42,7 @@ angular.module('EgMovieList.Home', [
   homeCtrl.sortFunction = sortFunction;
   homeCtrl.icon = 'keyboard_arrow_up';
   homeCtrl.password_check = 'Movies2017';
+  homeCtrl.password = "Movies2017";
   homeCtrl.tab = 1;
   homeCtrl.selectTab = function (setTab){
   	homeCtrl.tab = setTab;
@@ -50,7 +51,9 @@ angular.module('EgMovieList.Home', [
   	return homeCtrl.tab === checkTab;
   };
   homeCtrl.mediaOpts = [['Movie','movie'],['Show or Mini-Series','series'],['Single Episode','episode']];
-  homeCtrl.httpCall = { };
+  homeCtrl.defaultBgColor = 'deepskyblue'
+  homeCtrl.defaultClass = {'background-color':homeCtrl.defaultBgColor,'color':'black'};
+  homeCtrl.httpCall = homeCtrl.defaultClass;
   homeCtrl.httpCallText = "Submit";
   homeCtrl.httpResponse = httpResponse;
   homeCtrl.updateListing = updateListing;
@@ -61,6 +64,7 @@ angular.module('EgMovieList.Home', [
   homeCtrl.refreshListings = refreshListings;
   homeCtrl.createListing = createListing;
   homeCtrl.itemsPerPage = 50;
+  homeCtrl.rpp = homeCtrl.itemsPerPage;
 
   function init() {
     homeCtrl.loading = true;
@@ -171,8 +175,8 @@ angular.module('EgMovieList.Home', [
       buttonColor = "red";
       buttonText = "FAILURE";
     }else{
-      buttonColor = "none";
-      buttonText = "Submit";
+      buttonColor = homeCtrl.defaultBgColor;
+      buttonText = "Submit"
     }
     homeCtrl.httpCallText = buttonText;
     homeCtrl.httpCall = {

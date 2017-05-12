@@ -97,8 +97,11 @@
   <section class="mdl-grid" id="listings">
     <div style="width:100%">
     <md-input-container class="rpp">
-      <input ng-model="homeCtrl.itemsPerPage" placeholder="Results Per Page"/>
+      <input ng-model="homeCtrl.rpp"placeholder="Results Per Page"/>
     </md-input-container>
+    <md-button style="margin-bottom:30px; min-width:1%" ng-click="homeCtrl.itemsPerPage = homeCtrl.rpp">
+      <md-icon>send</md-icon>
+    </md-button>
     <br />
       <dir-pagination-controls max-size="10" direction-links="true" boundary-links="true" ></dir-pagination-controls>
       <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" id="listings-table">
@@ -182,8 +185,10 @@
   <h3 style="text-align:center">Enter password to add entries</h3>
   
   <div style="width:100%; text-align:center">
-    <label>Input password to add listings</label>
-    <input type="password" ng-model="homeCtrl.password" style="margin-bottom:20px">
+    <md-input-container style="width:250px">
+      <label>Input password to add listings</label>
+      <input type="password" ng-model="homeCtrl.password" style="margin-bottom:20px">
+    </md-input-container>
   </div>
   
   <section ng-show="homeCtrl.password == homeCtrl.password_check">
@@ -239,7 +244,7 @@
           <md-input-container>
             <input type="text" ng-model="homeCtrl.importListing.holiday" placeholder="Holiday (e.g. 'Thanksgiving' or 'Christmas, Hanukkah')">
           </md-input-container>
-          <button ng-class="{pending: homeCtrl.pending, success: homeCtrl.success, failure: homeCtrl.failure}" ng-click="homeCtrl.httpResponse('pending')" ng-disabled="!listing_import_form.$valid" class="md-raised" style="margin-top:15px" type="submit">Submit</button>
+          <md-button ng-style="homeCtrl.httpCall" class="md-primary" ng-click="homeCtrl.httpResponse('pending')" ng-disabled="!listing_import_form.$valid" class="md-raised" style="margin-top:15px" type="submit">{{ homeCtrl.httpCallText }}</md-button>
         </div>
       </form>
   	</div> <!-- Tab 1 -->
@@ -287,7 +292,7 @@
           <md-input-container>
             <input type="text" ng-model="homeCtrl.newListing.notes" placeholder="Notes">
           </md-input-container>
-          <button ng-style="homeCtrl.httpCall" ng-click="homeCtrl.httpResponse('pending')" ng-disabled="!new_listing_form.$valid" class="md-raised" style="margin-top:15px" type="submit">{{homeCtrl.httpCallText}}</button>
+          <md-button ng-style="homeCtrl.httpCall" ng-click="homeCtrl.httpResponse('pending')" ng-disabled="!new_listing_form.$valid" class="md-raised" style="margin-top:15px" type="submit">{{homeCtrl.httpCallText}}</md-button>
         </div>
       </form>
   	</div> <!-- Tab 2 -->
@@ -303,7 +308,7 @@
           <i ng-show="myForm.file.$error.maxSize">File too large 
             {{errorFile.size / 1000000|number:1}}MB: max 20M</i>
           <br>
-          <button ng-style="homeCtrl.httpCall" ng-disabled="!myForm.$valid" ng-click="homeCtrl.uploadFile(homeCtrl.file); homeCtrl.httpResponse('pending')">{{ homeCtrl.httpCallText }}</button>
+          <md-button ng-style="homeCtrl.httpCall" ng-disabled="!myForm.$valid" ng-click="homeCtrl.uploadFile(homeCtrl.file); homeCtrl.httpResponse('pending')">{{ homeCtrl.httpCallText }}</md-button>
           <span class="progress" ng-show="homeCtrl.file.progress >= 0">
             <div style="width:{{homeCtrl.file.progress}}%" 
                 ng-bind="homeCtrl.file.progress + '%'"></div>
