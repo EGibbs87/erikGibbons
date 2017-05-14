@@ -42,7 +42,6 @@ angular.module('EgMovieList.Home', [
   homeCtrl.sortFunction = sortFunction;
   homeCtrl.icon = 'keyboard_arrow_up';
   homeCtrl.password_check = 'Movies2017';
-  homeCtrl.password = "Movies2017";
   homeCtrl.tab = 1;
   homeCtrl.selectTab = function (setTab){
   	homeCtrl.tab = setTab;
