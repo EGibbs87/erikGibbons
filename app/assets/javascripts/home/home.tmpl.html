@@ -17,7 +17,9 @@
     <md-input-container class="filter-search">
       <input ng-model="homeCtrl.directorFilter" placeholder="Filter by Director"/>
     </md-input-container>
-    <!--<input ng-model="homeCtrl.writerFilter" placeholder="Filter by Writer"/>-->
+    <md-input-container class="filter-search">
+      <input ng-model="homeCtrl.writerFilter" placeholder="Filter by Writer"/>
+    </md-input-container>
     <md-input-container class="filter-search">
       <input ng-model="homeCtrl.locationFilter" placeholder="Filter by Storage"/>
     </md-input-container>
@@ -61,14 +63,14 @@
                 <span class="browse-items" ng-repeat="director in homeCtrl.directors" ng-click="homeCtrl.browseButton('director', director.name)"><u>{{ director.name }}</u></span>
               </v-pane-content>
             </v-pane>
-            <!--<v-pane>-->
-            <!--  <v-pane-header>-->
-            <!--    <span class="browse-header"><b>Writers</b></span>-->
-            <!--  </v-pane-header>-->
-            <!--  <v-pane-content style="display: inline-block">-->
-            <!--    <span class="browse-items" ng-repeat="writer in homeCtrl.writers" ng-click="homeCtrl.browseButton('writer', writer.name)"><u>{{ writer.name }}</u></span>-->
-            <!--  </v-pane-content>-->
-            <!--</v-pane>-->
+            <v-pane>
+              <v-pane-header>
+                <span class="browse-header"><b>Writers</b></span>
+              </v-pane-header>
+              <v-pane-content style="display: inline-block">
+                <span class="browse-items" ng-repeat="writer in homeCtrl.writers" ng-click="homeCtrl.browseButton('writer', writer.name)"><u>{{ writer.name }}</u></span>
+              </v-pane-content>
+            </v-pane>
           
           </v-accordion>
         </v-pane-content>
@@ -145,7 +147,6 @@
           <tr dir-paginate="listing in filtered = (homeCtrl.listings | orderBy: homeCtrl.sort : homeCtrl.reverseSort | filter: {title: homeCtrl.titleFilter} | filter: {media_type: homeCtrl.typeFilter} | filter: {genres: homeCtrl.genreFilter} | filter: {actors: homeCtrl.actorFilter} | filter: {directors: homeCtrl.directorFilter} | filter: {writers: homeCtrl.writerFilter} | filter: {location: homeCtrl.locationFilter} | itemsPerPage: homeCtrl.itemsPerPage)">
             <td style="padding-top:5px; padding-bottom:5px; padding-left: 5px; padding-right: 5px">
               <img class="img-with-backup" ng-src="{{ listing.poster_url }}" height="75" style="max-width:50px !important" onerror="image_failover(this);">
-              <!--<img class="img-with-backup" ng-src="{{ listing.poster_url }}" height="75" style="max-width:50px !important" onerror="this.onerror=&quot;this.src='http://www.lacinefest.org/uploads/2/6/7/4/26743637/no-poster_orig.jpeg'&quot;;this.src=this.src.replace('http:','http:');">-->
               <div class="relative-wrap">
                 <div class="overflow-wrap">
                   <div class="popover-img">

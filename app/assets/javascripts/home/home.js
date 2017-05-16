@@ -213,8 +213,8 @@ angular.module('EgMovieList.Home', [
       homeCtrl.actorFilter = query;
     }else if(category == 'director'){
       homeCtrl.directorFilter = query;
-    // }else if(category == 'writer'){
-    //   homeCtrl.writerFilter = query;
+    }else if(category == 'writer'){
+      homeCtrl.writerFilter = query;
     }else{
       console.log('Invalid input');
     }
