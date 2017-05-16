@@ -156,8 +156,8 @@ class Listing < ActiveRecord::Base
     # add holiday genre
     genres.push(xl_data["holiday"]) unless xl_data["holiday"].blank?
     directors = hash["Director"].split(", ")
-    writers = hash["Writer"].split(", ")
-    writers = writers.each { |w| w.gsub!(/\s?\(.*\)\s?/,"") }.uniq # need to remove roles from writer names
+    w_string = hash["Writer"].gsub!(/\s?\(.*\)\s?/,"") # need to remove roles from writer names BEFORE splitting (to avoid comma parentheticals)
+    writers = w_string.split(", ")
     actors = hash["Actors"].split(", ")
     
     puts "finding, creating, and associating genres..."
