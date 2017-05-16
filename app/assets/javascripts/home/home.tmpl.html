@@ -107,6 +107,7 @@
       <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" id="listings-table">
         <thead>
           <tr style="background-color:#cccccc;">
+            <th style="width:75px"></th>
             <th style="width:60%; text-align: left" ng-click="homeCtrl.sortFunction('title')">
               Title
               <md-icon ng-show="homeCtrl.sort == 'title'" md-font-library="material-icons">{{ homeCtrl.icon }}</md-icon>
@@ -142,6 +143,15 @@
         </thead>
         <tbody>
           <tr dir-paginate="listing in filtered = (homeCtrl.listings | orderBy: homeCtrl.sort : homeCtrl.reverseSort | filter: {title: homeCtrl.titleFilter} | filter: {media_type: homeCtrl.typeFilter} | filter: {genres: homeCtrl.genreFilter} | filter: {actors: homeCtrl.actorFilter} | filter: {directors: homeCtrl.directorFilter} | filter: {writers: homeCtrl.writerFilter} | filter: {location: homeCtrl.locationFilter} | itemsPerPage: homeCtrl.itemsPerPage)">
+            <td style="padding-top:5px; padding-bottom:5px; padding-left: 5px; padding-right: 5px"><img src="{{ listing.poster_url }}" height="75">
+              <div class="relative-wrap">
+                <div class="overflow-wrap">
+                  <div class="popover-img">
+                    <img src="{{ listing.poster_url }}">
+                  </div>
+                </div>
+              </div>
+            </td>
             <td>
               <a ng-href="http://www.imdb.com/title/{{ listing.imdb_id }}" target="_blank" >{{ listing.title }}</a>
               <div class="relative-wrap">
@@ -173,25 +183,18 @@
     </div>
   </section>
   
+  <!--<h3 style="text-align:center">Enter password to add entries</h3>-->
+  
   <!--<div style="width:100%; text-align:center">-->
-  <!--  <pagination boundary-links="true" -->
-  <!--      max-size="10" -->
-  <!--      items-per-page="homeCtrl.itemsPerPage"-->
-  <!--      total-items="homeCtrl.listings.length" -->
-  <!--      ng-model="homeCtrl.currentPage" -->
-  <!--      ng-change="homeCtrl.pageChanged()"></pagination>-->
-  <!--</div> -->
+  <!--  <md-input-container style="width:250px">-->
+  <!--    <label>Input password to add listings</label>-->
+  <!--    <input type="password" ng-model="homeCtrl.password" style="margin-bottom:20px">-->
+  <!--  </md-input-container>-->
+  <!--</div>-->
   
-  <h3 style="text-align:center">Enter password to add entries</h3>
-  
-  <div style="width:100%; text-align:center">
-    <md-input-container style="width:250px">
-      <label>Input password to add listings</label>
-      <input type="password" ng-model="homeCtrl.password" style="margin-bottom:20px">
-    </md-input-container>
-  </div>
-  
-  <section ng-show="homeCtrl.password == homeCtrl.password_check">
+  <!--<section ng-show="homeCtrl.password == homeCtrl.password_check">-->
+  <hr />
+  <section>
     <div class="tabs" style="margin-bottom:20px">
     	<span class="tabs" ng-class="{active:homeCtrl.isSelected(1) }">
     		<a href ng-click="homeCtrl.selectTab(1)">Single Entry Auto</a>

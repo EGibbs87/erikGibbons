@@ -29,6 +29,26 @@
   box-shadow: 5px 5px 1px black;
   max-width: 1000px !important;
 }
+.popover-img {
+  width: 350px;
+  padding-left: 25px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 25px;
+  position: absolute; 
+  top: -250px;
+  z-index: 1000; 
+  opacity: 1.0;
+  background-color: #cccccc;
+  color: white;
+  display: none;
+  white-space: normal;
+  pointer-events: none;
+  border-radius: 5px;
+  border: 2px solid #888888;
+  box-shadow: 2px 2px 1px black;
+  max-width: 1000px !important;
+}
 
 .edit-link {
   color: blue;
