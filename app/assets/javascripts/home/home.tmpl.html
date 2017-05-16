@@ -428,7 +428,7 @@
 <script>
   $(document).ready(function(){
     $(".img-with-backup").on("error", function(){
-        $(this).attr('src', $(this).attr('src').replace('https','http'));
+        $(this).attr('src', $(this).getAttribute('src').replace('https:','http:'));
     });
   });
 </script>
