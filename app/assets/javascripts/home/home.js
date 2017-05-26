@@ -29,7 +29,7 @@ angular.module('EgMovieList.Home', [
   }
 })*/
   
-.controller('HomeCtrl', ['$uibModal', '$http', '$window', 'listingsFactory', 'genresFactory', 'actorsFactory', 'directorsFactory', 'writersFactory', 'failuresFactory', '$log', '$location', '$state', '$filter', '$timeout', '$document', 'Upload', function($uibModal, $http, $window, listingsFactory, genresFactory, actorsFactory, directorsFactory, writersFactory, failuresFactory, $log, $location, $state, $filter, $timeout, $document, Upload){
+.controller('HomeCtrl', ['$q', '$uibModal', '$http', '$window', 'listingsFactory', 'genresFactory', 'actorsFactory', 'directorsFactory', 'writersFactory', 'failuresFactory', '$log', '$location', '$state', '$filter', '$timeout', '$document', 'Upload', function($q, $uibModal, $http, $window, listingsFactory, genresFactory, actorsFactory, directorsFactory, writersFactory, failuresFactory, $log, $location, $state, $filter, $timeout, $document, Upload){
   var homeCtrl = this;
   homeCtrl.listings = [];
   homeCtrl.add_listing = add_listing;
@@ -64,6 +64,7 @@ angular.module('EgMovieList.Home', [
   homeCtrl.createListing = createListing;
   homeCtrl.itemsPerPage = 50;
   homeCtrl.rpp = homeCtrl.itemsPerPage;
+  homeCtrl.exportListings = exportListings;
 
   function init() {
     homeCtrl.loading = true;
@@ -205,6 +206,13 @@ angular.module('EgMovieList.Home', [
       file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
     });
   }
+  
+  function exportListings() {
+    var blob = new Blob([document.getElementById('exportable').innerHTML], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+    });
+    saveAs(blob, "Report.xls");
+  };
 
   function browseButton(category, query){
     if(category == 'genre'){
@@ -220,7 +228,6 @@ angular.module('EgMovieList.Home', [
     }
   }
   
-
   function import_listing(imdb_id, search_title, display_title, year, media, season, location, owner, notes, holiday) {
     $http.post('/api/import_listing', {
       imdb_id: imdb_id,

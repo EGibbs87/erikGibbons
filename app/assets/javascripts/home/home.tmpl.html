@@ -206,7 +206,7 @@
     		<a href ng-click="homeCtrl.selectTab(2)">Single Entry Manual</a>
     	</span>
     	<span class="tabs" ng-class="{active:homeCtrl.isSelected(3) }">
-    		<a href ng-click="homeCtrl.selectTab(3)">Excel Import</a>
+    		<a href ng-click="homeCtrl.selectTab(3)">Excel IO</a>
     	</span>
     	<span class="tabs" ng-class="{active:homeCtrl.isSelected(4) }">
     		<a href ng-click="homeCtrl.selectTab(4)">Import Failures</a>
@@ -324,6 +324,12 @@
         </fieldset>
         <br>
       </form>
+      <fieldset>
+        <legend>Export to Excel</legend>
+        <md-button class="md-primary" ng-click="homeCtrl.exportListings()" class="md-raised" style="margin-top:15px" type="submit">Export</md-button>
+      </fieldset>
+
+
   	</div> <!-- Tab 3 -->
   	
   	<!-- Tab 4 -->
@@ -435,3 +441,41 @@
     img.src = img.src.replace('https:', 'http:');
   }
 </script>
+
+
+<div id="exportable" class="hidden">
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>Year</th>
+      <th>Runtime</th>
+      <th>Type</th>
+      <th>Storage</th>
+      <th>Owner(s)</th>
+      <th>Genre(s)</th>
+      <th>Actor(s)</th>
+      <th>Director(s)</th>
+      <th>Writer(s)</th>
+      <th>IMDB Rating</th>
+      <th>RT Rating</th>
+      <th>Plot</th>
+      <th>Notes</th>
+    </tr>
+    <tr ng-repeat="l in homeCtrl.listings">
+      <td>{{ l.title }}</td>
+      <td>{{ l.year }}</td>
+      <td>{{ l.runtime }}</td>
+      <td>{{ l.media_type }}</td>
+      <td>{{ l.location }}</td>
+      <td>{{ l.owner }}</td>
+      <td>{{ l.genres }}</td>
+      <td>{{ l.actors }}</td>
+      <td>{{ l.directors }}</td>
+      <td>{{ l.writers }}</td>
+      <td>{{ l.imdb_rating }}</td>
+      <td>{{ l.rt_rating }}</td>
+      <td>{{ l.plot }}</td>
+      <td>{{ l.notes }}</td>
+    </tr>
+  </table>
+</div>
