@@ -229,65 +229,7 @@ class ApplicationController < ActionController::Base
     end
     render :json => {'success' => true }
   end
-  
-  def export_listings
-    listings = Spreadsheet::Workbook.new
-    
-    ####### ROW/CELL FORMATS ########
-    header_format = Spreadsheet::Format.new :weight => :bold, :bottom => 'thin', :horizontal_align => :center, :pattern_fg_color => :gray, :pattern => 1, :size => 9, :text_wrap => true, :vertical_align => :top
-    ####### END ROW/CELL FORMATS ########
-    
-    page = {}
-    
-    page[:sheet] = listings.create_worksheet :name => "Listings"
-    
-    # Header
-    page[:sheet].row(0).push "Title", "Year", "Runtime", "Type", "Storage", "Owner(s)", "Genre(s)", "Actor(s)", "Director(s)", "Writer(s)", "IMDB", "RT", "Plot"
-    page[:sheet].row(0).set_format(0, header_format)
-    page[:sheet].row(0).set_format(1, header_format)
-    page[:sheet].row(0).set_format(2, header_format)
-    page[:sheet].row(0).set_format(3, header_format)
-    page[:sheet].row(0).set_format(4, header_format)
-    page[:sheet].row(0).set_format(5, header_format)
-    page[:sheet].row(0).set_format(6, header_format)
-    page[:sheet].row(0).set_format(7, header_format)
-    page[:sheet].row(0).set_format(8, header_format)
-    page[:sheet].row(0).set_format(9, header_format)
-    page[:sheet].row(0).set_format(10, header_format)
-    page[:sheet].row(0).set_format(11, header_format)
-    page[:sheet].row(0).set_format(12, header_format)
 
-    # Set column widths
-    page[:sheet].column(0).width = 30
-    page[:sheet].column(1).width = 10
-    page[:sheet].column(2).width = 10
-    page[:sheet].column(3).width = 10
-    page[:sheet].column(4).width = 15
-    page[:sheet].column(5).width = 15
-    page[:sheet].column(6).width = 25
-    page[:sheet].column(7).width = 40
-    page[:sheet].column(8).width = 40
-    page[:sheet].column(9).width = 40
-    page[:sheet].column(10).width = 10
-    page[:sheet].column(11).width = 10
-    page[:sheet].column(12).width = 40
-
-    Listing.all.each_with_index do |l,i|
-      page[:sheet].row(i+1).push l.title, l.year, l.runtime, l.media_type, l.location, l.owner, l.genres.map(&:name).join(", "), l.people.where(role: "actor").map(&:name).join(", "), l.people.where(role: "director").map(&:name).join(", "), l.people.where(role: "writer").map(&:name).join(", "), l.imdb_rating, l.rt_rating, l.plot
-    end
-    
-    spreadsheet = StringIO.new
-    if listings.worksheets.empty?
-      redirect_to root_url, alert: "Error: No listings to populate spreadsheet"
-    else
-      listings.write spreadsheet
-      file = "Movie Listings #{Date.today.strftime("%Y-%m-%d")}.xls"
-      send_data spreadsheet.string, :filename => "#{file}", :type=>"application/excel", :disposition=>'attachment'
-    end
-  
-
-  end
-  
   private
   
   def listing_params
