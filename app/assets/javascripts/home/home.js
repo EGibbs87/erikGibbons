@@ -208,10 +208,14 @@ angular.module('EgMovieList.Home', [
   }
   
   function exportListings() {
+    var today = new Date()
+    today = today.getFullYear()+'/'+(today.getMonth() < 10 ? '0' : '') + parseInt(today.getMonth()+1)+'/'+(today.getDate() < 10 ? '0' : '') + today.getDate();
+    var fileName = 'Movie Listings ' + today + '.xls'
+
     var blob = new Blob([document.getElementById('exportable').innerHTML], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
     });
-    saveAs(blob, "Report.xls");
+    saveAs(blob, fileName);
   };
 
   function browseButton(category, query){
