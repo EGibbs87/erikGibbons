@@ -177,7 +177,7 @@ class Listing < ActiveRecord::Base
     if imdb_id.nil?
       year = year.to_s
       # get information from OMDb API
-      puts "getting information from OMDb API for #{title} - #{year}..."
+      puts "getting information from OMDb API for #{search_title} - #{year}..."
       if media == "movie" || media == "series"
         url = "http://www.omdbapi.com/?apikey=#{api_key}&#{URI.encode_www_form('t' => search_title) }&#{URI.encode_www_form('y' => year) }&#{URI.encode_www_form('type' => media)}"
       else
