@@ -175,7 +175,7 @@
             <td>{{ listing.year }}</td>
             <td>{{ listing.media_type }}</td>
             <td>{{ listing.location }}</td>
-            <td>{{ listing.runtime }}</td>
+            <td>{{ listing.runtime | number:0 }} <span ng-if="listing.runtime > 0">min</span></td>
             <td>{{ listing.imdb_rating | number:1 }}</td>
             <td>{{ listing.rt_rating | number:0 }}</td>
             <td ng-show="homeCtrl.edit == true"><a href ng-click="homeCtrl.updateListing(listing); homeCtrl.open()"><i class="edit-link">Edit</i></a></td>
@@ -196,6 +196,7 @@
   <!--</div>-->
   
   <!--<section ng-show="homeCtrl.password == homeCtrl.password_check">-->
+  
   <hr />
   <section>
     <div class="tabs" style="margin-bottom:20px">
