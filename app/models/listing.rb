@@ -7,6 +7,8 @@ class Listing < ActiveRecord::Base
   def self.xl_import_listing(title, year, media, imdb_id, xl_data) # media must be 'movie', 'series', or 'episode'
     # xl_data = { 'season' => season, 'owner' => owner, 'holiday' => holiday, 'form' => form, 'notes' => notes, 'series' => series }
     
+    api_key = "b03879be"
+    
     if imdb_id.nil?
       title = title.to_s
       if title.match(/\, The\z/)
@@ -22,15 +24,15 @@ class Listing < ActiveRecord::Base
       # get information from OMDb API
       puts "getting information from OMDb API for #{title} - #{year}..."
       if media == "movie" || media == "series"
-        url = "http://www.omdbapi.com/?#{URI.encode_www_form('t' => search_title) }&#{URI.encode_www_form('y' => year) }&#{URI.encode_www_form('type' => media)}"
+        url = "http://www.omdbapi.com/?apikey=#{api_key}&#{URI.encode_www_form('t' => search_title) }&#{URI.encode_www_form('y' => year) }&#{URI.encode_www_form('type' => media)}"
       else
         season_data = xl_data["season"].match(/S(\d{2})E(\d{2})/)
         season = season_data[1]
         episode = season_data[2]
-        url = "http://www.omdbapi.com/?#{URI.encode_www_form('t' => search_title) }&Season=#{season}&Episode=#{episode}"
+        url = "http://www.omdbapi.com/?apikey=#{api_key}&#{URI.encode_www_form('t' => search_title) }&Season=#{season}&Episode=#{episode}"
       end
     else
-      url = "http://www.omdbapi.com/?i=#{imdb_id}"
+      url = "http://www.omdbapi.com/?apikey=#{api_key}&i=#{imdb_id}"
     end
 
     begin
@@ -43,12 +45,12 @@ class Listing < ActiveRecord::Base
         raise
       end
     rescue
-      if url == "http://www.omdbapi.com/?#{URI.encode_www_form('t' => search_title) }&#{URI.encode_www_form('y' => year) }&#{URI.encode_www_form('type' => media)}"
+      if url == "http://www.omdbapi.com/?apikey=#{api_key}&#{URI.encode_www_form('t' => search_title) }&#{URI.encode_www_form('y' => year) }&#{URI.encode_www_form('type' => media)}"
         puts "#{title} - #{year} failed using year, trying without year...."
-        url = "http://www.omdbapi.com/?#{URI.encode_www_form('t' => search_title) }&#{URI.encode_www_form('type' => media)}"
+        url = "http://www.omdbapi.com/?apikey=#{api_key}&#{URI.encode_www_form('t' => search_title) }&#{URI.encode_www_form('type' => media)}"
         ImportFailure.create(title: search_title, year: year, failed_attempt: "1")
         retry
-      elsif url == "http://www.omdbapi.com/?i=#{imdb_id}"
+      elsif url == "http://www.omdbapi.com/?apikey=#{api_key}&i=#{imdb_id}"
         puts "could not find record by imdb_id; please check the ID again"
         ImportFailure.create(title: "No title: id #{imdb_id}", failed_attempt: "2")
         return false
@@ -177,15 +179,15 @@ class Listing < ActiveRecord::Base
       # get information from OMDb API
       puts "getting information from OMDb API for #{title} - #{year}..."
       if media == "movie" || media == "series"
-        url = "http://www.omdbapi.com/?#{URI.encode_www_form('t' => search_title) }&#{URI.encode_www_form('y' => year) }&#{URI.encode_www_form('type' => media)}"
+        url = "http://www.omdbapi.com/?apikey=#{api_key}&#{URI.encode_www_form('t' => search_title) }&#{URI.encode_www_form('y' => year) }&#{URI.encode_www_form('type' => media)}"
       else
         season_data = season_str.match(/S(\d{2})E(\d{2})/)
         season = season_data[1]
         episode = season_data[2]
-        url = "http://www.omdbapi.com/?#{URI.encode_www_form('t' => search_title) }&Season=#{season}&Episode=#{episode}"
+        url = "http://www.omdbapi.com/?apikey=#{api_key}&#{URI.encode_www_form('t' => search_title) }&Season=#{season}&Episode=#{episode}"
       end
     else
-      url = "http://www.omdbapi.com/?i=#{imdb_id}"
+      url = "http://www.omdbapi.com/?apikey=#{api_key}&i=#{imdb_id}"
     end
 
     begin
@@ -198,12 +200,12 @@ class Listing < ActiveRecord::Base
         raise
       end
     rescue
-      if url == "http://www.omdbapi.com/?#{URI.encode_www_form('t' => search_title) }&#{URI.encode_www_form('y' => year) }&#{URI.encode_www_form('type' => media)}"
+      if url == "http://www.omdbapi.com/?apikey=#{api_key}&#{URI.encode_www_form('t' => search_title) }&#{URI.encode_www_form('y' => year) }&#{URI.encode_www_form('type' => media)}"
         puts "#{title} - #{year} failed using year, trying without year...."
-        url = "http://www.omdbapi.com/?#{URI.encode_www_form('t' => search_title) }&#{URI.encode_www_form('type' => media)}"
+        url = "http://www.omdbapi.com/?apikey=#{api_key}&#{URI.encode_www_form('t' => search_title) }&#{URI.encode_www_form('type' => media)}"
         ImportFailure.create(title: search_title, year: year, failed_attempt: "1")
         retry
-      elsif url == "http://www.omdbapi.com/?i=#{imdb_id}"
+      elsif url == "http://www.omdbapi.com/?apikey=#{api_key}&i=#{imdb_id}"
         puts "could not find record by imdb_id; please check the ID again"
         ImportFailure.create(title: "No title: id #{imdb_id}", failed_attempt: "2")
         return false
