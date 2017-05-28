@@ -199,7 +199,7 @@ class Listing < ActiveRecord::Base
       end
     rescue
       if url == "http://www.omdbapi.com/?apikey=#{ENV['API_KEY']}&#{URI.encode_www_form('t' => search_title) }&#{URI.encode_www_form('y' => year) }&#{URI.encode_www_form('type' => media)}"
-        puts "#{title} - #{year} failed using year, trying without year...."
+        puts "#{search_title} - #{year} failed using year, trying without year...."
         url = "http://www.omdbapi.com/?apikey=#{ENV['API_KEY']}&#{URI.encode_www_form('t' => search_title) }&#{URI.encode_www_form('type' => media)}"
         ImportFailure.create(title: search_title, year: year, failed_attempt: "1")
         retry
