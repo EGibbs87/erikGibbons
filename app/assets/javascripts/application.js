@@ -18,8 +18,5 @@
 //= require angular-material
 //= require angular-animate
 //= require angular-aria
-//= require angularUtils-pagination
-//= require v-accordion
-//= require ng-file-upload
 //= require turbolinks
 //= require_tree .
