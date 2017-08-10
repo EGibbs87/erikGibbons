@@ -1,9 +1,9 @@
-angular.module('EgMovieList', [
+angular.module('ErikGibbons', [
   'ui.router', // router
   'templates', // templates for rails
   'ngMaterial', // angular material -- done correctly
   'ngAnimate', // angular animations
-  'EgMovieList.Home',
+  'ErikGibbons.Home',
   'ui.bootstrap'
 ])
 
@@ -33,7 +33,7 @@ angular.module('EgMovieList', [
       enabled: true
     });
     $stateProvider
-      .state('egmovielist', {
+      .state('erikgibbons', {
       url: '',
       abstract: 'true'
     });
