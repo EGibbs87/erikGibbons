@@ -38,17 +38,17 @@ angular.module('ErikGibbons.Home', [
     index: 0
   };
   homeCtrl.projects = [
-    {'name':'IPR Dominator', 'skills':['html', 'css', 'api', 'async', 'ror', 'js', 'jq', 'sql', 'io', 'alerts', 'stack', 'solr', 'charts', 'regex'], 'images':[{'src':'assets/placeholder.png', 'w':300, 'h':300}], 'url':'x'},
-    {'name':'Strain PLLC Time and Billing', 'skills':['html', 'css', 'async', 'ror', 'js', 'jq', 'sql', 'charts', 'io', 'stack', 'regex'], 'images':[{'src':'assets/placeholder.png', 'w':300, 'h':300}], 'url':'x'},
-    {'name':'iMessage Port', 'skills':['html', 'css', 'ror', 'sql', 'cron', 'io', 'alerts', 'stack', 'regex'], 'images':[{'src':'assets/placeholder.png', 'w':300, 'h':300}], 'url':'x'},
-    {'name':'Personal Movie Database', 'skills':['html', 'css', 'ror', 'api', 'js', 'jq', 'sql', 'angular', 'io', 'stack', 'regex'], 'images':[{'src':'assets/placeholder.png', 'w':300, 'h':300}], 'url':'x'},
-    {'name':'Stock Screener', 'skills':['html', 'css', 'stack', 'sql', 'async', 'ror', 'js', 'jq', 'io', 'regex'], 'images':[{'src':'assets/placeholder.png', 'w':300, 'h':300}], 'url':'x'},
-    {'name':'RosterMod', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'js', 'jq', 'angular', 'charts', 'regex'], 'images':[{'src':'assets/placeholder.png', 'w':300, 'h':300}], 'url':'x'},
-    {'name':'Team Schedule API', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex'], 'images':[{'src':'assets/placeholder.png', 'w':300, 'h':300}], 'url':'x'},
-    {'name':'Grill Monitoring', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex', 'js', 'jq', 'charts'], 'images':[{'src':'assets/placeholder.png', 'w':300, 'h':300}], 'url':'x'},
-    {'name':'Flight Check-In', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'regex'], 'images':[{'src':'assets/placeholder.png', 'w':300, 'h':300}], 'url':'x'},
-    {'name':'Patent Search', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'solr'], 'images':[{'src':'assets/placeholder.png', 'w':300, 'h':300}], 'url':'x'},
-    {'name':'Oystermom', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'js', 'jq'], 'images':[{'src':'assets/placeholder.png', 'w':300, 'h':300}], 'url':'x'}
+    {'name':'IPR Dominator', 'skills':['html', 'css', 'api', 'async', 'ror', 'js', 'jq', 'sql', 'io', 'alerts', 'stack', 'solr', 'charts', 'regex'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
+    {'name':'Strain PLLC Time and Billing', 'skills':['html', 'css', 'async', 'ror', 'js', 'jq', 'sql', 'charts', 'io', 'stack', 'regex'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
+    {'name':'iMessage Port', 'skills':['html', 'css', 'ror', 'sql', 'cron', 'io', 'alerts', 'stack', 'regex'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
+    {'name':'Personal Movie Database', 'skills':['html', 'css', 'ror', 'api', 'js', 'jq', 'sql', 'angular', 'io', 'stack', 'regex'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
+    {'name':'Stock Screener', 'skills':['html', 'css', 'stack', 'sql', 'async', 'ror', 'js', 'jq', 'io', 'regex'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
+    {'name':'RosterMod', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'js', 'jq', 'angular', 'charts', 'regex'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
+    {'name':'Team Schedule API', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
+    {'name':'Grill Monitoring', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex', 'js', 'jq', 'charts'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
+    {'name':'Flight Check-In', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'regex'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
+    {'name':'Patent Search', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'solr'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
+    {'name':'Oystermom', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'js', 'jq'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'}
   ];
   homeCtrl.skills = [
     {'full':'HTML', 'short':'html','show':true},
@@ -105,7 +105,6 @@ angular.module('ErikGibbons.Home', [
   }
   
   function selectAll(){
-    console.log('sele')
     if(homeCtrl.allSkillsSelected == true){
       angular.forEach(homeCtrl.skills, function(v){
         v['show'] = false;
