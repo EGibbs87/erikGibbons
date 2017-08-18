@@ -1,3 +1,6 @@
+/*global angular*/
+/*global $*/
+
 angular.module('ErikGibbons', [
   'ui.router', // router
   'templates', // templates for rails

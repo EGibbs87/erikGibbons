@@ -11,5 +11,7 @@
  * file per style scope.
  *
  *= require_tree .
+ *= angular-material/angular-material
+ *= photoswipe/dist/photoswipe
  *= require_self
  */

@@ -1,0 +1,23 @@
+<md-content data-turbolinks="false">
+  <div id='first-parallax' ng-parallax pattern="'<%= image_url('luca-bravo-2.jpg').to_s[1..-1] %>'" speed="15">
+    <div>Placeholder</div>
+  </div>
+  <span>
+    <input type="checkbox" id="showSkills" ng-model="homeCtrl.showSkills" />
+    <label for="showSkills">Select Skills</label>
+  </span>
+  <!--Show skills with partial-->
+  <ng-include src="'home/skills.tmpl.html'"></ng-include>
+  <div>
+    <span ng-repeat="proj in homeCtrl.showProj">
+      <img ng-src="assets/{{ proj.images[0]['src'].replace('assets/', '') }}">
+    </span>
+  </div>
+  <div ng-photoswipe
+    options="homeCtrl.opts"
+    slides="homeCtrl.projects[0]['images']"
+    slide-selector=".selector"
+    open="homeCtrl.open"
+    on-close="homeCtrl.closeGallery()"></div>
+  <img class="selector" src="assets/placeholder.png" ng-click="homeCtrl.showGallery()"/>
+</md-content>

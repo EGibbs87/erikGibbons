@@ -1,0 +1,7 @@
+<div ng-show="homeCtrl.showSkills">
+  <button ng-click="homeCtrl.selectAll()">Select all</button><br>
+  <span ng-repeat="skill in homeCtrl.skills">
+    <input type="checkbox" id={{skill['short']}} ng-model="skill['show']" ng-change="homeCtrl.setArrays()"/>
+    <label for={{skill['short']}}>{{ skill['full'] }}</label><br>
+  </span>
+</div>
