@@ -91,7 +91,9 @@ angular.module('ErikGibbons.Home', [
     
     // projects that include checked skills
     homeCtrl.showProj = $filter('filter')(homeCtrl.projects, function(v){
-      return v['skills'].some(s => homeCtrl.activeSkillsArray.includes(s));
+      return v['skills'].some(function(s){ 
+        return homeCtrl.activeSkillsArray.includes(s)
+      });
     });
     
     // if all skills are checked or unchecked, reflect that in allSkillsSelected
