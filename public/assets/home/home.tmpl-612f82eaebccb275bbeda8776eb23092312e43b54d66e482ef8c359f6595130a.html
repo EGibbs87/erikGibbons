@@ -1,0 +1,20 @@
+<md-content data-turbolinks="false">
+  <div id='first-parallax' ng-parallax pattern="'assets/luca-bravo-2-ebe94f46973326003b7f58035f9d4c1a37790007fa646e80962f243bd870a30d.jpg'" speed="15">
+    <div>Placeholder</div>
+  </div>
+  <span>
+    <input type="checkbox" id="showSkills" ng-model="homeCtrl.showSkills" />
+    <label for="showSkills">Select Skills</label>
+  </span>
+  <!--Show skills with partial-->
+  <ng-include src="home/skills.tmpl.html"></ng-include>
+  <!--Gambarize Albums-->
+  <div id="gallery1">Loading projects...</div>
+  <div style="display: none">
+    <div ng-repeat="proj in homeCtrl.showProj" class="gmbz" data-title="{{proj.name}}">
+      <a ng-repeat="img in proj.images" href="{{ img.url }}" title="{{proj.name}}" class="gmbz">
+        <img ng-src="{{ img.url }}"/>
+      </a>
+    </div>
+  </div>
+</md-content>
