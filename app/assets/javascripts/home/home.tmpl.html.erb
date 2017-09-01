@@ -7,17 +7,14 @@
     <label for="showSkills">Select Skills</label>
   </span>
   <!--Show skills with partial-->
-  <ng-include src="'home/skills.tmpl.html'"></ng-include>
-  <div>
-    <span ng-repeat="proj in homeCtrl.showProj">
-      <img ng-src="assets/{{ proj.images[0]['src'].replace('assets/', '') }}">
-    </span>
+  <ng-include src="home/skills.tmpl.html"></ng-include>
+  <!--Gambarize Albums-->
+  <div id="gallery1">Loading projects...</div>
+  <div style="display: none">
+    <div ng-repeat="proj in homeCtrl.showProj" class="gmbz" data-title="{{proj.name}}">
+      <a ng-repeat="img in proj.images" href="{{ img.url }}" title="{{proj.name}}" class="gmbz">
+        <img ng-src="{{ img.url }}"/>
+      </a>
+    </div>
   </div>
-  <div ng-photoswipe
-    options="homeCtrl.opts"
-    slides="homeCtrl.projects[0]['images']"
-    slide-selector=".selector"
-    open="homeCtrl.open"
-    on-close="homeCtrl.closeGallery()"></div>
-  <img class="selector" src='<%= image_url("placeholder.png") %>' ng-click="homeCtrl.showGallery()"/>
 </md-content>

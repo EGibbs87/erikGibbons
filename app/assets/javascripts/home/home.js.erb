@@ -9,7 +9,6 @@ angular.module('ErikGibbons.Home', [
   'ui.bootstrap',
   'ngSanitize',
   'ngParallax',
-  'ngPhotoswipe'
 ])
 
 .config(['$stateProvider', function($stateProvider){
@@ -25,30 +24,49 @@ angular.module('ErikGibbons.Home', [
     })
   }
 ])
-  
+
+// .config(['ngImageGalleryOptsProvider', function(ngImageGalleryOptsProvider){
+// 	ngImageGalleryOptsProvider.setOpts({
+// 		thumbnails  	:   false,
+// 		thumbSize		  : 	80,
+// 		inline      	:   false,
+// 		bubbles     	:   true,
+// 		bubbleSize		: 	20,
+// 		imgBubbles  	:   false,
+// 		bgClose     	:   false,
+// 		piracy 			  : 	false,
+// 		imgAnim 	  	: 	'fadeup',
+// 	});
+// }])
+
+
 .controller('HomeCtrl', ['$q', '$http', '$window', '$log', '$location', '$state', '$filter', '$timeout', function($q, $http, $window, $log, $location, $state, $filter, $timeout, $document){
   var homeCtrl = this;
   homeCtrl.setArrays = setArrays;
   homeCtrl.selectAll = selectAll;
-  homeCtrl.showGallery = showGallery;
-  homeCtrl.closeGallery = closeGallery;
-  homeCtrl.allSkillsSelected = true;  
+  // homeCtrl.showGallery = showGallery;
+  // homeCtrl.closeGallery = closeGallery;
+  // homeCtrl.setImages = setImages;
+  homeCtrl.gambarizeSetup = gambarizeSetup;
+  homeCtrl.gambarizeReload = gambarizeReload;
+  homeCtrl.allSkillsSelected = true;
+  // homeCtrl.galleryIndex = 0;
   homeCtrl.opts = {
     history: false,
     index: 0
   };
   homeCtrl.projects = [
-    {'name':'IPR Dominator', 'skills':['html', 'css', 'api', 'async', 'ror', 'js', 'jq', 'sql', 'io', 'alerts', 'stack', 'solr', 'charts', 'regex'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
-    {'name':'Strain PLLC Time and Billing', 'skills':['html', 'css', 'async', 'ror', 'js', 'jq', 'sql', 'charts', 'io', 'stack', 'regex'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
-    {'name':'iMessage Port', 'skills':['html', 'css', 'ror', 'sql', 'cron', 'io', 'alerts', 'stack', 'regex'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
-    {'name':'Personal Movie Database', 'skills':['html', 'css', 'ror', 'api', 'js', 'jq', 'sql', 'angular', 'io', 'stack', 'regex'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
-    {'name':'Stock Screener', 'skills':['html', 'css', 'stack', 'sql', 'async', 'ror', 'js', 'jq', 'io', 'regex'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
-    {'name':'RosterMod', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'js', 'jq', 'angular', 'charts', 'regex'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
-    {'name':'Team Schedule API', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
-    {'name':'Grill Monitoring', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex', 'js', 'jq', 'charts'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
-    {'name':'Flight Check-In', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'regex'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
-    {'name':'Patent Search', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'solr'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'},
-    {'name':'Oystermom', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'js', 'jq'], 'images':[{'src':"<%= image_url('placeholder.png') %>", 'w':300, 'h':300}], 'url':'x'}
+    {'name':'IPR Dominator', 'skills':['html', 'css', 'api', 'async', 'ror', 'js', 'jq', 'sql', 'io', 'alerts', 'stack', 'solr', 'charts', 'regex'], 'images':[{id: 1, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'Strain PLLC Time and Billing', 'skills':['html', 'css', 'async', 'ror', 'js', 'jq', 'sql', 'charts', 'io', 'stack', 'regex'], 'images':[{id: 2, url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'x'},
+    {'name':'iMessage Port', 'skills':['html', 'css', 'ror', 'sql', 'cron', 'io', 'alerts', 'stack', 'regex'], 'images':[{id: 3, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'Personal Movie Database', 'skills':['html', 'css', 'ror', 'api', 'js', 'jq', 'sql', 'angular', 'io', 'stack', 'regex'], 'images':[{id: 4, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'Stock Screener', 'skills':['html', 'css', 'stack', 'sql', 'async', 'ror', 'js', 'jq', 'io', 'regex'], 'images':[{id: 5, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'RosterMod', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'js', 'jq', 'angular', 'charts', 'regex'], 'images':[{id: 6, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'Team Schedule API', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex'], 'images':[{id: 7, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'Grill Monitoring', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex', 'js', 'jq', 'charts'], 'images':[{id: 8, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'Flight Check-In', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'regex'], 'images':[{id: 9, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'Patent Search', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'solr'], 'images':[{id: 10, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'Oystermom', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'js', 'jq'], 'images':[{id: 11, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'}
   ];
   homeCtrl.skills = [
     {'full':'HTML', 'short':'html','show':true},
@@ -68,9 +86,25 @@ angular.module('ErikGibbons.Home', [
     {'full':'Websolr', 'short':'solr','show':true},
     {'full':'Regular Expressions', 'short':'regex','show':true}
   ];
+  
+  // homeCtrl.methods = {};
+  // homeCtrl.openGallery = function(index){
+  //   homeCtrl.methods.open(index);
+  // }
+  // homeCtrl.closeGallery = function(){
+  //   homeCtrl.methods.close();
+  // }
+  // homeCtrl.nextImg = function(){
+  //   homeCtrl.methods.next();
+  // }
+  // homeCtrl.prevImg = function(){
+  //   homeCtrl.methods.prev();
+  // }
 
   function init() {
-    homeCtrl.setArrays();
+    homeCtrl.gambarizeSetup();
+
+    homeCtrl.setArrays(true);
   } // end of init
   
   init();
@@ -80,7 +114,7 @@ angular.module('ErikGibbons.Home', [
   * *******************/
   
   // Function to reset variables whenever checkbox is clicked
-  function setArrays(){
+  function setArrays(initial = false){
     homeCtrl.activeSkillsArray = $filter('filter')(homeCtrl.skills, function(v){
       if(v['show']){
         return v
@@ -102,6 +136,9 @@ angular.module('ErikGibbons.Home', [
     }else{
       homeCtrl.allSkillsSelected = false
     }
+    // if(!initial){
+    //   homeCtrl.gambarizeReload();
+    // }
   }
   
   function selectAll(){
@@ -116,12 +153,39 @@ angular.module('ErikGibbons.Home', [
     }
     homeCtrl.setArrays();
   }
-  
-  function showGallery(){
-    homeCtrl.open = true;
+  function gambarizeSetup(){
+    window.gambarize_instance='';
+    
+    function gambarizeInit(){
+      gambarize_instance = new gambarize();  
+      gambarize_instance.init({
+        content: {
+          source: 'a',
+          selector: 'gmbz',
+          loadInDiv: 'gallery1'
+        }
+      });
+    }
+    
+    // function gambarizeReload(){
+      
+    // }
+    
+    $(window).on('load', gambarizeInit);
+    // $(document).ready(gambarizeReload);
   }
-  
-  function closeGallery(){
-    homeCtrl.open = false;
+  function gambarizeReload(){
+    console.log(homeCtrl.showProj.map(function(proj){
+      return proj.name
+    }));
+    gambarize_instance.uninit();
+    gambarize_instance = new gambarize();
+    gambarize_instance.init({
+      content: {
+        source: 'a',
+        selector: 'gmbz',
+        loadInDiv: 'gallery1'
+      }
+    });
   }
 }]);
