@@ -1,20 +1,38 @@
 <md-content data-turbolinks="false">
   <div id='first-parallax' ng-parallax pattern="'<%= image_url('luca-bravo-2.jpg').to_s[1..-1] %>'" speed="15">
-    <div>Placeholder</div>
   </div>
-  <span>
-    <input type="checkbox" id="showSkills" ng-model="homeCtrl.showSkills" />
-    <label for="showSkills">Select Skills</label>
-  </span>
-  <!--Show skills with partial-->
-  <ng-include src="home/skills.tmpl.html"></ng-include>
+  <!--skills -->
+  <div id="skill-container">
+    <div ng-class="{'active-skill': homeCtrl.allSkillsSelected, 'inactive-skill': !homeCtrl.allSkillsSelected }" style="text-align:center; width: 100%" ng-click="homeCtrl.selectAll()"><i><u>Select All</u></i></div><br>
+    <span ng-repeat="skill in homeCtrl.skills">
+      <span ng-class="{'active-skill': skill['show'], 'inactive-skill': !skill['show'] }" id={{skill['short']}} ng-click="homeCtrl.toggleSkill(skill['short']); homeCtrl.setArrays()"><i>{{ skill['full'] }}</i></span><span ng-show="!$last" style="color: #aaaaaa"> - </span>
+    </span>
+  </div>  
   <!--Gambarize Albums-->
-  <div id="gallery1">Loading projects...</div>
-  <div style="display: none">
-    <div ng-repeat="proj in homeCtrl.showProj" class="gmbz" data-title="{{proj.name}}">
-      <a ng-repeat="img in proj.images" href="{{ img.url }}" title="{{proj.name}}" class="gmbz">
-        <img ng-src="{{ img.url }}"/>
-      </a>
+  <div ng-show="homeCtrl.showProj.length > 0">
+    <div id="gallery1">Loading projects...</div>
+    <div style="display: none">
+      <div ng-repeat="proj in homeCtrl.showProj" class="gmbz" data-title="{{proj.name}}">
+        <a ng-repeat="img in proj.images" href="{{ img.url }}" title="{{proj.name}}" class="gmbz">
+          <img ng-src="{{ img.url }}"/>
+        </a>
+      </div>
     </div>
   </div>
+  <div ng-show="homeCtrl.showProj.length == 0">
+    No projects selected
+  </div>
 </md-content>
+
+<script>
+  $(document).ready(function(){
+    $('#showSkills').click(function(){
+      $('.skill-checks').change(function(){
+        if($('.skill-checks.ng-not-empty').length == 0){
+          $(".indiv-a-wrapper").remove();
+          console.log('handled');
+        }
+      })
+    })
+  });
+</script>

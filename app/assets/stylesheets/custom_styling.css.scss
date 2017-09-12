@@ -2,3 +2,39 @@
 	width: 100%;
 	min-height: 600px;
 }
+
+.active-skill {
+	color: white;
+	text-shadow: 0 0 3px #FFFFFF;
+}
+
+.inactive-skill {
+	color: #AAAAAA;
+}
+
+.active-skill:focus, .inactive-skill:focus {
+	outline: none
+}
+
+.active-skill:hover, .inactive-skill:hover {
+	cursor: pointer;
+}
+
+#main {
+  background: black; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, #070C1F, #cccccc); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, #070C1F, #cccccc); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, #070C1F, #cccccc); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, #070C1F, #cccccc); /* Standard syntax */
+}
+
+#skill-container {
+	width: 300px;
+	background-color: rgba(255, 255, 255, 0.3);
+	border-radius: 10px;
+	border: 1px solid darkblue;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}

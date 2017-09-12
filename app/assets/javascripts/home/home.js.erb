@@ -44,29 +44,28 @@ angular.module('ErikGibbons.Home', [
   var homeCtrl = this;
   homeCtrl.setArrays = setArrays;
   homeCtrl.selectAll = selectAll;
-  // homeCtrl.showGallery = showGallery;
-  // homeCtrl.closeGallery = closeGallery;
-  // homeCtrl.setImages = setImages;
   homeCtrl.gambarizeSetup = gambarizeSetup;
   homeCtrl.gambarizeReload = gambarizeReload;
   homeCtrl.allSkillsSelected = true;
-  // homeCtrl.galleryIndex = 0;
+  homeCtrl.galleryIndex = 0;
+  homeCtrl.toggleSkill = toggleSkill;
   homeCtrl.opts = {
     history: false,
     index: 0
   };
   homeCtrl.projects = [
-    {'name':'IPR Dominator', 'skills':['html', 'css', 'api', 'async', 'ror', 'js', 'jq', 'sql', 'io', 'alerts', 'stack', 'solr', 'charts', 'regex'], 'images':[{id: 1, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'Strain PLLC Time and Billing', 'skills':['html', 'css', 'async', 'ror', 'js', 'jq', 'sql', 'charts', 'io', 'stack', 'regex'], 'images':[{id: 2, url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'x'},
-    {'name':'iMessage Port', 'skills':['html', 'css', 'ror', 'sql', 'cron', 'io', 'alerts', 'stack', 'regex'], 'images':[{id: 3, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'Personal Movie Database', 'skills':['html', 'css', 'ror', 'api', 'js', 'jq', 'sql', 'angular', 'io', 'stack', 'regex'], 'images':[{id: 4, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'Stock Screener', 'skills':['html', 'css', 'stack', 'sql', 'async', 'ror', 'js', 'jq', 'io', 'regex'], 'images':[{id: 5, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'RosterMod', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'js', 'jq', 'angular', 'charts', 'regex'], 'images':[{id: 6, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'Team Schedule API', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex'], 'images':[{id: 7, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'Grill Monitoring', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex', 'js', 'jq', 'charts'], 'images':[{id: 8, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'Flight Check-In', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'regex'], 'images':[{id: 9, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'Patent Search', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'solr'], 'images':[{id: 10, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'Oystermom', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'js', 'jq'], 'images':[{id: 11, url:"<%= image_url('placeholder.png') %>"}], 'url':'x'}
+    {'name':'IPR Dominator', 'skills':['html', 'css', 'api', 'async', 'ror', 'js', 'jq', 'sql', 'io', 'alerts', 'stack', 'solr', 'charts', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'Strain PLLC Time and Billing', 'skills':['html', 'css', 'async', 'ror', 'js', 'jq', 'sql', 'charts', 'io', 'stack', 'regex'], 'images':[{url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'x'},
+    {'name':'iMessage Port', 'skills':['html', 'css', 'ror', 'sql', 'cron', 'io', 'alerts', 'stack', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'Personal Movie Database', 'skills':['html', 'css', 'ror', 'api', 'js', 'jq', 'sql', 'angular', 'io', 'stack', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'Stock Screener', 'skills':['html', 'css', 'stack', 'sql', 'async', 'ror', 'js', 'jq', 'io', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'RosterMod', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'js', 'jq', 'angular', 'charts', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'Team Schedule API', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'Grill Monitoring', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex', 'js', 'jq', 'charts'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'Flight Check-In', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'Patent Search', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'solr'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'Oystermom', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'js', 'jq'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
+    {'name':'Streak Automator', 'skills':['html', 'css', 'ror', 'js', 'phantom', 'regex', 'api'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'}
   ];
   homeCtrl.skills = [
     {'full':'HTML', 'short':'html','show':true},
@@ -84,22 +83,9 @@ angular.module('ErikGibbons.Home', [
     {'full':'Alerts/Emails', 'short':'alerts','show':true},
     {'full':'Full Stack', 'short':'stack','show':true},
     {'full':'Websolr', 'short':'solr','show':true},
-    {'full':'Regular Expressions', 'short':'regex','show':true}
+    {'full':'Regular Expressions', 'short':'regex','show':true},
+    {'full':'PhantomJS', 'short':'phantom','show':true}
   ];
-  
-  // homeCtrl.methods = {};
-  // homeCtrl.openGallery = function(index){
-  //   homeCtrl.methods.open(index);
-  // }
-  // homeCtrl.closeGallery = function(){
-  //   homeCtrl.methods.close();
-  // }
-  // homeCtrl.nextImg = function(){
-  //   homeCtrl.methods.next();
-  // }
-  // homeCtrl.prevImg = function(){
-  //   homeCtrl.methods.prev();
-  // }
 
   function init() {
     homeCtrl.gambarizeSetup();
@@ -112,6 +98,14 @@ angular.module('ErikGibbons.Home', [
   /*********************
   *  Private functions *
   * *******************/
+  
+  // Function to toggle shown skills
+  function toggleSkill(changeSkill){
+    var skill = $filter('filter')(homeCtrl.skills, function(v){
+      return v['short'] == changeSkill;
+    });
+    skill[0]['show'] = !skill[0]['show'];
+  }
   
   // Function to reset variables whenever checkbox is clicked
   function setArrays(initial = false){
@@ -136,9 +130,11 @@ angular.module('ErikGibbons.Home', [
     }else{
       homeCtrl.allSkillsSelected = false
     }
-    // if(!initial){
-    //   homeCtrl.gambarizeReload();
-    // }
+    if(!initial && homeCtrl.showProj.length > 0){
+      angular.element(document).ready(function(){
+        homeCtrl.gambarizeReload();
+      });
+    }
   }
   
   function selectAll(){
@@ -153,12 +149,13 @@ angular.module('ErikGibbons.Home', [
     }
     homeCtrl.setArrays();
   }
+  
   function gambarizeSetup(){
     window.gambarize_instance='';
     
     function gambarizeInit(){
-      gambarize_instance = new gambarize();  
-      gambarize_instance.init({
+      gambarize_instance0 = new gambarize();
+      gambarize_instance0.init({
         content: {
           source: 'a',
           selector: 'gmbz',
@@ -167,25 +164,18 @@ angular.module('ErikGibbons.Home', [
       });
     }
     
-    // function gambarizeReload(){
-      
-    // }
-    
     $(window).on('load', gambarizeInit);
-    // $(document).ready(gambarizeReload);
   }
+  
   function gambarizeReload(){
     console.log(homeCtrl.showProj.map(function(proj){
       return proj.name
     }));
-    gambarize_instance.uninit();
-    gambarize_instance = new gambarize();
-    gambarize_instance.init({
-      content: {
-        source: 'a',
-        selector: 'gmbz',
-        loadInDiv: 'gallery1'
-      }
-    });
+    // Use evals to set dynamic variables so that new instances of gambarize can be created to avoid errors
+    eval("gambarize_instance" + homeCtrl.galleryIndex.toString() + ".uninit();");
+    eval("gambarize_instance" + homeCtrl.galleryIndex.toString() + " = '';");
+    homeCtrl.galleryIndex++;
+    eval("gambarize_instance" + homeCtrl.galleryIndex.toString() + " = new gambarize();");
+    eval("gambarize_instance" + homeCtrl.galleryIndex.toString() + ".init({content: {source: 'a', selector: 'gmbz', loadInDiv: 'gallery1' } });");
   }
 }]);

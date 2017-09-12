@@ -23,8 +23,7 @@
     "angular-aria": "^1.6.1",
     "angular-material": "^1.1.1",
     "ng-simple-parallax": "*",
-    "ng-photoswipe": "^0.2.0",
-    "ng-image-gallery": "^2.1.2"
+    "arrive": "^2.4.1"
   },
   "resolutions": {
     "angular": "^1.4.8",
