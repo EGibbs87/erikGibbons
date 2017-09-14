@@ -8,7 +8,7 @@ angular.module('ErikGibbons.Home', [
   'ngMdIcons',
   'ui.bootstrap',
   'ngSanitize',
-  'ngParallax',
+  'ngParallax'
 ])
 
 .config(['$stateProvider', function($stateProvider){
@@ -25,21 +25,6 @@ angular.module('ErikGibbons.Home', [
   }
 ])
 
-// .config(['ngImageGalleryOptsProvider', function(ngImageGalleryOptsProvider){
-// 	ngImageGalleryOptsProvider.setOpts({
-// 		thumbnails  	:   false,
-// 		thumbSize		  : 	80,
-// 		inline      	:   false,
-// 		bubbles     	:   true,
-// 		bubbleSize		: 	20,
-// 		imgBubbles  	:   false,
-// 		bgClose     	:   false,
-// 		piracy 			  : 	false,
-// 		imgAnim 	  	: 	'fadeup',
-// 	});
-// }])
-
-
 .controller('HomeCtrl', ['$q', '$http', '$window', '$log', '$location', '$state', '$filter', '$timeout', function($q, $http, $window, $log, $location, $state, $filter, $timeout, $document){
   var homeCtrl = this;
   homeCtrl.setArrays = setArrays;
@@ -49,10 +34,6 @@ angular.module('ErikGibbons.Home', [
   homeCtrl.allSkillsSelected = true;
   homeCtrl.galleryIndex = 0;
   homeCtrl.toggleSkill = toggleSkill;
-  homeCtrl.opts = {
-    history: false,
-    index: 0
-  };
   homeCtrl.projects = [
     {'name':'IPR Dominator', 'skills':['html', 'css', 'api', 'async', 'ror', 'js', 'jq', 'sql', 'io', 'alerts', 'stack', 'solr', 'charts', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
     {'name':'Strain PLLC Time and Billing', 'skills':['html', 'css', 'async', 'ror', 'js', 'jq', 'sql', 'charts', 'io', 'stack', 'regex'], 'images':[{url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'x'},
@@ -87,6 +68,7 @@ angular.module('ErikGibbons.Home', [
     {'full':'PhantomJS', 'short':'phantom','show':true}
   ];
 
+
   function init() {
     homeCtrl.gambarizeSetup();
 
@@ -107,7 +89,7 @@ angular.module('ErikGibbons.Home', [
     skill[0]['show'] = !skill[0]['show'];
   }
   
-  // Function to reset variables whenever checkbox is clicked
+  // Function to reset variables whenever skill is toggled
   function setArrays(initial = false){
     homeCtrl.activeSkillsArray = $filter('filter')(homeCtrl.skills, function(v){
       if(v['show']){
@@ -123,6 +105,8 @@ angular.module('ErikGibbons.Home', [
         return homeCtrl.activeSkillsArray.includes(s)
       });
     });
+    
+    homeCtrl.showProjLength = homeCtrl.showProj.length > 0;
     
     // if all skills are checked or unchecked, reflect that in allSkillsSelected
     if(homeCtrl.activeSkillsArray.length == homeCtrl.skills.length){
@@ -151,26 +135,25 @@ angular.module('ErikGibbons.Home', [
   }
   
   function gambarizeSetup(){
-    window.gambarize_instance='';
+    $('#gallery1').ready(function(){
+      window.gambarize_instance='';
+      
+      function gambarizeInit(){
+        gambarize_instance0 = new gambarize();
+        gambarize_instance0.init({
+          content: {
+            source: 'a',
+            selector: 'gmbz',
+            loadInDiv: 'gallery1'
+          }
+        });
+      }
     
-    function gambarizeInit(){
-      gambarize_instance0 = new gambarize();
-      gambarize_instance0.init({
-        content: {
-          source: 'a',
-          selector: 'gmbz',
-          loadInDiv: 'gallery1'
-        }
-      });
-    }
-    
-    $(window).on('load', gambarizeInit);
+      $(window).on('load', gambarizeInit);
+    });
   }
   
   function gambarizeReload(){
-    console.log(homeCtrl.showProj.map(function(proj){
-      return proj.name
-    }));
     // Use evals to set dynamic variables so that new instances of gambarize can be created to avoid errors
     eval("gambarize_instance" + homeCtrl.galleryIndex.toString() + ".uninit();");
     eval("gambarize_instance" + homeCtrl.galleryIndex.toString() + " = '';");
@@ -178,4 +161,126 @@ angular.module('ErikGibbons.Home', [
     eval("gambarize_instance" + homeCtrl.galleryIndex.toString() + " = new gambarize();");
     eval("gambarize_instance" + homeCtrl.galleryIndex.toString() + ".init({content: {source: 'a', selector: 'gmbz', loadInDiv: 'gallery1' } });");
   }
+  
+  // BrowserDetect to identify Mac
+  var BrowserDetect = {
+    init: function () {
+      // this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+      // this.version = this.searchVersion(navigator.userAgent)
+      //   || this.searchVersion(navigator.appVersion)
+      //   || "an unknown version";
+      this.OS = this.searchString(this.dataOS) || "an unknown OS";
+    },
+    searchString: function (data) {
+      for (var i=0;i<data.length;i++) {
+        var dataString = data[i].string;
+        var dataProp = data[i].prop;
+        this.versionSearchString = data[i].versionSearch || data[i].identity;
+        if (dataString) {
+          if (dataString.indexOf(data[i].subString) != -1) {
+            return data[i].identity;
+          }
+          else if (dataProp) {
+            return data[i].identity;
+          }   
+        }
+      }
+    },
+    // searchVersion: function (dataString) {
+    //   var index = dataString.indexOf(this.versionSearchString);
+    //   if (index == -1) return;
+    //   return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
+    // },
+    // dataBrowser: [
+    //   {
+    //     string: navigator.userAgent,
+    //     subString: "Chrome",
+    //     identity: "Chrome"
+    //   },
+    //   {     
+    //     string: navigator.userAgent,
+    //     subString: "OmniWeb",
+    //     versionSearch: "OmniWeb/",
+    //     identity: "OmniWeb"
+    //   },
+    //   {
+    //     string: navigator.vendor,
+    //     subString: "Apple",
+    //     identity: "Safari",
+    //     versionSearch: "Version"
+    //   },
+    //   {
+    //     prop: window.opera,
+    //     identity: "Opera",
+    //     versionSearch: "Version"
+    //   },
+    //   {
+    //     string: navigator.vendor,
+    //     subString: "iCab",
+    //     identity: "iCab"
+    //   },
+    //   {
+    //     string: navigator.vendor,
+    //     subString: "KDE",
+    //     identity: "Konqueror"
+    //   },
+    //   {
+    //     string: navigator.userAgent,
+    //     subString: "Firefox",
+    //     identity: "Firefox"
+    //   },
+    //   {
+    //     string: navigator.vendor,
+    //     subString: "Camino",
+    //     identity: "Camino"
+    //   },
+    //   {        // for newer Netscapes (6+)
+    //     string: navigator.userAgent,
+    //     subString: "Netscape",
+    //     identity: "Netscape"
+    //   },
+    //   {
+    //     string: navigator.userAgent,
+    //     subString: "MSIE",
+    //     identity: "Explorer",
+    //     versionSearch: "MSIE"
+    //   },
+    //   {
+    //     string: navigator.userAgent,
+    //     subString: "Gecko",
+    //     identity: "Mozilla",
+    //     versionSearch: "rv"
+    //   },
+    //   {         // for older Netscapes (4-)
+    //     string: navigator.userAgent,
+    //     subString: "Mozilla",
+    //     identity: "Netscape",
+    //     versionSearch: "Mozilla"
+    //   }
+    // ],
+    dataOS : [
+      {
+        string: navigator.platform,
+        subString: "Win",
+        identity: "Windows"
+      },
+      {
+        string: navigator.platform,
+        subString: "Mac",
+        identity: "Mac"
+      },
+      {
+        string: navigator.userAgent,
+        subString: "iPhone",
+        identity: "iPhone/iPod"
+      },
+      {
+        string: navigator.platform,
+        subString: "Linux",
+        identity: "Linux"
+      } 
+    ]
+  };
+  BrowserDetect.init();
+  console.log(BrowserDetect.OS);
 }]);

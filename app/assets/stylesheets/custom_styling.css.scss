@@ -5,11 +5,11 @@
 
 .active-skill {
 	color: white;
-	text-shadow: 0 0 3px #FFFFFF;
+	text-shadow: 0 0 3px white;
 }
 
 .inactive-skill {
-	color: #AAAAAA;
+	color: #555555;
 }
 
 .active-skill:focus, .inactive-skill:focus {
@@ -28,13 +28,82 @@
   background: linear-gradient(to bottom right, #070C1F, #cccccc); /* Standard syntax */
 }
 
+// .gallery-active {
+// 	background-color: rgba(0, 0, 0, 0.5);
+// 	border-radius: 5px;
+// 	border: 1px solid black;
+// 	padding-left: 5px;
+// 	padding-right: 5px;
+// 	padding-top: 5px;
+// 	padding-bottom: 5px;
+// 	margin-left: 3px;
+// 	margin-right: 3px;
+// 	margin-top: 10px;
+// }
+
+#skills {
+	width: 100%;
+	position: relative;
+}
 #skill-container {
+	position: relative;
 	width: 300px;
 	background-color: rgba(255, 255, 255, 0.3);
 	border-radius: 10px;
 	border: 1px solid darkblue;
+	margin: 0 auto;
 	padding-left: 15px;
 	padding-right: 15px;
 	padding-top: 5px;
 	padding-bottom: 5px;
+}
+
+#gallery-container {
+  overflow: hidden;
+  position: relative;
+}
+
+// SWITCH ANIMATIONS //
+
+.animate-switch {
+  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+}
+
+.animate-switch.ng-enter {
+	opacity: 0;
+}
+
+.animate-switch.ng-enter-active {
+	opacity: 1;
+}
+
+.animate-switch.ng-leave {
+	opacity: 1;
+}
+
+.animate-switch.ng-leave-active {
+	opacity: 0;
+}
+
+.non-animate-switch {
+  transition:all linear 0s 0.5s;
+}
+
+.non-animate-switch.ng-enter {
+	opacity: 0;
+}
+
+.non-animate-switch.ng-enter-active {
+  // transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0s 0.5s;
+	opacity: 1;
+}
+
+.non-animate-switch.ng-leave {
+  // transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0s;
+	opacity: 1;
+}
+
+.non-animate-switch.ng-leave-active {
+  // transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0s;
+	opacity: 0;
 }
