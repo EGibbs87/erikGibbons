@@ -50,28 +50,28 @@ angular.module('ErikGibbons.Home', [
   ];
   homeCtrl.skills = [
     {'full':'HTML', 'short':'html','show':true},
-    {'full':'CSS', 'short':'css','show':true},
-    {'full':'Web Scraping and APIs', 'short':'api','show':true},
-    {'full':'Multithreaded Asynchronous Jobs', 'short':'async','show':true},
-    {'full':'Ruby on Rails', 'short':'ror','show':true},
-    {'full':'Javascript', 'short':'js','show':true},
-    {'full':'jQuery', 'short':'jq','show':true},
-    {'full':'SQL', 'short':'sql','show':true},
-    {'full':'CRON Jobs', 'short':'cron','show':true},
-    {'full':'Angular', 'short':'angular','show':true},
-    {'full':'Charts', 'short':'charts','show':true},
-    {'full':'Import/Export Files', 'short':'io','show':true},
-    {'full':'Alerts/Emails', 'short':'alerts','show':true},
-    {'full':'Full Stack', 'short':'stack','show':true},
-    {'full':'Websolr', 'short':'solr','show':true},
-    {'full':'Regular Expressions', 'short':'regex','show':true},
-    {'full':'PhantomJS', 'short':'phantom','show':true}
+    {'full':'CSS', 'short':'css','show':false},
+    {'full':'Ruby on Rails', 'short':'ror','show':false},
+    {'full':'Full Stack', 'short':'stack','show':false},
+    {'full':'SQL', 'short':'sql','show':false},
+    {'full':'Javascript', 'short':'js','show':false},
+    {'full':'jQuery', 'short':'jq','show':false},
+    {'full':'Angular', 'short':'angular','show':false},
+    {'full':'Charts', 'short':'charts','show':false},
+    {'full':'PhantomJS', 'short':'phantom','show':false},
+    {'full':'Web Scraping and APIs', 'short':'api','show':false},
+    {'full':'Multithreaded Asynchronous Jobs', 'short':'async','show':false},
+    {'full':'Regular Expressions', 'short':'regex','show':false},
+    {'full':'Import/Export Files', 'short':'io','show':false},
+    {'full':'Alerts/Emails', 'short':'alerts','show':false},
+    {'full':'Websolr', 'short':'solr','show':false},
+    {'full':'CRON Jobs', 'short':'cron','show':false}
   ];
-    
-  // BrowserDetect to identify Mac
+
+  // BrowserDetect to identify Mac and Browser
   var BrowserDetect = {
     init: function () {
-      // this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+      this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
       // this.version = this.searchVersion(navigator.userAgent)
       //   || this.searchVersion(navigator.appVersion)
       //   || "an unknown version";
@@ -97,73 +97,73 @@ angular.module('ErikGibbons.Home', [
     //   if (index == -1) return;
     //   return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
     // },
-    // dataBrowser: [
-    //   {
-    //     string: navigator.userAgent,
-    //     subString: "Chrome",
-    //     identity: "Chrome"
-    //   },
-    //   {     
-    //     string: navigator.userAgent,
-    //     subString: "OmniWeb",
-    //     versionSearch: "OmniWeb/",
-    //     identity: "OmniWeb"
-    //   },
-    //   {
-    //     string: navigator.vendor,
-    //     subString: "Apple",
-    //     identity: "Safari",
-    //     versionSearch: "Version"
-    //   },
-    //   {
-    //     prop: window.opera,
-    //     identity: "Opera",
-    //     versionSearch: "Version"
-    //   },
-    //   {
-    //     string: navigator.vendor,
-    //     subString: "iCab",
-    //     identity: "iCab"
-    //   },
-    //   {
-    //     string: navigator.vendor,
-    //     subString: "KDE",
-    //     identity: "Konqueror"
-    //   },
-    //   {
-    //     string: navigator.userAgent,
-    //     subString: "Firefox",
-    //     identity: "Firefox"
-    //   },
-    //   {
-    //     string: navigator.vendor,
-    //     subString: "Camino",
-    //     identity: "Camino"
-    //   },
-    //   {        // for newer Netscapes (6+)
-    //     string: navigator.userAgent,
-    //     subString: "Netscape",
-    //     identity: "Netscape"
-    //   },
-    //   {
-    //     string: navigator.userAgent,
-    //     subString: "MSIE",
-    //     identity: "Explorer",
-    //     versionSearch: "MSIE"
-    //   },
-    //   {
-    //     string: navigator.userAgent,
-    //     subString: "Gecko",
-    //     identity: "Mozilla",
-    //     versionSearch: "rv"
-    //   },
-    //   {         // for older Netscapes (4-)
-    //     string: navigator.userAgent,
-    //     subString: "Mozilla",
-    //     identity: "Netscape",
-    //     versionSearch: "Mozilla"
-    //   }
-    // ],
+    dataBrowser: [
+      {
+        string: navigator.userAgent,
+        subString: "Chrome",
+        identity: "Chrome"
+      },
+      {     
+        string: navigator.userAgent,
+        subString: "OmniWeb",
+        versionSearch: "OmniWeb/",
+        identity: "OmniWeb"
+      },
+      {
+        string: navigator.vendor,
+        subString: "Apple",
+        identity: "Safari",
+        versionSearch: "Version"
+      },
+      {
+        prop: window.opera,
+        identity: "Opera",
+        versionSearch: "Version"
+      },
+      {
+        string: navigator.vendor,
+        subString: "iCab",
+        identity: "iCab"
+      },
+      {
+        string: navigator.vendor,
+        subString: "KDE",
+        identity: "Konqueror"
+      },
+      {
+        string: navigator.userAgent,
+        subString: "Firefox",
+        identity: "Firefox"
+      },
+      {
+        string: navigator.vendor,
+        subString: "Camino",
+        identity: "Camino"
+      },
+      {        // for newer Netscapes (6+)
+        string: navigator.userAgent,
+        subString: "Netscape",
+        identity: "Netscape"
+      },
+      {
+        string: navigator.userAgent,
+        subString: "MSIE",
+        identity: "Explorer",
+        versionSearch: "MSIE"
+      },
+      {
+        string: navigator.userAgent,
+        subString: "Gecko",
+        identity: "Mozilla",
+        versionSearch: "rv"
+      },
+      {         // for older Netscapes (4-)
+        string: navigator.userAgent,
+        subString: "Mozilla",
+        identity: "Netscape",
+        versionSearch: "Mozilla"
+      }
+    ],
     dataOS : [
       {
         string: navigator.platform,
@@ -189,8 +189,7 @@ angular.module('ErikGibbons.Home', [
   };
   BrowserDetect.init();
   homeCtrl.os = BrowserDetect.OS;
-  console.log(homeCtrl.os);
-
+  homeCtrl.browser = BrowserDetect.browser
 
   function init() {
     homeCtrl.gambarizeSetup();
@@ -205,11 +204,43 @@ angular.module('ErikGibbons.Home', [
   * *******************/
   
   // Function to toggle shown skills
-  function toggleSkill(changeSkill){
-    var skill = $filter('filter')(homeCtrl.skills, function(v){
-      return v['short'] == changeSkill;
-    });
-    skill[0]['show'] = !skill[0]['show'];
+  function toggleSkill(changeSkill, $event){
+    var accumulate = false;
+    var onCount = homeCtrl.skills.reduce(function(total, x){return x['show'] ? total + 1 : total}, 0)
+    if(homeCtrl.os == "Mac"){
+      if($event.metaKey){
+        accumulate = true;
+      }else{
+        accumulate = false;
+      }
+    }else{
+      if($event.ctrlKey){
+        accumulate = true;
+      }else{
+        accumulate = false;
+      }
+    }
+    if(accumulate){
+      var switchSkill = $filter('filter')(homeCtrl.skills, function(v){
+        return v['short'] == changeSkill;
+      })[0];
+      // Set change
+      if(onCount > 1 || !switchSkill['show']){
+        switchSkill['show'] = !switchSkill['show'];
+      } 
+    }else{
+      var offSkills = $filter('filter')(homeCtrl.skills, function(v){
+        return v['show']
+      });
+      var onSkill = $filter('filter')(homeCtrl.skills, function(v){
+        return v['short'] == changeSkill;
+      })[0];
+      // Set changes
+      angular.forEach(offSkills, function(v){
+        v['show'] = false;
+      });
+      onSkill['show'] = true;
+    }
   }
   
   // Function to reset variables whenever skill is toggled
@@ -249,6 +280,8 @@ angular.module('ErikGibbons.Home', [
       angular.forEach(homeCtrl.skills, function(v){
         v['show'] = false;
       });
+      // set HTML back to true
+      homeCtrl.skills[0]['show'] = true;
     }else{
       angular.forEach(homeCtrl.skills, function(v){
         v['show'] = true;
