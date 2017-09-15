@@ -78,7 +78,7 @@ angular.module('ErikGibbons.Home', [
       this.OS = this.searchString(this.dataOS) || "an unknown OS";
     },
     searchString: function (data) {
-      for (var i=0;i<data.length;i++) {
+      for (var i=0; i<data.length; i++) {
         var dataString = data[i].string;
         var dataProp = data[i].prop;
         this.versionSearchString = data[i].versionSearch || data[i].identity;
@@ -244,7 +244,7 @@ angular.module('ErikGibbons.Home', [
   }
   
   // Function to reset variables whenever skill is toggled
-  function setArrays(initial = false){
+  function setArrays(initial){
     homeCtrl.activeSkillsArray = $filter('filter')(homeCtrl.skills, function(v){
       if(v['show']){
         return v
@@ -260,7 +260,7 @@ angular.module('ErikGibbons.Home', [
       });
     });
     
-    homeCtrl.showProjLength = homeCtrl.showProj.length > 0;
+    homeCtrl.showProjLength = (homeCtrl.showProj.length > 0);
     
     // if all skills are checked or unchecked, reflect that in allSkillsSelected
     if(homeCtrl.activeSkillsArray.length == homeCtrl.skills.length){
