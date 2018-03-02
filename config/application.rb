@@ -12,6 +12,7 @@ module ErikGibbons
       config.assets.paths << path
     end
     config.assets.paths << Rails.root.join('node_modules')
+    config.assets.paths << Rails.root.join('node_modules/lightbox2')
     
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
