@@ -4,6 +4,7 @@
   "description": "marketing",
   "main": "home.js.erb",
   "directories": {
+    "lib": "lib",
     "test": "test"
   },
   "dependencies": {
