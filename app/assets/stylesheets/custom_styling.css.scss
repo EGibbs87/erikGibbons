@@ -28,22 +28,10 @@
   background: linear-gradient(to bottom right, #070C1F, #cccccc); /* Standard syntax */
 }
 
-// .gallery-active {
-// 	background-color: rgba(0, 0, 0, 0.5);
-// 	border-radius: 5px;
-// 	border: 1px solid black;
-// 	padding-left: 5px;
-// 	padding-right: 5px;
-// 	padding-top: 5px;
-// 	padding-bottom: 5px;
-// 	margin-left: 3px;
-// 	margin-right: 3px;
-// 	margin-top: 10px;
-// }
-
 #skills {
 	width: 100%;
 	position: relative;
+	padding-top: 10px;
 }
 #skill-container {
 	position: relative;
@@ -56,4 +44,36 @@
 	padding-right: 15px;
 	padding-top: 5px;
 	padding-bottom: 5px;
+}
+
+.module {
+	width: 100%;
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.proj-tile {
+	display: inline-block;
+}
+
+.proj-tile-img-container {
+	width: 300px; 
+	height: 300px; 
+	border-radius: 10px;
+	margin-right: 10px;
+	overflow: hidden;
+}
+
+.proj-tile-img {
+	height: 100%;
+	width: auto;
+}
+
+.show-img {
+}
+
+.hide-img {
+	display: none;
 }

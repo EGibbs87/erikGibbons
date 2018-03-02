@@ -12,6 +12,6 @@
  *
  *= require_tree .
  *= angular-material/angular-material
- *= photoswipe/dist/photoswipe
+ *= require lightbox2
  *= require_self
  */

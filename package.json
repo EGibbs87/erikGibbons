@@ -1,0 +1,28 @@
+{
+  "name": "erik-gibbons",
+  "version": "1.0.0",
+  "description": "marketing",
+  "main": "home.js.erb",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "lightbox2": "^2.10.0",
+    "rxjs": "^5.4.3",
+    "zone.js": "^0.8.18"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EGibbs87/erikGibbons.git"
+  },
+  "author": "Erik Gibbons",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EGibbs87/erikGibbons/issues"
+  },
+  "homepage": "https://github.com/EGibbs87/erikGibbons#readme"
+}

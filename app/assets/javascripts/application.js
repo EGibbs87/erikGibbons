@@ -20,5 +20,6 @@
 //= require angular-animate
 //= require angular-aria
 //= require ng-simple-parallax
+//= require lightbox2
 //= require turbolinks
 //= require_tree .

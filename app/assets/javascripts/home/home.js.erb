@@ -8,7 +8,7 @@ angular.module('ErikGibbons.Home', [
   'ngMdIcons',
   'ui.bootstrap',
   'ngSanitize',
-  'ngParallax'
+  'ngParallax',
 ])
 
 .config(['$stateProvider', function($stateProvider){
@@ -28,26 +28,26 @@ angular.module('ErikGibbons.Home', [
 .controller('HomeCtrl', ['$q', '$http', '$window', '$log', '$location', '$state', '$filter', '$timeout', function($q, $http, $window, $log, $location, $state, $filter, $timeout, $document){
   var homeCtrl = this;
   homeCtrl.setArrays = setArrays;
-  homeCtrl.selectAll = selectAll;
-  homeCtrl.gambarizeSetup = gambarizeSetup;
-  homeCtrl.gambarizeReload = gambarizeReload;
+  homeCtrl.setProj = setProj;
+  // homeCtrl.selectAll = selectAll;
   homeCtrl.allSkillsSelected = true;
-  homeCtrl.galleryIndex = 0;
   homeCtrl.toggleSkill = toggleSkill;
   homeCtrl.projects = [
-    {'name':'IPR Dominator', 'skills':['html', 'css', 'api', 'async', 'ror', 'js', 'jq', 'sql', 'io', 'alerts', 'stack', 'solr', 'charts', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'Strain PLLC Time and Billing', 'skills':['html', 'css', 'async', 'ror', 'js', 'jq', 'sql', 'charts', 'io', 'stack', 'regex'], 'images':[{url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'x'},
-    {'name':'iMessage Port', 'skills':['html', 'css', 'ror', 'sql', 'cron', 'io', 'alerts', 'stack', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'Personal Movie Database', 'skills':['html', 'css', 'ror', 'api', 'js', 'jq', 'sql', 'angular', 'io', 'stack', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'Stock Screener', 'skills':['html', 'css', 'stack', 'sql', 'async', 'ror', 'js', 'jq', 'io', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'RosterMod', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'js', 'jq', 'angular', 'charts', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'Team Schedule API', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'Grill Monitoring', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex', 'js', 'jq', 'charts'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'Flight Check-In', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'Patent Search', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'solr'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'Oystermom', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'js', 'jq'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'},
-    {'name':'Streak Automator', 'skills':['html', 'css', 'ror', 'js', 'phantom', 'regex', 'api'], 'images':[{url:"<%= image_url('placeholder.png') %>"}], 'url':'x'}
+    {'name':'IPR Dominator', 'skills':['html', 'css', 'api', 'async', 'ror', 'js', 'jq', 'sql', 'io', 'alerts', 'stack', 'solr', 'charts', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}, {url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'http://www.iprdominator.com'},
+    {'name':'Strain PLLC Home', 'skills':['html', 'css', 'ror', 'js', 'jq', 'stack',], 'images':[{url:"<%= image_url('luca-bravo-2.jpg') %>"}, {url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'http://www.strainpllc.com'},
+    {'name':'Strain PLLC Time and Billing', 'skills':['html', 'css', 'async', 'ror', 'js', 'jq', 'sql', 'charts', 'io', 'stack', 'regex'], 'images':[{url:"<%= image_url('luca-bravo-2.jpg') %>"}, {url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'http://time.strainpllc.com'},
+    {'name':'iMessage Port', 'skills':['html', 'css', 'ror', 'sql', 'cron', 'io', 'alerts', 'stack', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}, {url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'N/A'},
+    {'name':'Personal Movie Database', 'skills':['html', 'css', 'ror', 'api', 'js', 'jq', 'sql', 'angular', 'io', 'stack', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}, {url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'http://eg-movie-list.herokuapp.com'},
+    {'name':'Stock Screener', 'skills':['html', 'css', 'stack', 'sql', 'async', 'ror', 'js', 'jq', 'io', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}, {url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'http://cjg-stock-screener.herokuapp.com'},
+    {'name':'RosterMod', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'js', 'jq', 'angular', 'charts', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}, {url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'https://www.rostermod.com'},
+    {'name':'Team Schedule API', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}, {url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'rostermod.com/team_schedule_api.html'},
+    {'name':'Grill Monitoring', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex', 'js', 'jq', 'charts'], 'images':[{url:"<%= image_url('placeholder.png') %>"}, {url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'http://ss-grill.herokuapp.com'},
+    {'name':'Flight Check-In', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'regex'], 'images':[{url:"<%= image_url('placeholder.png') %>"}, {url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'N/A'},
+    {'name':'Patent Search', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'solr'], 'images':[{url:"<%= image_url('placeholder.png') %>"}, {url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'N/A'},
+    {'name':'Oystermom', 'skills':['html', 'css', 'stack', 'sql', 'ror', 'js', 'jq'], 'images':[{url:"<%= image_url('placeholder.png') %>"}, {url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'http://www.oystermom.com'},
+    {'name':'Streak Automator', 'skills':['html', 'css', 'ror', 'js', 'phantom', 'regex', 'api'], 'images':[{url:"<%= image_url('placeholder.png') %>"}, {url:"<%= image_url('luca-bravo-2.jpg') %>"}], 'url':'N/A'}
   ];
+  homeCtrl.activeProj = homeCtrl.projects[0];
   homeCtrl.skills = [
     {'full':'HTML', 'short':'html','show':true},
     {'full':'CSS', 'short':'css','show':false},
@@ -192,8 +192,6 @@ angular.module('ErikGibbons.Home', [
   homeCtrl.browser = BrowserDetect.browser
 
   function init() {
-    homeCtrl.gambarizeSetup();
-
     homeCtrl.setArrays(true);
   } // end of init
   
@@ -255,11 +253,16 @@ angular.module('ErikGibbons.Home', [
     
     // projects that include checked skills
     homeCtrl.showProj = $filter('filter')(homeCtrl.projects, function(v){
-      return v['skills'].some(function(s){ 
-        return homeCtrl.activeSkillsArray.includes(s)
-      });
+      
+      // filter by whether project includes each currently active skill
+      includesAllSkills = homeCtrl.activeSkillsArray.map(function(s){
+        return v['skills'].indexOf(s) >= 0
+      }).reduce(function(t, e){ return t * e })
+      
+      // return array of projects that meet every criterion
+      return includesAllSkills;
     });
-    
+
     homeCtrl.showProjLength = (homeCtrl.showProj.length > 0);
     
     // if all skills are checked or unchecked, reflect that in allSkillsSelected
@@ -268,53 +271,29 @@ angular.module('ErikGibbons.Home', [
     }else{
       homeCtrl.allSkillsSelected = false
     }
-    if(!initial && homeCtrl.showProj.length > 0){
-      angular.element(document).ready(function(){
-        homeCtrl.gambarizeReload();
-      });
-    }
   }
   
-  function selectAll(){
-    if(homeCtrl.allSkillsSelected == true){
-      angular.forEach(homeCtrl.skills, function(v){
-        v['show'] = false;
-      });
-      // set HTML back to true
-      homeCtrl.skills[0]['show'] = true;
-    }else{
-      angular.forEach(homeCtrl.skills, function(v){
-        v['show'] = true;
-      });
-    }
-    homeCtrl.setArrays();
-  }
-  
-  function gambarizeSetup(){
-    $('#gallery1').ready(function(){
-      window.gambarize_instance='';
-      
-      function gambarizeInit(){
-        gambarize_instance0 = new gambarize();
-        gambarize_instance0.init({
-          content: {
-            source: 'a',
-            selector: 'gmbz',
-            loadInDiv: 'gallery1'
-          }
-        });
+  // Function to set a project to show
+  function setProj(proj){
+    homeCtrl.activeProj = $filter('filter')(homeCtrl.projects, function(v){
+      if(v['name'] == proj){
+        return v
       }
-    
-      $(window).on('load', gambarizeInit);
-    });
+    })[0]
   }
   
-  function gambarizeReload(){
-    // Use evals to set dynamic variables so that new instances of gambarize can be created to avoid errors
-    eval("gambarize_instance" + homeCtrl.galleryIndex.toString() + ".uninit();");
-    eval("gambarize_instance" + homeCtrl.galleryIndex.toString() + " = '';");
-    homeCtrl.galleryIndex++;
-    eval("gambarize_instance" + homeCtrl.galleryIndex.toString() + " = new gambarize();");
-    eval("gambarize_instance" + homeCtrl.galleryIndex.toString() + ".init({content: {source: 'a', selector: 'gmbz', loadInDiv: 'gallery1' } });");
-  }
+  // function selectAll(){
+  //   if(homeCtrl.allSkillsSelected == true){
+  //     angular.forEach(homeCtrl.skills, function(v){
+  //       v['show'] = false;
+  //     });
+  //     // set HTML back to true
+  //     homeCtrl.skills[0]['show'] = true;
+  //   }else{
+  //     angular.forEach(homeCtrl.skills, function(v){
+  //       v['show'] = true;
+  //     });
+  //   }
+  //   homeCtrl.setArrays();
+  // }
 }]);
