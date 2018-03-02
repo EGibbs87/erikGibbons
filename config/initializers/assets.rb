@@ -3,9 +3,9 @@
 # Version of your assets, change this if you want to expire all your assets.
 Rails.application.config.assets.version = '1.0'
 
-# Dir.glob("#{Rails.root}/node_modules/**").each do |path|
-#   config.assets.paths << path
-# end
+Dir.glob("#{Rails.root}/node_modules/**").each do |path|
+  Rails.application.config.assets.paths << path
+end
 
 Rails.application.config.assets.paths << Rails.root.join('node_modules')
 
