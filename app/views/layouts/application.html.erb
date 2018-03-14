@@ -7,10 +7,16 @@
     <%= javascript_include_tag 'application' %>
     <%= csrf_meta_tags %>
     
+    
     <base href="/">
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Load cover images first -->
+    <% Dir.entries('app/assets/images').select {|entry| File.directory? File.join('app/assets/images',entry) and !(entry =='.' || entry == '..') }.each do |img| %>
+      <img src="<%= image_url(img + "/00. Title.png") %>" hidden>
+    <% end %>
+    
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-2.1.4.js"> </script>
     
@@ -70,7 +76,6 @@
     <style> .glyphicon-thumbs-up { cursor:pointer } </style>
   </head>
   <body ng-app="ErikGibbons" layout="column" flex ng-strict-di data-no-turbolink="true" id="main">
-    
     <md-content ng-cloak flex layout="column" id="content">
       <div ui-view="main" layout="column" style='display: block; padding-bottom:50px'></div>
     </md-content>

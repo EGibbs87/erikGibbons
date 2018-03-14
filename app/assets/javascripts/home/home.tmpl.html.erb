@@ -5,7 +5,7 @@
   <div id="skills">
     <div id="skill-container">
       <!--<div ng-class="{'active-skill': homeCtrl.allSkillsSelected, 'inactive-skill': !homeCtrl.allSkillsSelected }" style="text-align:center; width: 100%" ng-click="homeCtrl.selectAll()"><i><u>Select All</u></i></div><br>-->
-      <div style="color:white"><i>Select skills</i></div>
+      <div style="color:white; text-align: center"><i>Select skills</i></div>
       <span ng-repeat="skill in homeCtrl.skills">
         <span ng-class="{'active-skill': skill['show'], 'inactive-skill': !skill['show'] }" id={{skill['short']}} ng-click="homeCtrl.toggleSkill(skill['short'], $event); homeCtrl.setArrays()"><i>{{ skill['full'] }}</i></span><span ng-show="!$last" style="color: #aaaaaa"> - </span>
       </span>
@@ -19,7 +19,7 @@
         <ul>
           <li class="proj-tile" ng-repeat="proj in homeCtrl.showProj">
             <div class="proj-tile-img-container" ng-click="homeCtrl.setProj(proj.name)" ng-repeat="img in proj.images" ng-class="{{$index > 0}} ? 'hide-img' : 'show-img'">
-              <a href="{{ img.url }}" data-lightbox="{{ proj.name }}" data-title="{{ proj.name }}"><img class="proj-tile-img" ng-src="{{ img.url }}"></a>
+              <a href="{{ img.url }}" data-lightbox="{{ proj.name }}" data-title="{{ proj.desc }}"><img class="proj-tile-img" ng-src="{{ img.url }}"></a>
             </div> 
          </li>
         </ul>
@@ -37,5 +37,9 @@
         }
       })
     })
+    
+    // lightbox.option({
+    //   'albumLabel': "Image %1 of %2 - " + $(this).data('title')
+    // });
   });
 </script>
