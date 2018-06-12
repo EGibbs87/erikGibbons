@@ -1,0 +1,105 @@
+<md-content data-turbolinks="false">
+  <section id="landing">
+    <div id='first-parallax' ng-parallax pattern="'<%= image_url('luca-bravo-2.jpg').to_s[1..-1] %>'" speed="0">
+      <div class='text-bubble'>
+        <p class='introduction'>Hi, I'm <span style="color: cyan">Erik Gibbons</span>.<br>I'm a full-stack developer who wants to full-stack develop your dream.</p>
+      </div>
+    </div>
+  </section>
+  <section id="summary">
+    <div>
+      <div class="info-container">
+        <!--<p><img src="<%= image_url('learn.png') %>" class="info-img">After graduating college with a degree in finance, I rapidly grew a strong interest in technology and programming.  I spent the next five years gainfully employed as a financial analyst while studying the ins and outs of programming and development in my free time after work.  When a friend needed help developing a web tool related to patent law, I caught the lucky break I needed to switch career paths entirely and become a full-time web developer; I haven't looked back since.</p><br>-->
+        <!--<p><img src="<%= image_url('auto.png') %>" class="info-img">Although I wasn't afforded the opportunity to slowly acclimate to the world of web development by starting with simple projects, the challenge of jumping immediately into complicated, data-intensive, and asynchronous task-dependent projects quickly forced me to master creating automated web tools that require various, complicated methods of data acquisition, manipulation, storage, and output.  This expertise can be seen in most of the projects I've worked on, although I've also done some projects that are strictly informational and required no back-end work.</p><br>-->
+        <!--<p><img src="<%= image_url('xl.png') %>" class="info-img">Aside from my work in web development, spending five years as a financial analyst required me to become an expert in Excel to avoid being fired.  As such, I can handle just about any modeling, charting, organization, or VBA macro coding needs you may have.</p><br>-->
+        <!--<p><img src="<%= image_url('nn.png') %>" class="info-img">I have recently been studying machine learning, deep learning, and neural networks in python, which I hope to be able to apply to some of my existing projects in an effort to supply clients with more responsive and robust predictive algorithms.</p>-->
+        <p class="info-p"><img src="<%= image_url('learn.png') %>" class="info-img">Although I started my career as a financial analyst, I spent my free time learning programming and web development.</p><br>
+        <p class="info-p"><img src="<%= image_url('auto.png') %>" class="info-img">I focused early on automation and asyncronous tasks, and really enjoy handling complex back-end projects.</p><br>
+        <p class="info-p"><img src="<%= image_url('xl.png') %>" class="info-img">In addition to web development, five years as a financial analyst have made me proficient in all things Excel, including charts, models, and custom macros.</p><br>
+        <p class="info-p"><img src="<%= image_url('nn.png') %>" class="info-img">I'm currently learning about machine learning, neural networks, and deep learning, and finding ways to apply them to current and future projects.</p>
+      </div>
+    </div>
+  </section>
+  <section id="divider">
+    <div id='second-parallax' ng-parallax pattern="'<%= image_url('computer.jpg').to_s[1..-1] %>'" speed="0">
+    </div>
+  </section>
+  <!--skills -->
+  <section id="projects">
+    <div id="skills">
+      <div id="skill-container">
+        <div style="color:white; text-align: center"><i>Select skills (ctrl/cmd to multiselect)</i></div><br>
+        <span ng-repeat="skill in homeCtrl.skills">
+          <span ng-class="{'active-skill': skill['show'], 'inactive-skill': !skill['show'] }" id={{skill['short']}} ng-click="homeCtrl.toggleSkill(skill['short'], $event); homeCtrl.setArrays()"><i>{{ skill['full'] }}</i></span><span ng-show="!$last" style="color: #aaaaaa"> - </span>
+        </span>
+      </div>  
+    </div>
+  
+    <div>
+      <div class="module">
+        <!-- project selection -->
+        <div class="proj-container">
+          <ul>
+            <li class="proj-tile" ng-repeat="proj in homeCtrl.showProj">
+              <div class="proj-tile-img-container" ng-click="homeCtrl.setProj(proj.name)" ng-repeat="img in proj.images" ng-class="{{$index > 0}} ? 'hide-img' : 'show-img'">
+                <div class="proj-veil">
+                  <span class="veil-text"><b>VIEW GALLERY</b></span>
+                  <a href="{{ img.url }}" data-lightbox="{{ proj.name }}" data-title="{{ proj.desc }}<span class={{ proj.showUrl }}> - Visit: {{ proj.url }}<span class={{ proj.authenticationProtected }}> (Authentication protected)</span></span>"><img class="proj-tile-img" ng-src="{{ img.url }}"></a>
+                </div>
+              </div> 
+           </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- contact section -->
+  <section id="contact">
+    <div id="contact-container">
+      <form ng-submit="homeCtrl.contact(homeCtrl.form)">
+        <div class="input-field col s12">
+          <input id="name" type="text" class="contact-text" ng-model="homeCtrl.form.name"/>
+          <label for="name">Name</label>
+        </div>
+        <div class="input-field col s12">
+          <input id="email" type="text" class="contact-text" ng-model="homeCtrl.form.email"/>
+          <label for="email">Email Address</label>
+        </div>
+        <div class="input-field col s12">
+          <select ng-model="homeCtrl.form.inquiry" class="contact-text contact-select">
+            <option value="" disabled selected>Select</option>
+            <option value="web">Inquiry regarding web development
+            <option value="xl">Inquiry regarding Excel modeling
+            <option value="misc">Miscellaneous inquiry
+            <option value="other">Other
+          </select>
+          <label>Reason for Contact</label>
+        </div>
+        <div class="input-field col s12">
+          <textarea class="materialize-textarea contact-text" ng-model="homeCtrl.form.msg"></textarea>
+          <label for="message">Message</label>
+        </div>
+        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+          <i class="material-icons right">send</i>
+        </button>
+      </form>
+    </div>
+  </section>
+</md-content>
+
+<script>
+  $(document).ready(function(){
+    $('#showSkills').click(function(){
+      $('.skill-checks').change(function(){
+        if($('.skill-checks.ng-not-empty').length == 0){
+          $(".indiv-a-wrapper").remove();
+        }
+      })
+    })
+    
+  });
+  $(document).ready(function(){
+    $('select').material_select();
+  });
+</script>

@@ -1,0 +1,452 @@
+/*global angular*/
+/*global $*/
+
+angular.module('ErikGibbons.Home', [
+  'ui.router',
+  'templates',
+  'ngMaterial',
+  'ngMdIcons',
+  'ui.bootstrap',
+  'ngSanitize',
+  'ngParallax',
+])
+
+.config(['$stateProvider', function($stateProvider){
+  $stateProvider
+    .state('erikgibbons.home', {
+      url: '/',
+      views: {
+        'main@': { // target the 'main' ng-view directive
+          controller:  'HomeCtrl as homeCtrl',
+          templateUrl: 'home/home.tmpl.html'
+        }
+      }
+    })
+  }
+])
+
+.controller('HomeCtrl', ['$q', '$http', '$window', '$log', '$location', '$state', '$filter', '$timeout', function($q, $http, $window, $log, $location, $state, $filter, $timeout, $document){
+  var homeCtrl = this;
+  homeCtrl.setArrays = setArrays;
+  homeCtrl.setProj = setProj;
+  // homeCtrl.selectAll = selectAll;
+  homeCtrl.allSkillsSelected = true;
+  homeCtrl.toggleSkill = toggleSkill;
+  homeCtrl.contact = contact
+  homeCtrl.projects = [
+    {
+      'name':'IPR Dominator', 
+      'skills':['html', 'css', 'api', 'async', 'ror', 'js', 'jq', 'sql', 'io', 'alerts', 'stack', 'solr', 'charts', 'regex', 's3'], 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/IPR Dominator").each { |i| next if i == "." or i == ".."; images << "IPR Dominator/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'<a href=http://www.iprdominator.com target=_blank>http://www.iprdominator.com</a>', 
+      'showUrl':'show-url', 
+      'desc':'IPR Dominator gathers IPR, PGR, and CBM data from the USPTO, cross-references them with FDA and patent information where applicable, and displays advanced analytics.  It also sends email alerts to users when any new data match anything that they have flagged (e.g. a new IPR on a specific drug or filed by a specific company).', 
+      'authenticationProtected':'protected'
+    },
+    {
+      'name':'Strain PLLC Home', 
+      'skills':['html', 'css', 'ror', 'js', 'jq', 'stack'], 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Strain PLLC Home").each { |i| next if i == "." or i == ".."; images << "Strain PLLC Home/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'<a href=http://www.strainpllc.com target=_blank>http://www.strainpllc.com</a>', 
+      'showUrl':'show-url', 
+      'desc':'Strain PLLC is a small patent law firm based in Washington, D.C.  This is their informational website.', 
+      'authenticationProtected':'open'
+    },
+    {
+      'name':'Strain PLLC Time and Billing', 
+      'skills':['html', 'css', 'async', 'ror', 'js', 'jq', 'sql', 'charts', 'io', 'stack', 'regex', 's3'], 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Strain PLLC Time and Billing").each { |i| next if i == "." or i == ".."; images << "Strain PLLC Time and Billing/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'<a href=http://time.strainpllc.com target=_blank>http://time.strainpllc.com</a>', 
+      'showUrl':'show-url', 
+      'desc':'This time and billing system was created to automate and organize the logistics for Strain PLLC, saving the managing partners around 30-40 hours per month.  All invoices are uploaded to and retrievable from an Amazon AWS S3 bucket.  The entire database is backed up and emailed as a CSV as a redundancy in case of a data disaster.', 
+      'authenticationProtected':'protected'
+    },
+    {
+      'name':'iMessage Port', 
+      'skills':['html', 'css', 'ror', 'sql', 'cron', 'io', 'alerts', 'stack', 'regex'], 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/iMessage Port").each { |i| next if i == "." or i == ".."; images << "iMessage Port/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'N/A', 
+      'showUrl':'hide-url', 
+      'desc':'The iMessage Port was created simply as a way to keep Android users who rely on iMessages on their Mac computers at work updated on any important messages they otherwise may have missed.  Any new messages are relayed to the user via email in a summary every 10 minutes, separated by individual conversations.', 
+      'authenticationProtected':'protected'
+    },
+    {
+      'name':'Personal Movie Database', 
+      'skills':['html', 'css', 'ror', 'api', 'js', 'jq', 'sql', 'angular', 'io', 'stack', 'regex'], 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Personal Movie Database").each { |i| next if i == "." or i == ".."; images << "Personal Movie Database/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'<a href=http://eg-movie-list.herokuapp.com target=_blank>http://eg-movie-list.herokuapp.com</a>', 
+      'showUrl':'show-url', 
+      'desc':'The Personal Movie Database was built simply to aggregate all of the media available to a user.  I personally grew tired of scouring my DVDs and hard drives whenever trying to decide on a movie to watch.  This database not only helps with centralizing all media, but allows the user to filter and/or search by many different criteria.', 
+      'authenticationProtected':'open'
+    },
+    {
+      'name':'Stock Screener', 
+      'skills':['html', 'css', 'stack', 'sql', 'async', 'ror', 'js', 'jq', 'io', 'regex', 's3', 'alerts'], 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Stock Screener").each { |i| next if i == "." or i == ".."; images << "Stock Screener/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'<a href=http://cjg-stock-screener.herokuapp.com target=_blank>http://cjg-stock-screener.herokuapp.com</a>', 
+      'showUrl':'show-url', 
+      'desc':'The Stock Screener was built specifically for one client who was wasting hours on a daily basis exporting 35-40 Excel documents, stitching them together, then running analytics.  With this tool, everything is done, including recommendations based on the client\'s parameters and current portfolio, within 2 minutes.', 
+      'authenticationProtected':'protected'
+    },
+    {
+      'name':'RosterMod', 
+      'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'js', 'jq', 'angular', 'charts', 'regex', 'alerts'], 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/RosterMod").each { |i| next if i == "." or i == ".."; images << "RosterMod/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'<a href=https://www.rostermod.com target=_blank>https://www.rostermod.com</a>', 
+      'showUrl':'show-url', 
+      'desc':'RosterMod is a Yahoo! Fantasy Sports supplement.  With RosterMod, users sync their Yahoo! Fantasy Sports accounts and grant RosterMod access, via secure OAuth2 methods, to update daily rosters at a time specified by the user, and perform add/drop transactions if desired.  It also provides a comprehensive statistical breakdown of each of the user\'s teams, and their opponents within that league.', 
+      'authenticationProtected':'open'
+    },
+    {
+      'name':'Team Schedule API', 
+      'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex'], 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Team Schedule API").each { |i| next if i == "." or i == ".."; images << "Team Schedule API/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'<a href=https://rostermod.com/team_schedule_api.html target=_blank>https://rostermod.com/team_schedule_api.html</a>', 
+      'showUrl':'show-url', 
+      'desc':'The Team Schedule API provides team schedules for all four U.S. major sports (MLB, NBA, NFL, NHL) each season.', 
+      'authenticationProtected':'open'
+    },
+    {
+      'name':'Grill Monitor', 
+      'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex', 'js', 'jq', 'charts'], 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Grill Monitor").each { |i| next if i == "." or i == ".."; images << "Grill Monitor/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'<a href=http://ss-grill.herokuapp.com target=_blank>http://ss-grill.herokuapp.com</a>', 
+      'showUrl':'show-url', 
+      'desc':'The Grill Monitoring application syncs to an email address that is also tied to a kamado grill application that sends probe statuses every 5 minutes.  The application parses the data in the emails, saves them into a database, and presents them as individual cooks.', 
+      'authenticationProtected':'open'
+    },
+    {
+      'name':'Flight Check-In', 
+      'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'regex'], 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Flight Check-In").each { |i| next if i == "." or i == ".."; images << "Flight Check-In/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'N/A', 
+      'showUrl':'hide-url', 
+      'desc':'This now-deprecated application took a user\'s last name and trip confirmation number to directly post a check-in request to Southwest\'s page.  These were automatically initiated 24 hours before check-in, and utilized a rotation of free scraped proxy IPs to prevent being locked out.' , 
+      'authenticationProtected':'protected'
+    },
+    {
+      'name':'Patent Search', 
+      'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'solr'], 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Patent Search").each { |i| next if i == "." or i == ".."; images << "Patent Search/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'N/A', 
+      'showUrl':'hide-url', 
+      'desc':'The Patent Search application was an internal-use application that allowed patent clerks to use boolean search methods to quickly filter patents from a given set of related patents.' , 
+      'authenticationProtected':'protected'
+    },
+    {
+      'name':'Oystermom', 
+      'skills':['html', 'css', 'stack', 'sql', 'ror', 'js', 'jq', 's3'], 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Oystermom").each { |i| next if i == "." or i == ".."; images << "Oystermom/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'<a href=http://www.oystermom.com target=_blank>http://www.oystermom.com</a>', 
+      'showUrl':'show-url', 
+      'desc':'Oystermom is a Single Page Application that was created for a client who wanted a bare-bones design that just got the basics across without being overwhelming.  To facilitate her independence to adjust the site, I incorporated a function that allows her to log in as an administrator and change the text for most of the text fields.', 
+      'authenticationProtected':'open'
+    },
+    {
+      'name':'Streak Automator', 
+      'skills':['html', 'css', 'ror', 'js', 'phantom', 'regex', 'api'], 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Streak Automator").each { |i| next if i == "." or i == ".."; images << "Streak Automator/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'N/A', 
+      'showUrl':'hide-url', 
+      'desc':'The Streak Automator ties into ESPN\'s Streak for the Cash competition and automatically selects winners for competitions in which other competitors largely predicted one specific outcome.', 
+      'authenticationProtected':'open'
+    },
+    {
+      'name':'Strain PLLC Fileshare', 
+      'skills':['html', 'css', 'stack', 'sql', 'io', 'ror', 'js', 's3'], 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Strain PLLC Fileshare").each { |i| next if i == "." or i == ".."; images << "Strain PLLC Fileshare/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'N/A', 
+      'showUrl':'hide-url', 
+      'desc':'Strain PLLC Fileshare is a Dropbox-like application meant for internal use to allow Strain PLLC employees to share files with one another and with clients.  To avoid network timeouts, it utilizes chunking and stitches the chunks back together on the back-end once the process has completed.', 
+      'authenticationProtected':'protected'
+    },
+    {
+      'name':'Stopaganda', 
+      'skills':['html', 'js', 'ext'], 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Stopaganda").each { |i| next if i == "." or i == ".."; images << "Stopaganda/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'<a href=https://chrome.google.com/webstore/detail/stopaganda/ceecalgkknbnfnmbpejepnfjjogamdhi target=_blank>Chrome store listing</a>; <a href=https://addons.mozilla.org/en-US/firefox/addon/stopaganda target=_blank>Mozilla store listing</a>', 
+      'showUrl':'show-url', 
+      'desc':'Hides or highlights Facebook posts that link to disreputable political propaganda websites.', 
+      'authenticationProtected':'open'
+    },
+    {
+      'name':'Selective Mute', 
+      'skills':['html', 'js', 'ext'], 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Selective Mute").each { |i| next if i == "." or i == ".."; images << "Selective Mute/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'<a href=https://chrome.google.com/webstore/detail/selective-mute/gbmibohafkpfigoccplkibdbhhbiogkm target=_blank>Chrome store listing</a>; <a href=https://addons.mozilla.org/en-US/firefox/addon/selective-mute target=_blank>Mozilla store listing</a>', 
+      'showUrl':'show-url', 
+      'desc':'Hides or highlights Facebook posts that contain user-defined keywords and/or phrases.', 
+      'authenticationProtected':'open'
+    }
+  ];
+  homeCtrl.activeProj = homeCtrl.projects[0];
+  homeCtrl.skills = [
+    {'full':'HTML', 'short':'html','show':true},
+    {'full':'CSS', 'short':'css','show':false},
+    {'full':'Ruby on Rails', 'short':'ror','show':false},
+    {'full':'Full Stack', 'short':'stack','show':false},
+    {'full':'SQL', 'short':'sql','show':false},
+    {'full':'Javascript', 'short':'js','show':false},
+    {'full':'jQuery', 'short':'jq','show':false},
+    {'full':'Angular', 'short':'angular','show':false},
+    {'full':'Charts', 'short':'charts','show':false},
+    {'full':'PhantomJS', 'short':'phantom','show':false},
+    {'full':'Web Scraping and APIs', 'short':'api','show':false},
+    {'full':'Multithreaded Asynchronous Jobs', 'short':'async','show':false},
+    {'full':'Regular Expressions', 'short':'regex','show':false},
+    {'full':'Import/Export Files', 'short':'io','show':false},
+    {'full':'Alerts/Emails', 'short':'alerts','show':false},
+    {'full':'Websolr', 'short':'solr','show':false},
+    {'full':'CRON Jobs', 'short':'cron','show':false},
+    {'full':'S3 Integration', 'short':'s3','show':false},
+    {'full':'Browser Extensions', 'short':'ext','show':false}
+  ];
+
+  // BrowserDetect to identify Mac and Browser
+  var BrowserDetect = {
+    init: function () {
+      this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+      // this.version = this.searchVersion(navigator.userAgent)
+      //   || this.searchVersion(navigator.appVersion)
+      //   || "an unknown version";
+      this.OS = this.searchString(this.dataOS) || "an unknown OS";
+    },
+    searchString: function (data) {
+      for (var i=0; i<data.length; i++) {
+        var dataString = data[i].string;
+        var dataProp = data[i].prop;
+        this.versionSearchString = data[i].versionSearch || data[i].identity;
+        if (dataString) {
+          if (dataString.indexOf(data[i].subString) != -1) {
+            return data[i].identity;
+          }
+          else if (dataProp) {
+            return data[i].identity;
+          }   
+        }
+      }
+    },
+    // searchVersion: function (dataString) {
+    //   var index = dataString.indexOf(this.versionSearchString);
+    //   if (index == -1) return;
+    //   return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
+    // },
+    dataBrowser: [
+      {
+        string: navigator.userAgent,
+        subString: "Chrome",
+        identity: "Chrome"
+      },
+      {     
+        string: navigator.userAgent,
+        subString: "OmniWeb",
+        versionSearch: "OmniWeb/",
+        identity: "OmniWeb"
+      },
+      {
+        string: navigator.vendor,
+        subString: "Apple",
+        identity: "Safari",
+        versionSearch: "Version"
+      },
+      {
+        prop: window.opera,
+        identity: "Opera",
+        versionSearch: "Version"
+      },
+      {
+        string: navigator.vendor,
+        subString: "iCab",
+        identity: "iCab"
+      },
+      {
+        string: navigator.vendor,
+        subString: "KDE",
+        identity: "Konqueror"
+      },
+      {
+        string: navigator.userAgent,
+        subString: "Firefox",
+        identity: "Firefox"
+      },
+      {
+        string: navigator.vendor,
+        subString: "Camino",
+        identity: "Camino"
+      },
+      {        // for newer Netscapes (6+)
+        string: navigator.userAgent,
+        subString: "Netscape",
+        identity: "Netscape"
+      },
+      {
+        string: navigator.userAgent,
+        subString: "MSIE",
+        identity: "Explorer",
+        versionSearch: "MSIE"
+      },
+      {
+        string: navigator.userAgent,
+        subString: "Gecko",
+        identity: "Mozilla",
+        versionSearch: "rv"
+      },
+      {         // for older Netscapes (4-)
+        string: navigator.userAgent,
+        subString: "Mozilla",
+        identity: "Netscape",
+        versionSearch: "Mozilla"
+      }
+    ],
+    dataOS : [
+      {
+        string: navigator.platform,
+        subString: "Win",
+        identity: "Windows"
+      },
+      {
+        string: navigator.platform,
+        subString: "Mac",
+        identity: "Mac"
+      },
+      {
+        string: navigator.userAgent,
+        subString: "iPhone",
+        identity: "iPhone/iPod"
+      },
+      {
+        string: navigator.platform,
+        subString: "Linux",
+        identity: "Linux"
+      } 
+    ]
+  };
+  BrowserDetect.init();
+  homeCtrl.os = BrowserDetect.OS;
+  homeCtrl.browser = BrowserDetect.browser
+
+  function init() {
+    homeCtrl.setArrays(true);
+  } // end of init
+  
+  init();
+  
+  /*********************
+  *  Private functions *
+  * *******************/
+  
+  // Function to toggle shown skills
+  function toggleSkill(changeSkill, $event){
+    var accumulate = false;
+    var onCount = homeCtrl.skills.reduce(function(total, x){return x['show'] ? total + 1 : total}, 0)
+    if(homeCtrl.os == "Mac"){
+      if($event.metaKey){
+        accumulate = true;
+      }else{
+        accumulate = false;
+      }
+    }else{
+      if($event.ctrlKey){
+        accumulate = true;
+      }else{
+        accumulate = false;
+      }
+    }
+    if(accumulate){
+      var switchSkill = $filter('filter')(homeCtrl.skills, function(v){
+        return v['short'] == changeSkill;
+      })[0];
+      // Set change
+      if(onCount > 1 || !switchSkill['show']){
+        switchSkill['show'] = !switchSkill['show'];
+      } 
+    }else{
+      var offSkills = $filter('filter')(homeCtrl.skills, function(v){
+        return v['show']
+      });
+      var onSkill = $filter('filter')(homeCtrl.skills, function(v){
+        return v['short'] == changeSkill;
+      })[0];
+      // Set changes
+      angular.forEach(offSkills, function(v){
+        v['show'] = false;
+      });
+      onSkill['show'] = true;
+    }
+  }
+  
+  // Function to reset variables whenever skill is toggled
+  function setArrays(initial){
+    homeCtrl.activeSkillsArray = $filter('filter')(homeCtrl.skills, function(v){
+      if(v['show']){
+        return v
+      }
+    }).map(function(e){
+      return e['short'];
+    });
+    
+    // projects that include checked skills
+    homeCtrl.showProj = $filter('filter')(homeCtrl.projects, function(v){
+      
+      // filter by whether project includes each currently active skill
+      includesAllSkills = homeCtrl.activeSkillsArray.map(function(s){
+        return v['skills'].indexOf(s) >= 0
+      }).reduce(function(t, e){ return t * e })
+      
+      // return array of projects that meet every criterion
+      return includesAllSkills;
+    });
+
+    homeCtrl.showProjLength = (homeCtrl.showProj.length > 0);
+    
+    // if all skills are checked or unchecked, reflect that in allSkillsSelected
+    if(homeCtrl.activeSkillsArray.length == homeCtrl.skills.length){
+      homeCtrl.allSkillsSelected = true;
+    }else{
+      homeCtrl.allSkillsSelected = false
+    }
+  }
+  
+  // Function to set a project to show
+  function setProj(proj){
+    homeCtrl.activeProj = $filter('filter')(homeCtrl.projects, function(v){
+      if(v['name'] == proj){
+        return v
+      }
+    })[0]
+  }
+  
+  // Function to send contact request
+  function contact(form){
+    $http.post('/api/contact', {
+      name: form.name,
+      email: form.email,
+      reason: form.inquiry,
+      message: form.msg
+    }).then(function(response){
+      homeCtrl.httpResponse("success");
+      $timeout(function(){ httpResponse("revert") }, 3000);
+      // Instead of running init() automatically, should leave as is and allow user to refresh manually
+      // init();
+    }, function(data, status) {
+      httpResponse("failure");
+      $timeout(function(){ httpResponse("revert") }, 3000);
+      $log.log(data.error + ' ' + status);
+    });
+  }
+  
+  // function selectAll(){
+  //   if(homeCtrl.allSkillsSelected == true){
+  //     angular.forEach(homeCtrl.skills, function(v){
+  //       v['show'] = false;
+  //     });
+  //     // set HTML back to true
+  //     homeCtrl.skills[0]['show'] = true;
+  //   }else{
+  //     angular.forEach(homeCtrl.skills, function(v){
+  //       v['show'] = true;
+  //     });
+  //   }
+  //   homeCtrl.setArrays();
+  // }
+}]);

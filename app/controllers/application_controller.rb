@@ -8,5 +8,9 @@ class ApplicationController < ActionController::Base
     render "layouts/application", layout: false
   end
   
+  def contact
+    ContactMailer.contact(params).deliver_now
+  end
+  
   private
 end

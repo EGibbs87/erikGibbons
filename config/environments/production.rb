@@ -1,6 +1,18 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   
+  config.action_mailer.deliver_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:              'smtp.gmail.com',
+    port:                 587,
+    domain:               'erikgibbons.com',
+    user_name:            ENV['GMAIL_USR'],
+    password:             ENV['GMAIL_PWD'],
+    authentication:       'plain',
+    enable_starttls_auto: true
+  }
+
+  
   # minifier wrecking everything
   config.assets.js_compressor = Uglifier.new(mangle: false)
 
