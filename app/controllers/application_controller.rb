@@ -10,6 +10,8 @@ class ApplicationController < ActionController::Base
   
   def contact
     ContactMailer.contact(params).deliver_now
+    
+    render :nothing => true
   end
   
   private
