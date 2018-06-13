@@ -1,0 +1,15 @@
+.lb-cancel {
+  background: asset-url('loading.gif') no-repeat !important;
+}
+
+.lb-nav a.lb-prev {
+  background: asset-url('prev.png') left 48% no-repeat;
+}
+
+.lb-nav a.lb-next {
+  background: asset-url('next.png') right 48% no-repeat !important;
+}
+
+.lb-data .lb-close {
+  background: asset-url('close.png') top right no-repeat;
+}
