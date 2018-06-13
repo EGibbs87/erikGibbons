@@ -335,6 +335,30 @@ angular.module('ErikGibbons.Home', [
   *  Private functions *
   * *******************/
   
+  // action after http request
+  function httpResponse(status){
+    var buttonColor;
+    var buttonText;
+    if(status == "success"){
+      buttonColor = "lightgreen";
+      buttonText = "SUCCESS!";
+    }else if(status == "pending"){
+      buttonColor = "yellow";
+      buttonText = "PENDING...";
+    }else if(status == "failure"){
+      buttonColor = "red";
+      buttonText = "FAILURE";
+    }else{
+      buttonColor = homeCtrl.defaultBgColor;
+      buttonText = "Submit"
+    }
+    homeCtrl.httpCallText = buttonText;
+    homeCtrl.httpCall = {
+      'background-color': buttonColor
+    }
+  }
+
+  
   // Function to toggle shown skills
   function toggleSkill(changeSkill, $event){
     var accumulate = false;
