@@ -3,12 +3,12 @@ Rails.application.configure do
   
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:              'smtp.gmail.com',
+    address:              'mail.gandi.net',
     port:                 587,
+    authentication:       :login,
     domain:               'erikgibbons.com',
-    user_name:            ENV['GMAIL_USR'],
-    password:             ENV['GMAIL_PWD'],
-    authentication:       'plain',
+    user_name:            ENV['GANDI_USR'],
+    password:             ENV['GANDI_PWD'],
     enable_starttls_auto: true
   }
 
