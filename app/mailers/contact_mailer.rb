@@ -6,6 +6,6 @@ class ContactMailer < ApplicationMailer
 		@msg = msg_hash['msg']
 		@email = msg_hash['email']
 		@name = msg_hash['name']
-		mail(to: @email, subject: @inquiry)
+		mail(to: "erik.w.gibbons@gmail.com", subject: @inquiry)
 	end
 end
