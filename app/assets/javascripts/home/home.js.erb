@@ -202,6 +202,8 @@ angular.module('ErikGibbons.Home', [
     {'full':'Browser Extensions', 'short':'ext','show':false}
   ];
   homeCtrl.httpResponse = httpResponse;
+  homeCtrl.defaultBgColor = "#26A69A";
+  homeCtrl.httpCallText = "SUBMIT";
 
   // BrowserDetect to identify Mac and Browser
   var BrowserDetect = {
@@ -343,22 +345,18 @@ angular.module('ErikGibbons.Home', [
     if(status == "success"){
       buttonColor = "lightgreen";
       buttonText = "SUCCESS!";
-    }else if(status == "pending"){
-      buttonColor = "yellow";
-      buttonText = "PENDING...";
     }else if(status == "failure"){
       buttonColor = "red";
       buttonText = "FAILURE";
     }else{
       buttonColor = homeCtrl.defaultBgColor;
-      buttonText = "Submit"
+      buttonText = "SUBMIT"
     }
     homeCtrl.httpCallText = buttonText;
     homeCtrl.httpCall = {
       'background-color': buttonColor
     }
   }
-
   
   // Function to toggle shown skills
   function toggleSkill(changeSkill, $event){
@@ -446,8 +444,8 @@ angular.module('ErikGibbons.Home', [
     $http.post('/api/contact', {
       name: form.name,
       email: form.email,
-      reason: form.inquiry,
-      message: form.msg
+      inquiry: form.inquiry,
+      msg: form.msg
     }).then(function(response){
       homeCtrl.httpResponse("success");
       $timeout(function(){ httpResponse("revert") }, 3000);
