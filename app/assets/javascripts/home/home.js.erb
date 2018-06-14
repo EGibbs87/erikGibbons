@@ -13,10 +13,10 @@ angular.module('ErikGibbons.Home', [
   'angulartics.google.analytics'
 ])
 
-.config(function($analyticsProvider){
+.config(['$analyticsProvider', function($analyticsProvider){
   $analyticsProvider.virtualPageviews(false);
   $analyticsProvider.firstPageview(true);
-})
+}])
 
 .config(['$stateProvider', function($stateProvider){
   $stateProvider
