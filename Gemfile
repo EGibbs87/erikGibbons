@@ -15,6 +15,11 @@ group :production do
   gem 'thin'
   gem 'rails_12factor'
 end
+
+# Let's encrypt for free SSL certs
+gem 'platform-api'#, git: 'https://github.com/jalada/platform-api', branch: 'master'
+gem 'letsencrypt-rails-heroku', group: 'production'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets

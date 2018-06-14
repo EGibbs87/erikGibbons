@@ -12,6 +12,8 @@ Rails.application.configure do
     enable_starttls_auto: true
   }
 
+  # let's encrypt middleware
+  config.middleware.use Letsencrypt::Middleware
   
   # minifier wrecking everything
   config.assets.js_compressor = Uglifier.new(mangle: false)
