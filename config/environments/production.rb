@@ -16,7 +16,7 @@ Rails.application.configure do
   config.middleware.use Letsencrypt::Middleware
   
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  # config.force_ssl = true
   
   # minifier wrecking everything
   config.assets.js_compressor = Uglifier.new(mangle: false)
