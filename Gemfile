@@ -17,7 +17,7 @@ group :production do
 end
 
 # Let's encrypt for free SSL certs
-gem 'platform-api'#, git: 'https://github.com/jalada/platform-api', branch: 'master'
+gem 'platform-api'
 gem 'letsencrypt-rails-heroku', group: 'production'
 
 # Use SCSS for stylesheets
