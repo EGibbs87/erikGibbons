@@ -21,6 +21,6 @@
 //= require angular-aria
 //= require ng-simple-parallax
 //= require lightbox2
-//= require angular-google-analytics
+//= require angulartics
 //= require turbolinks
 //= require_tree .

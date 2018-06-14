@@ -9,7 +9,14 @@ angular.module('ErikGibbons.Home', [
   'ui.bootstrap',
   'ngSanitize',
   'ngParallax',
+  'angulartics',
+  'angulartics.google.analytics'
 ])
+
+.config(function($analyticsProvider){
+  $analyticsProvider.virtualPageviews(false);
+  $analyticsProvider.firstPageview(true);
+})
 
 .config(['$stateProvider', function($stateProvider){
   $stateProvider
@@ -38,7 +45,7 @@ angular.module('ErikGibbons.Home', [
       'name':'IPR Dominator', 
       'skills':['html', 'css', 'api', 'async', 'ror', 'js', 'jq', 'sql', 'io', 'alerts', 'stack', 'solr', 'charts', 'regex', 's3'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/IPR Dominator").each { |i| next if i == "." or i == ".."; images << "IPR Dominator/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
-      'url':'<a href=http://www.iprdominator.com target=_blank>http://www.iprdominator.com</a>', 
+      'url':'<a href=http://www.iprdominator.com target=_blank analytics-on="click" analytics-event="Visit Site">http://www.iprdominator.com</a>', 
       'showUrl':'show-url', 
       'desc':'IPR Dominator gathers IPR, PGR, and CBM data from the USPTO, cross-references them with FDA and patent information where applicable, and displays advanced analytics.  It also sends email alerts to users when any new data match anything that they have flagged (e.g. a new IPR on a specific drug or filed by a specific company).', 
       'authenticationProtected':'protected'
@@ -47,7 +54,7 @@ angular.module('ErikGibbons.Home', [
       'name':'Strain PLLC Home', 
       'skills':['html', 'css', 'ror', 'js', 'jq', 'stack'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Strain PLLC Home").each { |i| next if i == "." or i == ".."; images << "Strain PLLC Home/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
-      'url':'<a href=http://www.strainpllc.com target=_blank>http://www.strainpllc.com</a>', 
+      'url':'<a href=http://www.strainpllc.com target=_blank analytics-on="click" analytics-event="Visit Site">http://www.strainpllc.com</a>', 
       'showUrl':'show-url', 
       'desc':'Strain PLLC is a small patent law firm based in Washington, D.C.  This is their informational website.', 
       'authenticationProtected':'open'
@@ -56,7 +63,7 @@ angular.module('ErikGibbons.Home', [
       'name':'Strain PLLC Time and Billing', 
       'skills':['html', 'css', 'async', 'ror', 'js', 'jq', 'sql', 'charts', 'io', 'stack', 'regex', 's3'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Strain PLLC Time and Billing").each { |i| next if i == "." or i == ".."; images << "Strain PLLC Time and Billing/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
-      'url':'<a href=http://time.strainpllc.com target=_blank>http://time.strainpllc.com</a>', 
+      'url':'<a href=http://time.strainpllc.com target=_blank analytics-on="click" analytics-event="Visit Site">http://time.strainpllc.com</a>', 
       'showUrl':'show-url', 
       'desc':'This time and billing system was created to automate and organize the logistics for Strain PLLC, saving the managing partners around 30-40 hours per month.  All invoices are uploaded to and retrievable from an Amazon AWS S3 bucket.  The entire database is backed up and emailed as a CSV as a redundancy in case of a data disaster.', 
       'authenticationProtected':'protected'
@@ -74,7 +81,7 @@ angular.module('ErikGibbons.Home', [
       'name':'Personal Movie Database', 
       'skills':['html', 'css', 'ror', 'api', 'js', 'jq', 'sql', 'angular', 'io', 'stack', 'regex'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Personal Movie Database").each { |i| next if i == "." or i == ".."; images << "Personal Movie Database/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
-      'url':'<a href=http://eg-movie-list.herokuapp.com target=_blank>http://eg-movie-list.herokuapp.com</a>', 
+      'url':'<a href=http://eg-movie-list.herokuapp.com target=_blank analytics-on="click" analytics-event="Visit Site">http://eg-movie-list.herokuapp.com</a>', 
       'showUrl':'show-url', 
       'desc':'The Personal Movie Database was built simply to aggregate all of the media available to a user.  I personally grew tired of scouring my DVDs and hard drives whenever trying to decide on a movie to watch.  This database not only helps with centralizing all media, but allows the user to filter and/or search by many different criteria.', 
       'authenticationProtected':'open'
@@ -83,7 +90,7 @@ angular.module('ErikGibbons.Home', [
       'name':'Stock Screener', 
       'skills':['html', 'css', 'stack', 'sql', 'async', 'ror', 'js', 'jq', 'io', 'regex', 's3', 'alerts'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Stock Screener").each { |i| next if i == "." or i == ".."; images << "Stock Screener/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
-      'url':'<a href=http://cjg-stock-screener.herokuapp.com target=_blank>http://cjg-stock-screener.herokuapp.com</a>', 
+      'url':'<a href=http://cjg-stock-screener.herokuapp.com target=_blank analytics-on="click" analytics-event="Visit Site">http://cjg-stock-screener.herokuapp.com</a>', 
       'showUrl':'show-url', 
       'desc':'The Stock Screener was built specifically for one client who was wasting hours on a daily basis exporting 35-40 Excel documents, stitching them together, then running analytics.  With this tool, everything is done, including recommendations based on the client\'s parameters and current portfolio, within 2 minutes.', 
       'authenticationProtected':'protected'
@@ -92,7 +99,7 @@ angular.module('ErikGibbons.Home', [
       'name':'RosterMod', 
       'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'js', 'jq', 'angular', 'charts', 'regex', 'alerts'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/RosterMod").each { |i| next if i == "." or i == ".."; images << "RosterMod/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
-      'url':'<a href=https://www.rostermod.com target=_blank>https://www.rostermod.com</a>', 
+      'url':'<a href=https://www.rostermod.com target=_blank analytics-on="click" analytics-event="Visit Site">https://www.rostermod.com</a>', 
       'showUrl':'show-url', 
       'desc':'RosterMod is a Yahoo! Fantasy Sports supplement.  With RosterMod, users sync their Yahoo! Fantasy Sports accounts and grant RosterMod access, via secure OAuth2 methods, to update daily rosters at a time specified by the user, and perform add/drop transactions if desired.  It also provides a comprehensive statistical breakdown of each of the user\'s teams, and their opponents within that league.', 
       'authenticationProtected':'open'
@@ -101,7 +108,7 @@ angular.module('ErikGibbons.Home', [
       'name':'Team Schedule API', 
       'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Team Schedule API").each { |i| next if i == "." or i == ".."; images << "Team Schedule API/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
-      'url':'<a href=https://rostermod.com/team_schedule_api.html target=_blank>https://rostermod.com/team_schedule_api.html</a>', 
+      'url':'<a href=https://rostermod.com/team_schedule_api.html target=_blank analytics-on="click" analytics-event="Visit Site">https://rostermod.com/team_schedule_api.html</a>', 
       'showUrl':'show-url', 
       'desc':'The Team Schedule API provides team schedules for all four U.S. major sports (MLB, NBA, NFL, NHL) each season.', 
       'authenticationProtected':'open'
@@ -110,7 +117,7 @@ angular.module('ErikGibbons.Home', [
       'name':'Grill Monitor', 
       'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'regex', 'js', 'jq', 'charts'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Grill Monitor").each { |i| next if i == "." or i == ".."; images << "Grill Monitor/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
-      'url':'<a href=http://ss-grill.herokuapp.com target=_blank>http://ss-grill.herokuapp.com</a>', 
+      'url':'<a href=http://ss-grill.herokuapp.com target=_blank analytics-on="click" analytics-event="Visit Site">http://ss-grill.herokuapp.com</a>', 
       'showUrl':'show-url', 
       'desc':'The Grill Monitoring application syncs to an email address that is also tied to a kamado grill application that sends probe statuses every 5 minutes.  The application parses the data in the emails, saves them into a database, and presents them as individual cooks.', 
       'authenticationProtected':'open'
@@ -137,7 +144,7 @@ angular.module('ErikGibbons.Home', [
       'name':'Oystermom', 
       'skills':['html', 'css', 'stack', 'sql', 'ror', 'js', 'jq', 's3'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Oystermom").each { |i| next if i == "." or i == ".."; images << "Oystermom/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
-      'url':'<a href=http://www.oystermom.com target=_blank>http://www.oystermom.com</a>', 
+      'url':'<a href=http://www.oystermom.com target=_blank analytics-on="click" analytics-event="Visit Site">http://www.oystermom.com</a>', 
       'showUrl':'show-url', 
       'desc':'Oystermom is a Single Page Application that was created for a client who wanted a bare-bones design that just got the basics across without being overwhelming.  To facilitate her independence to adjust the site, I incorporated a function that allows her to log in as an administrator and change the text for most of the text fields.', 
       'authenticationProtected':'open'
@@ -164,7 +171,7 @@ angular.module('ErikGibbons.Home', [
       'name':'Stopaganda', 
       'skills':['html', 'js', 'ext'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Stopaganda").each { |i| next if i == "." or i == ".."; images << "Stopaganda/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
-      'url':'<a href=https://chrome.google.com/webstore/detail/stopaganda/ceecalgkknbnfnmbpejepnfjjogamdhi target=_blank>Chrome store listing</a>; <a href=https://addons.mozilla.org/en-US/firefox/addon/stopaganda target=_blank>Mozilla store listing</a>', 
+      'url':'<a href=https://chrome.google.com/webstore/detail/stopaganda/ceecalgkknbnfnmbpejepnfjjogamdhi target=_blank analytics-on="click" analytics-event="Visit Site">Chrome store listing</a>; <a href=https://addons.mozilla.org/en-US/firefox/addon/stopaganda target=_blank>Mozilla store listing</a>', 
       'showUrl':'show-url', 
       'desc':'Hides or highlights Facebook posts that link to disreputable political propaganda websites.', 
       'authenticationProtected':'open'
@@ -173,7 +180,7 @@ angular.module('ErikGibbons.Home', [
       'name':'Selective Mute', 
       'skills':['html', 'js', 'ext'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Selective Mute").each { |i| next if i == "." or i == ".."; images << "Selective Mute/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
-      'url':'<a href=https://chrome.google.com/webstore/detail/selective-mute/gbmibohafkpfigoccplkibdbhhbiogkm target=_blank>Chrome store listing</a>; <a href=https://addons.mozilla.org/en-US/firefox/addon/selective-mute target=_blank>Mozilla store listing</a>', 
+      'url':'<a href=https://chrome.google.com/webstore/detail/selective-mute/gbmibohafkpfigoccplkibdbhhbiogkm target=_blank analytics-on="click" analytics-event="Visit Site">Chrome store listing</a>; <a href=https://addons.mozilla.org/en-US/firefox/addon/selective-mute target=_blank>Mozilla store listing</a>', 
       'showUrl':'show-url', 
       'desc':'Hides or highlights Facebook posts that contain user-defined keywords and/or phrases.', 
       'authenticationProtected':'open'
