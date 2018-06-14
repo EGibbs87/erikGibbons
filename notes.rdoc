@@ -1,0 +1,4 @@
+### Letsencrypt ###
+- Not currently using SSL (free dyno)
+- When switching to paid dyno, run: heroku run rake letsencrypt:renew
+- Consider setting production.rb value for config.force_ssl to true
