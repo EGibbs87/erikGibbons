@@ -455,6 +455,7 @@ angular.module('ErikGibbons.Home', [
       msg: form.msg
     }).then(function(response){
       homeCtrl.httpResponse("success");
+      homeCtrl.form = { 'name': '', 'email': '', 'inquiry': '', 'msg':'' };
       $timeout(function(){ httpResponse("revert") }, 3000);
       // Instead of running init() automatically, should leave as is and allow user to refresh manually
       // init();
