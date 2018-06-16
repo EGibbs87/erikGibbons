@@ -5,7 +5,7 @@
   </head>
   <body>
     <p>Erik,</p><br>
-    <p><%= @msg.gsub("\n", "<br>") %></p><br>
+    <p><%= raw @msg.gsub("\n", "<br>") %></p><br>
     <p><%= @name %><br><%= @email %></p>
   </body>
 </html>
