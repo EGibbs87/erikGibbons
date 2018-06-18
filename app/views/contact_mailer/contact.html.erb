@@ -5,7 +5,9 @@
   </head>
   <body>
     <p>Erik,</p><br>
-    <p><%= raw @msg.gsub("\n", "<br>") %></p><br>
+    <% @msg.split("\n").each do |m| %>
+      <p><%= m %></p><br>
+    <% end %>
     <p><%= @name %><br><%= @email %></p>
   </body>
 </html>
