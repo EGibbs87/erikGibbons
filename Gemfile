@@ -16,6 +16,8 @@ group :production do
   gem 'rails_12factor'
 end
 
+gem 'sprockets', '~> 3.7.2'
+
 # Let's encrypt for free SSL certs
 gem 'platform-api'
 gem 'letsencrypt-rails-heroku', group: 'production'
