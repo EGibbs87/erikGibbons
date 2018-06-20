@@ -20,6 +20,9 @@ end
 gem 'platform-api'
 gem 'letsencrypt-rails-heroku', group: 'production'
 
+# material icons
+# gem 'material_icons', '~> 2.2.1'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
