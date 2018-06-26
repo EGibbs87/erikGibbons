@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   root to: "application#angular"
   
   post '/api/contact' => 'application#contact'
+  
+  # make sure that other addresses are routed to the root page
+  match "*path", to: "application#angular", via: :all
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

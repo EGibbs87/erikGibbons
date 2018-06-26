@@ -1,0 +1,47 @@
+/*global angular*/
+/*global $*/
+
+angular.module('ErikGibbons.Resume', [
+  'ui.router',
+  'templates',
+  'ngMaterial',
+  'ngMdIcons',
+  'ui.bootstrap',
+  'ngSanitize',
+  'angulartics',
+  'angulartics.google.analytics'
+])
+
+.config(['$analyticsProvider', function($analyticsProvider){
+  $analyticsProvider.virtualPageviews(false);
+  $analyticsProvider.firstPageview(true);
+}])
+
+.config(['$stateProvider', function($stateProvider){
+  $stateProvider
+    .state('erikgibbons.resume', {
+      url: '/resume',
+      views: {
+        'main@': { // target the 'main' ng-view directive
+          controller:  'ResumeCtrl as resumeCtrl',
+          templateUrl: 'resume/resume.tmpl.html'
+        }
+      }
+    })
+  }
+])
+
+.controller('ResumeCtrl', ['$q', '$http', '$window', '$log', '$location', '$state', '$filter', '$timeout', function($q, $http, $window, $log, $location, $state, $filter, $timeout, $document){
+  var resumeCtrl = this;
+
+  function init() {
+    
+  } // end of init
+  
+  init();
+  
+  /*********************
+  *  Private functions *
+  * *******************/
+  
+}]);

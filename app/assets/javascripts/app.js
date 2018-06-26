@@ -7,6 +7,7 @@ angular.module('ErikGibbons', [
   'ngMaterial', // angular material -- done correctly
   'ngAnimate', // angular animations
   'ErikGibbons.Home',
+  'ErikGibbons.Resume',
   'ui.bootstrap'
 ])
 
