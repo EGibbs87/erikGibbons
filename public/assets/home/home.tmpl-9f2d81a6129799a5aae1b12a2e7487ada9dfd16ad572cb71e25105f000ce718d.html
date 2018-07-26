@@ -1,0 +1,109 @@
+<md-content data-turbolinks="false">
+  <section id="landing">
+    <div id='first-parallax' ng-parallax pattern="'/assets/luca-bravo-2-ed9f8a25ded5b30cfeab9224def7cfee8075edcbf40282987884179d5bc29a49.jpg'" speed="0">
+      <div class='text-bubble'>
+        <p class='introduction'>Hi, I'm <span style="color: cyan">Erik Gibbons</span>.<br>I'm a full-stack developer who wants to full-stack develop your success.</p>
+      </div>
+    </div>
+  </section>
+  <section id="summary">
+    <div>
+      <div class="info-container">
+        <p class="info-p"><img src="/assets/learn-bfecfc51048de4ffac177c7e9aa872686b9eb769ebe1b26c0058fb8b6db057f1.png" class="info-img">Although I started my career as a financial analyst, I spent my free time pursuing my passion and learning programming and web development.</p><br>
+        <p class="info-p"><img src="/assets/auto-e8654ffc77d7333801177097a07e3e5868e2f87827b715feac9b988f934ca450.png" class="info-img">My early focus was on automation and asyncronous tasks, and I really enjoy handling complex back-end projects.</p><br>
+        <p class="info-p"><img src="/assets/xl-f8ce3f0df4406e2352f4c98b1fdc3f5af1e7ae0f06e8bf146af330f828a841f2.png" class="info-img">Five years as a financial analyst have made me proficient in all things Excel, including charts, models, and custom macros, which is useful for data processing and IO.</p><br>
+        <p class="info-p"><img src="/assets/nn-52662592b73deb4d3d28ebf619cdc02575e116a79598d720b37b5588bcc84f99.png" class="info-img">I'm currently learning about machine learning, neural networks, and deep learning, and finding ways to apply them to current and future projects.</p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- skills & projects -->
+  <section id="projects">
+    <hr>
+    <div id="skills">
+      <div id="skill-container">
+        <div style="color:white; text-align: center"><i>Select skills (ctrl/cmd to multiselect)</i></div><br>
+        <span ng-repeat="skill in homeCtrl.skills">
+          <span ng-class="{'active-skill': skill['show'], 'inactive-skill': !skill['show'] }" id={{skill['short']}} ng-click="homeCtrl.toggleSkill(skill['short'], $event); homeCtrl.setArrays()" analytics-on="click" analytics-event="Skill Filter"><i>{{ skill['full'] }}</i></span><span ng-show="!$last" style="color: #aaaaaa"> - </span>
+        </span>
+      </div>  
+    </div>
+  
+    <div>
+      <div class="module">
+        <!-- project selection -->
+        <div class="proj-container">
+          <ul>
+            <li class="proj-tile" ng-repeat="proj in homeCtrl.showProj">
+              <div class="proj-tile-img-container" ng-click="homeCtrl.setProj(proj.name)" ng-repeat="img in proj.images" ng-class="{{$index > 0}} ? 'hide-img' : 'show-img'">
+                <div class="proj-veil">
+                  <span class="veil-text"><b>VIEW GALLERY</b></span>
+                  <a href="{{ img.url }}" data-lightbox="{{ proj.name }}" data-title="{{ proj.desc }}<span class={{ proj.showUrl }}> - Visit: {{ proj.url }}<span class={{ proj.authenticationProtected }}> (Authentication protected)</span></span>" analytics-on="click" analytics-event="Show Gallery"><img class="proj-tile-img" ng-src="{{ img.url }}"></a>
+                </div>
+              </div> 
+           </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Second parallax -->
+  <section id="divider">
+    <div id='second-parallax' ng-parallax pattern="'/assets/computer-f0430e61c44edec8afe3f741c5d690c85dfafd4621d133f26ea118ee27a83577.jpg'" speed="0">
+    </div>
+  </section>
+  
+  <!-- contact section -->
+  <section id="contact">
+    <div class="module">
+      <div id="contact-container" style="text-align:center">
+        <h2 style="color: white">Contact Me</h2>
+        <hr>
+        <form ng-submit="homeCtrl.contact(homeCtrl.form)">
+          <div class="input-field col s12">
+            <input id="name" type="text" class="contact-text" ng-model="homeCtrl.form.name" required/>
+            <label for="name">Name</label>
+          </div>
+          <div class="input-field col s12">
+            <input id="email" type="text" class="contact-text" ng-model="homeCtrl.form.email" required pattern=".*@.*\..*"/>
+            <label for="email">Email Address</label>
+          </div>
+          <div class="input-field col s12">
+            <select ng-model="homeCtrl.form.inquiry" class="contact-text contact-select" required>
+              <option value="" disabled selected>Select</option>
+              <option value="web">Inquiry regarding web development
+              <option value="xl">Inquiry regarding Excel modeling
+              <option value="misc">Miscellaneous inquiry
+              <option value="other">Other
+            </select>
+            <label>Reason for Contact</label>
+          </div>
+          <div class="input-field col s12">
+            <textarea class="materialize-textarea contact-text" ng-model="homeCtrl.form.msg" required></textarea>
+            <label for="message">Message</label>
+          </div>
+          <button class="btn waves-effect waves-light" type="submit" name="action">{{ homeCtrl.httpCallText }}
+            <i class="material-icons right">send</i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</md-content>
+
+<script>
+  $(document).ready(function(){
+    $('select').material_select();
+  });
+</script>
+
+<!-- Google Analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  
+  ga('create', 'UA-120844573-1', 'auto');
+</script>
+<!-- End Google Analytics -->
