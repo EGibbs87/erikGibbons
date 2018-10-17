@@ -88,7 +88,7 @@ angular.module('ErikGibbons.Home', [
     },
     {
       'name':'Stock Screener', 
-      'skills':['html', 'css', 'stack', 'sql', 'async', 'ror', 'js', 'jq', 'io', 'regex', 's3', 'alerts'], 
+      'skills':['html', 'css', 'stack', 'sql', 'async', 'ror', 'api', 'js', 'jq', 'io', 'regex', 's3', 'alerts'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Stock Screener").each { |i| next if i == "." or i == ".."; images << "Stock Screener/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
       'url':'<a href=http://cjg-stock-screener.herokuapp.com target=_blank analytics-on="click" analytics-event="Visit Site">http://cjg-stock-screener.herokuapp.com</a>', 
       'showUrl':'show-url', 
