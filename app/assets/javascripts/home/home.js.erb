@@ -177,6 +177,15 @@ angular.module('ErikGibbons.Home', [
       'authenticationProtected':'open'
     },
     {
+      'name':'Stopaganda for Reddit', 
+      'skills':['html', 'js', 'ext', 'api'], 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Selective Mute").each { |i| next if i == "." or i == ".."; images << "Stopaganda for Reddit/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'<a href=https://chrome.google.com/webstore/detail/stopaganda-for-reddit/ejcmfianlbiiafmcnhmnpndoddnimjki target=_blank analytics-on="click" analytics-event="Visit Site">Chrome store listing</a>; <a href=https://addons.mozillaa.org/en-US/firefox/addon/stopaganda-for-reddit/ target=_blank>Mozilla store listing</a>', 
+      'showUrl':'show-url', 
+      'desc':'Adds an informative decal to Reddit posts associated with a select group of news subreddits that indicates the accuracy and bias of the source, based on the database of mediabiasfactcheck.com', 
+      'authenticationProtected':'open'
+    },
+    {
       'name':'Selective Mute', 
       'skills':['html', 'js', 'ext'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Selective Mute").each { |i| next if i == "." or i == ".."; images << "Selective Mute/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
