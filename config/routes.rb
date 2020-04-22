@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
   
+  constraints subdomain: "tvcharts" do
+    get '/' => 'application#angular_charts'
+    get '/api/episodes/:imdb_id' => 'application#get_episode_data'
+    get '/api/omdb/:q' => 'application#get_omdb_data'
+  end
+  # get '/' => "application#angular_charts", :constraints => { :subdomain => "tvcharts" }
+  # get '/api/episodes/:imdb_id' => 'application#get_episode_data', :constraints => { :subdomain => "tvcharts" }
+  
   root to: "application#angular"
   
   post '/api/contact' => 'application#contact'

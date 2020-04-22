@@ -14,9 +14,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Load cover images first -->
-    <img src="<%= image_url('luca-bravo-2.jpg') %>" hidden>
-    <% Dir.entries('app/assets/images').select {|entry| File.directory? File.join('app/assets/images',entry) and !(entry =='.' || entry == '..') }.each do |img| %>
-      <img src="<%= image_url(img + "/00. Title.png") %>" hidden>
+    <% if @angular_app == "ErikGibbons" %>
+      <img src="<%= image_url('luca-bravo-2.jpg') %>" hidden>
+      <% Dir.entries('app/assets/images').select {|entry| File.directory? File.join('app/assets/images',entry) and !(entry =='.' || entry == '..') }.each do |img| %>
+        <img src="<%= image_url(img + "/00. Title.png") %>" hidden>
+      <% end %>
     <% end %>
     
     <!-- JQuery -->
@@ -28,25 +30,28 @@
     <!-- Angular Material Icons -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.7.0/angular-material-icons.min.js"></script>
     
-    <!-- Angular-UI Bootstrap -->
-    <script data-require="angular-ui-bootstrap@0.11.0" data-semver="0.11.0" src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
-
-    <!-- Chart JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.min.js"></script>
-    
     <!-- Shadow Animation -->
     <script src="//cdn.jsdelivr.net/jquery.shadow-animation/1/mainfile"></script>
+
+    <!-- Chart JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
     
     <!-- Angular-chart JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-chart.js/1.0.0/angular-chart.min.js"></script>
-    
+
     <!-- Bootstrap -->
     <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <!-- Angular Material -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+    <% if @angular_app == "ErikGibbons" %>
+      <!-- Angular Material -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+    <% end %>
+
+    <!-- Angular Material CSS -->
+    <link rel="stylesheet" href="https://rawgit.com/angular/bower-material/master/angular-material.css">
 
     <!-- Fonts and Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -57,7 +62,8 @@
 
     <style> .glyphicon-thumbs-up { cursor:pointer } </style>
   </head>
-  <body ng-app="ErikGibbons" layout="column" flex ng-strict-di data-no-turbolink="true" id="main">
+  <body ng-app="<%= @angular_app %>" layout="column" flex ng-strict-di data-no-turbolink="true" id="main" class="<%= @angular_app == 'TVCharts' ? 'main-charts' : 'main' %>">
+
     <md-content ng-cloak flex layout="column" id="content">
       <div ui-view="main" layout="column" style='display: block; padding-bottom:50px'></div>
     </md-content>

@@ -1,11 +1,20 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
+md-content.md-default-theme, md-content, md-content {
+	/* hide md default background-color */
+	background-color: rgba(0,0,0,0) !important;
+}
+
 #main {
   background: black; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(left top, #070C1F, #cccccc); /* For Safari 5.1 to 6.0 */
   background: -o-linear-gradient(bottom right, #070C1F, #cccccc); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(bottom right, #070C1F, #cccccc); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to bottom right, #070C1F, #cccccc); /* Standard syntax */
+}
+
+.main-charts {
+	background: white !important;
 }
 
 // Main page //
@@ -302,3 +311,33 @@
 }
 
 // End resume page
+
+/*********
+* Inputs *
+*********/
+.md-icon-float{
+  margin: 0px 0px 0px 0px !important;
+  width: 500px !important;
+}
+
+.md-input-container{
+  width: 500px !important;
+}
+
+/**********************
+* Chart Title Options *
+**********************/
+.chart-title{
+  font-size: 48px;
+  line-height: 50px;
+  font-family: 'Roboto' !important;
+  color: rgba(50,50,50,.8);
+}
+.chart-subtitle{
+  color: rgba(50,50,50,.8);
+  font-size: 12px;
+}
+
+label {
+	font-weight: 700;
+}
