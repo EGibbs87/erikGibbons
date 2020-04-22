@@ -1,0 +1,622 @@
+/* line 1, /home/erik/code/erikGibbons/app/assets/stylesheets/basic_html.css.scss */
+a {
+  color: #000 !important;
+}
+/* line 4, /home/erik/code/erikGibbons/app/assets/stylesheets/basic_html.css.scss */
+a:hover {
+  color: #fc8 !important;
+}
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+/* line 3, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+md-content.md-default-theme, md-content, md-content {
+  /* hide md default background-color */
+  background-color: transparent !important;
+}
+
+/* line 8, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+#main {
+  background: black;
+  /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, #070C1F, #cccccc);
+  /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, #070C1F, #cccccc);
+  /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, #070C1F, #cccccc);
+  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, #070C1F, #cccccc);
+  /* Standard syntax */
+}
+
+/* line 16, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.main-charts {
+  background: white !important;
+}
+
+/* line 21, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+#first-parallax {
+  width: 100%;
+  min-height: 600px;
+}
+
+/* line 26, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+#second-parallax {
+  width: 100%;
+  min-height: 600px;
+}
+
+/* line 31, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.text-bubble {
+  background-color: rgba(30, 30, 30, 0.9);
+  max-width: 500px;
+  min-width: 250px;
+  border-radius: 15px;
+  border: 1px solid #000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* line 47, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.introduction {
+  color: white;
+  font-size: 36px;
+}
+
+/* line 53, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.active-skill {
+  color: white;
+  text-shadow: 0 0 3px white;
+}
+
+/* line 58, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.inactive-skill {
+  color: #555555;
+}
+
+/* line 62, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.active-skill:focus, .inactive-skill:focus {
+  outline: none;
+}
+
+/* line 66, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.active-skill:hover, .inactive-skill:hover {
+  cursor: pointer;
+}
+
+/* line 70, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+#summary {
+  background: #d4dadb;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+/* line 76, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.info-container {
+  max-width: 1000px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  padding-left: 25px;
+  padding-right: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: "Montserrat";
+  font-size: 16px;
+}
+
+/* line 91, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.info-img {
+  max-height: 75px;
+  max-width: 75px;
+  float: left;
+  padding-right: 15px;
+}
+
+/* line 98, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.info-p {
+  min-height: 48px;
+}
+
+/* line 102, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+#skills {
+  width: 100%;
+  position: relative;
+  padding-top: 10px;
+}
+
+/* line 108, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+#skill-container {
+  position: relative;
+  width: 300px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  border: 1px solid darkblue;
+  margin: 0 auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* line 121, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.module {
+  width: 100%;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/* line 129, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.proj-container {
+  margin-left: 20px;
+}
+
+/* line 133, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.proj-veil {
+  background-color: white;
+  height: 100%;
+  text-align: center;
+  position: relative;
+}
+
+/* line 140, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.veil-text {
+  top: 35%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -65%);
+  position: absolute;
+  width: 100%;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0;
+  font-family: "Arial Black";
+  color: black;
+  -webkit-transition: opacity 1.5s, color 1.5s;
+  transition: opacity 1.5s, color 1.5s;
+}
+
+/* line 160, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.proj-veil:hover .veil-text {
+  opacity: 1;
+  color: #2bbac4;
+}
+
+/* line 165, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.proj-tile {
+  display: inline-block;
+  margin-bottom: 25px;
+}
+
+/* line 170, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.proj-tile-img-container {
+  width: 400px;
+  height: 225px;
+  border-radius: 10px;
+  margin-right: 25px;
+  overflow: hidden;
+  -webkit-transition: transform 0.3s;
+  transition: transform 0.3s;
+}
+
+/* line 182, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.proj-tile-img-container:hover {
+  transform: scale(1.08, 1.08);
+}
+
+/* line 186, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.proj-tile-img {
+  height: 100%;
+  width: auto;
+  -webkit-transition: transform 0.3s, opacity 1.2s;
+  transition: transform 0.3s, opacity 1.2s;
+  z-index: 100;
+}
+
+/* line 198, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.proj-tile-img:hover {
+  transform: scale(1.08, 1.08);
+  opacity: 0.2;
+}
+
+/* line 203, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+#contact-container {
+  min-width: 350px;
+  max-width: 850px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-bottom: 40px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(0, 0, 0, 0.3);
+  font-family: "Montserrat";
+  border: 1px solid darkblue;
+  border-radius: 10px;
+}
+
+/* line 219, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.contact-text {
+  min-width: 300px !important;
+  max-width: 800px;
+  color: white;
+}
+
+/* line 228, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.hide-img {
+  display: none;
+}
+
+/* line 236, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.show-url > a {
+  color: lightblue !important;
+}
+
+/* line 241, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.hide-url {
+  display: none;
+}
+
+/* line 248, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.open {
+  display: none;
+}
+
+@media print {
+  /* line 256, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+  html * {
+    visibility: hidden;
+  }
+
+  /* line 259, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+  #resume, #resume * {
+    visibility: visible;
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* line 263, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+  #resume {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+  }
+}
+/* line 271, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+#resume {
+  font-family: "Montserrat";
+  background-color: white;
+  width: 670px;
+}
+
+/* line 277, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.sec-header {
+  text-align: center;
+  color: #648296;
+}
+
+/* line 282, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.res-text, .res-list {
+  font-size: 12px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+/* line 288, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.res-list {
+  padding-left: 15px !important;
+}
+
+/* line 292, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.res-list > li {
+  display: list-item !important;
+  list-style-type: circle !important;
+}
+
+/* line 297, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.res-hr {
+  background-image: linear-gradient(to right, rgba(100, 130, 150, 0), rgba(100, 130, 150, 0.75), rgba(100, 130, 150, 0));
+  height: 2px;
+}
+
+/* line 302, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.top {
+  height: 40px;
+  font-size: 12px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* line 309, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.top-header {
+  margin: 0px;
+}
+
+/*********
+* Inputs *
+*********/
+/* line 318, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.md-icon-float {
+  margin: 0px 0px 0px 0px !important;
+  width: 500px !important;
+}
+
+/* line 323, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.md-input-container {
+  width: 500px !important;
+}
+
+/**********************
+* Chart Title Options *
+**********************/
+/* line 330, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.chart-title {
+  font-size: 48px;
+  line-height: 50px;
+  font-family: 'Roboto' !important;
+  color: rgba(50, 50, 50, 0.8);
+}
+
+/* line 336, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+.chart-subtitle {
+  color: rgba(50, 50, 50, 0.8);
+  font-size: 12px;
+}
+
+/* line 341, /home/erik/code/erikGibbons/app/assets/stylesheets/custom_styling.css.scss */
+label {
+  font-weight: 700;
+}
+/* line 1, /home/erik/code/erikGibbons/app/assets/stylesheets/lightbox_img_fix.css.scss */
+.lb-cancel {
+  background: url(/assets/loading-225aa88b6ab02c06222ec9468d62e15fa188e39cdb9431d1f55401ad380753ed.gif) no-repeat !important;
+}
+
+/* line 5, /home/erik/code/erikGibbons/app/assets/stylesheets/lightbox_img_fix.css.scss */
+.lb-nav a.lb-prev {
+  background: url(/assets/prev-7fd9273f20fdb1229c224341271a119020a5eee74ccf6b4605730917c864caf2.png) left 48% no-repeat;
+}
+
+/* line 9, /home/erik/code/erikGibbons/app/assets/stylesheets/lightbox_img_fix.css.scss */
+.lb-nav a.lb-next {
+  background: url(/assets/next-15b869b02c6fbaa8c6c26445a2dd2d9bad80fd27b1409f8179e5dd89dc89d90a.png) right 48% no-repeat !important;
+}
+
+/* line 13, /home/erik/code/erikGibbons/app/assets/stylesheets/lightbox_img_fix.css.scss */
+.lb-data .lb-close {
+  background: url(/assets/close-5d62e6c90005bfb71f6abb440f9e4753681cb23bbd5e60477ab6f442d2f0e69c.png) top right no-repeat;
+}
+html.lb-disable-scrolling {
+  overflow: hidden;
+  /* Position fixed required for iOS. Just putting overflow: hidden; on the body is not enough. */
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+}
+
+.lightboxOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background-color: black;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+  display: none;
+}
+
+.lightbox {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: 10000;
+  text-align: center;
+  line-height: 0;
+  font-weight: normal;
+}
+
+.lightbox .lb-image {
+  display: block;
+  height: auto;
+  max-width: inherit;
+  max-height: none;
+  border-radius: 3px;
+
+  /* Image border */
+  border: 4px solid white;
+}
+
+.lightbox a img {
+  border: none;
+}
+
+.lb-outerContainer {
+  position: relative;
+  *zoom: 1;
+  width: 250px;
+  height: 250px;
+  margin: 0 auto;
+  border-radius: 4px;
+
+  /* Background color behind image.
+     This is visible during transitions. */
+  background-color: white;
+}
+
+.lb-outerContainer:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.lb-loader {
+  position: absolute;
+  top: 43%;
+  left: 0;
+  height: 25%;
+  width: 100%;
+  text-align: center;
+  line-height: 0;
+}
+
+.lb-cancel {
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin: 0 auto;
+  /*background: url(../images/loading.gif) no-repeat;*/
+}
+
+.lb-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+}
+
+.lb-container > .nav {
+  left: 0;
+}
+
+.lb-nav a {
+  outline: none;
+  background-image: url('data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
+}
+
+.lb-prev, .lb-next {
+  height: 100%;
+  cursor: pointer;
+  display: block;
+}
+
+.lb-nav a.lb-prev {
+  width: 34%;
+  left: 0;
+  float: left;
+  /*background: url(../images/prev.png) left 48% no-repeat;*/
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -webkit-transition: opacity 0.6s;
+  -moz-transition: opacity 0.6s;
+  -o-transition: opacity 0.6s;
+  transition: opacity 0.6s;
+}
+
+.lb-nav a.lb-prev:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+
+.lb-nav a.lb-next {
+  width: 64%;
+  right: 0;
+  float: right;
+  /*background: url(../images/next.png) right 48% no-repeat;*/
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -webkit-transition: opacity 0.6s;
+  -moz-transition: opacity 0.6s;
+  -o-transition: opacity 0.6s;
+  transition: opacity 0.6s;
+}
+
+.lb-nav a.lb-next:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+
+.lb-dataContainer {
+  margin: 0 auto;
+  padding-top: 5px;
+  *zoom: 1;
+  width: 100%;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.lb-dataContainer:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.lb-data {
+  padding: 0 4px;
+  color: #ccc;
+}
+
+.lb-data .lb-details {
+  width: 85%;
+  float: left;
+  text-align: left;
+  line-height: 1.1em;
+}
+
+.lb-data .lb-caption {
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 1em;
+}
+
+.lb-data .lb-caption a {
+  color: #4ae;
+}
+
+.lb-data .lb-number {
+  display: block;
+  clear: left;
+  padding-bottom: 1em;
+  font-size: 12px;
+  color: #999999;
+}
+
+.lb-data .lb-close {
+  display: block;
+  float: right;
+  width: 30px;
+  height: 30px;
+  /*background: url(../images/close.png) top right no-repeat;*/
+  text-align: right;
+  outline: none;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
+  opacity: 0.7;
+  -webkit-transition: opacity 0.2s;
+  -moz-transition: opacity 0.2s;
+  -o-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+
+.lb-data .lb-close:hover {
+  cursor: pointer;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= angular-material/angular-material
+
+
+
+ */
+
