@@ -69,7 +69,7 @@ module GetData
   def get_omdb_info(q)
     agent = Mechanize.new
 
-    response = agent.get("https://www.omdbapi.com/?apikey=#{Rails.env == "production" ? ENV['OMDB_API_KEY'] : Rails.application.secrets.omdb_api_key}&#{q}")
+    response = agent.get("https://www.omdbapi.com/?apikey=#{ENV['OMDB_API_KEY']}&#{q}")
 
     return JSON.parse(response.body)
   end
