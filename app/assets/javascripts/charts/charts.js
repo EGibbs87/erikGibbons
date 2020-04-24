@@ -4,8 +4,15 @@ angular.module('TVCharts.Charts', [
   'ngMaterial',
   'ngMdIcons',
   'ui.bootstrap',
-  'chart.js' // angular charts
+  'chart.js', // angular charts  
+  'angulartics',
+  'angulartics.google.analytics'
 ])
+
+.config(['$analyticsProvider', function($analyticsProvider){
+  $analyticsProvider.virtualPageviews(false);
+  $analyticsProvider.firstPageview(true);
+}])
 
 .config(['$stateProvider', function($stateProvider){
   $stateProvider
