@@ -43,7 +43,7 @@ angular.module('ErikGibbons.Home', [
   homeCtrl.projects = [
     {
       'name':'IPR Dominator', 
-      'skills':['html', 'css', 'api', 'async', 'ror', 'js', 'jq', 'sql', 'io', 'alerts', 'stack', 'solr', 'charts', 'regex', 's3'], 
+      'skills':['html', 'css', 'api', 'async', 'ror', 'js', 'ajax', 'jq', 'sql', 'io', 'alerts', 'stack', 'solr', 'charts', 'regex', 's3'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/IPR Dominator").each { |i| next if i == "." or i == ".."; images << "IPR Dominator/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
       'url':'<a href=http://www.iprdominator.com target=_blank analytics-on="click" analytics-event="Visit Site">http://www.iprdominator.com</a>', 
       'showUrl':'show-url', 
@@ -61,9 +61,9 @@ angular.module('ErikGibbons.Home', [
     },
     {
       'name':'Strain PLLC Time and Billing', 
-      'skills':['html', 'css', 'async', 'ror', 'js', 'jq', 'sql', 'charts', 'io', 'stack', 'regex', 's3'], 
+      'skills':['html', 'css', 'async', 'ror', 'js', 'jq', 'ajax', 'sql', 'charts', 'io', 'stack', 'regex', 's3'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Strain PLLC Time and Billing").each { |i| next if i == "." or i == ".."; images << "Strain PLLC Time and Billing/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
-      'url':'<a href=http://time.strainpllc.com target=_blank analytics-on="click" analytics-event="Visit Site">http://time.strainpllc.com</a>', 
+      'url':'<a href=https://time.strainpllc.com target=_blank analytics-on="click" analytics-event="Visit Site">https://time.strainpllc.com</a>', 
       'showUrl':'show-url', 
       'desc':'This time and billing system was created to automate and organize the logistics for Strain PLLC, saving the managing partners around 30-40 hours per month.  All invoices are uploaded to and retrievable from an Amazon AWS S3 bucket.  The entire database is backed up and emailed as a CSV as a redundancy in case of a data disaster.', 
       'authenticationProtected':'protected'
@@ -75,6 +75,43 @@ angular.module('ErikGibbons.Home', [
       'url':'N/A', 
       'showUrl':'hide-url', 
       'desc':'The iMessage Port was created simply as a way to keep Android users who rely on iMessages on their Mac computers at work updated on any important messages they otherwise may have missed.  Any new messages are relayed to the user via email in a summary every 10 minutes, separated by individual conversations.', 
+      'authenticationProtected':'protected'
+    },
+    {
+      'name':'DIFM',
+      'skills':['html', 'css', 'ror', 'stack', 'js', 'sql', 'ajax', 'api', 'regex', 'sp', 'alerts'],
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/DIFM").each { |i| next if i == "." or i == ".."; images << "DIFM/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'<a href=https://www.difmnetworking.com target=_blank analytics-on="click" analytics-event="Visit Site">https://www.difmnetworking.com</a>',
+      'showUrl':'show-url',
+      'desc':'DIFM Networking is a community-based network for contractors to advertise their services, and for users to request services from nearby vendors.  Users are able to search for services/clients by geocoded location, rate other users, view maps of potential service locations, and make purchases via Stripe.',
+      'authenticationProtected':'open'
+    },
+    {
+      'name':'Spread Finder',
+      'skills':['html', 'css', 'ror', 'stack', 'jq', 'js', 'ajax', 'sql', 'api', 'regex', 'jshb'],
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Spread Finder").each { |i| next if i == "." or i == ".."; images << "Spread Finder/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'http://spread-finder.herokuapp.com',
+      'showUrl':'show-url',
+      'desc':'Spread Finder was created to help easily identify bull spreads in the options market that meet specific criteria.  Authentication with the OAuth2 system utilized by the data source requires a JS-enabled headless browser to be able to bypass 2FA in order to authenticate automatically.  Data are processed and loaded via AJAX in order to speed up loading and avoid HTML timeouts.',
+      'authenticationProtected':'protected'
+    },
+      // HIDE UNTIL FURTHER ALONG
+    // {
+    //   'name':'EPO Monitoring',
+    //   'skills':['html', 'css', 'ror', 'stack', 'sql', 'js', 'ajax', 'sql', 'api', 'regex', 'jshb'],
+    //   'images':JSON.parse('<% # images = []; Dir.foreach("app/assets/images/EPO Monitoring").each { |i| next if i == "." or i == ".."; images << "EPO Monitoring/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+    //   'url':'http://epomonitoring.herokuapp.com',
+    //   'showUrl':'show-url',
+    //   'desc':'Allows users to track patents and patent families as available in the European Patent Office.',
+    //   'authenticationProtected':'protected'
+    // },
+    {
+      'name':'TV Show Trends',
+      'skills':['html', 'css', 'ror', 'stack', 'js', 'charts', 'angular', 'api', 'regex'],
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/TV Show Trends").each { |i| next if i == "." or i == ".."; images << "TV Show Trends/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'http://spread-finder.herokuapp.com',
+      'showUrl':'show-url',
+      'desc':'Spread Finder was created to help easily identify bull spreads in the options market that meet specific criteria.  Data were initially gathered using an API, but the source had some data gaps.  The chart is now populated using basic data scraping.',
       'authenticationProtected':'protected'
     },
     {
@@ -97,7 +134,7 @@ angular.module('ErikGibbons.Home', [
     },
     {
       'name':'RosterMod', 
-      'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'async', 'js', 'jq', 'angular', 'charts', 'regex', 'alerts'], 
+      'skills':['html', 'css', 'stack', 'sql', 'ror', 'api', 'sp', 'async', 'js', 'jq', 'angular', 'charts', 'regex', 'alerts'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/RosterMod").each { |i| next if i == "." or i == ".."; images << "RosterMod/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
       'url':'<a href=https://www.rostermod.com target=_blank analytics-on="click" analytics-event="Visit Site">https://www.rostermod.com</a>', 
       'showUrl':'show-url', 
@@ -151,7 +188,7 @@ angular.module('ErikGibbons.Home', [
     },
     {
       'name':'Streak Automator', 
-      'skills':['html', 'css', 'ror', 'js', 'phantom', 'regex', 'api'], 
+      'skills':['html', 'css', 'ror', 'js', 'jshb', 'regex', 'api'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Streak Automator").each { |i| next if i == "." or i == ".."; images << "Streak Automator/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
       'url':'N/A', 
       'showUrl':'hide-url', 
@@ -160,7 +197,7 @@ angular.module('ErikGibbons.Home', [
     },
     {
       'name':'Strain PLLC Fileshare', 
-      'skills':['html', 'css', 'stack', 'sql', 'io', 'ror', 'js', 's3'], 
+      'skills':['html', 'css', 'stack', 'sql', 'io', 'ajax', 'ror', 'js', 's3'], 
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Strain PLLC Fileshare").each { |i| next if i == "." or i == ".."; images << "Strain PLLC Fileshare/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
       'url':'N/A', 
       'showUrl':'hide-url', 
@@ -195,6 +232,8 @@ angular.module('ErikGibbons.Home', [
       'authenticationProtected':'open'
     }
   ];
+
+
   homeCtrl.activeProj = homeCtrl.projects[0];
   homeCtrl.skills = [
     {'full':'HTML', 'short':'html','show':true},
@@ -206,8 +245,10 @@ angular.module('ErikGibbons.Home', [
     {'full':'jQuery', 'short':'jq','show':false},
     {'full':'Angular', 'short':'angular','show':false},
     {'full':'Charts', 'short':'charts','show':false},
-    {'full':'PhantomJS', 'short':'phantom','show':false},
+    {'full':'JS-Enabled Headless Browser', 'short':'jshb','show':false},
     {'full':'Web Scraping and APIs', 'short':'api','show':false},
+    {'full':'AJAX Rendering', 'short':'ajax','show':false},
+    {'full':'Secure Payments', 'short':'sp','show':false},
     {'full':'Multithreaded Asynchronous Jobs', 'short':'async','show':false},
     {'full':'Regular Expressions', 'short':'regex','show':false},
     {'full':'Import/Export Files', 'short':'io','show':false},
