@@ -1,0 +1,94 @@
+<md-content data-turbolinks="false">
+  <hr>
+  <h1 class="ppp-title">PPP Lender Search</h1>
+  <hr>
+  <p style="color: white; margin-left: 25px">Most of this information was originally compiled by Caroline Hwang at SmartAsset (<a style="color: lightblue !important" href="https://smartasset.com/insights/ppp-loan-lenders" target="_blank">original source</a>).
+  <section>
+    <!-- Filter -->
+    <div class="ppp-filter">
+      <md-input-container class="filter-search">
+        <input ng-model="homeCtrl.nameFilter" placeholder="Filter by Name"/>
+      </md-input-container>
+      <md-input-container class="filter-search">
+        <input ng-model="homeCtrl.descFilter" placeholder="Filter by Description"/>
+      </md-input-container>
+      <md-input-container class="ppp-select">
+        <label>Accepting Applications</label>
+        <select ng-model="homeCtrl.activeFilter">
+          <option value="">--Any--</option>
+          <option value="yes">Yes</option>
+          <option value="possibly">Possibly</option>
+          <option value="future">Awaiting Funding</option>
+          <option value="no">No</option>
+        </select>
+      </md-input-container>
+      <md-input-container class="ppp-select">
+        <label>Membership Required</label>
+        <select ng-model="homeCtrl.membersFilter">
+          <option value="">--Any--</option>
+          <option value="yes">Yes</option>
+          <option value="possibly">Possibly</option>
+          <option value="no">No</option>
+        </select>
+      </md-input-container>
+    </div>
+  </section>
+
+
+
+  <!-- Lenders -->
+  <section id="lenders">
+    <div>
+      <div class="module">
+        <!-- Lender list -->
+        <div>
+          <div ng-repeat="lender in homeCtrl.lenders | filter: {'name': homeCtrl.nameFilter, 'desc': homeCtrl.descFilter, 'still-active': homeCtrl.activeFilter, 'members-only': homeCtrl.membersFilter}" class='ppp-card'>
+            <h4>{{ lender.name }}</h4>
+            <b>Description: </b> {{lender.desc}}<br>
+            <b>Currently Lending: </b> {{lender.still_active}}<br>
+            <b>Membership Required: </b> {{lender.members_only}}<br>
+            <b>Resources: </b><br>
+            <p class="ppp-link-container" ng-repeat="link in lender.links"><a class="ppp-link" href="{{link.href}}" target="_blank">{{link.text}}</a></p>
+            <i>Last updated on {{lender.updated}}</i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- contact section -->
+  <section id="contact">
+    <div class="module">
+      <div id="contact-container" style="text-align:center">
+        <h2 style="color: white">Please use this form to let me know if you have any updates</h2>
+        <hr>
+        <form ng-submit="homeCtrl.contact(homeCtrl.form)">
+          <div class="input-field col s12">
+            <textarea class="materialize-textarea contact-text" ng-model="homeCtrl.form.msg" required></textarea>
+            <label for="message">Message</label>
+          </div>
+          <button class="btn waves-effect waves-light" type="submit" name="action">{{ homeCtrl.httpCallText }}
+            <i class="material-icons right">send</i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</md-content>
+
+<script>
+  $(document).ready(function(){
+    $('select').formSelect();
+  });
+</script>
+
+<!-- Google Analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  
+  ga('create', 'UA-120844573-1', 'auto');
+</script>
+<!-- End Google Analytics -->

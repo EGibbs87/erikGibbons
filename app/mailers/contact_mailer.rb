@@ -8,4 +8,10 @@ class ContactMailer < ApplicationMailer
 		@name = msg_hash['name']
 		mail(to: "erik@erikgibbons.com", subject: @inquiry)
 	end
+
+  def ppp_contact(msg_hash)
+    @msg = msg_hash['msg']
+    @inqury = "Update for PPP lender"
+    mail(to: "erik@erikgibbons.com", subject: @inquiry)
+  end
 end

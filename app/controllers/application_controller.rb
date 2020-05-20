@@ -33,6 +33,18 @@ class ApplicationController < ActionController::Base
 
     render :json => data_hash
   end
-  
+
+  def ppp_lending
+    @angular_app = "PPPLending"
+
+    render "layouts/application", layout: false
+  end  
+
+  def ppp_contact
+    ContactMailer.contact(params).deliver_now
+    
+    render :nothing => true
+  end
+ 
   private
 end

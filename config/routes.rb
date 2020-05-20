@@ -5,11 +5,13 @@ Rails.application.routes.draw do
     get '/api/episodes/:imdb_id' => 'application#get_episode_data'
     get '/api/omdb/:q' => 'application#get_omdb_data'
   end
-  # get '/' => "application#angular_charts", :constraints => { :subdomain => "tvcharts" }
-  # get '/api/episodes/:imdb_id' => 'application#get_episode_data', :constraints => { :subdomain => "tvcharts" }
+
+  constraints subdomain: "ppp-lending" do
+    get '/' => 'application#ppp_lending'
+    post '/api/contact' => 'application#ppp_contact'
+  end
   
   root to: "application#angular"
-  
   post '/api/contact' => 'application#contact'
   
   # make sure that other addresses are routed to the root page

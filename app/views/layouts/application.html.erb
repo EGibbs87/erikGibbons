@@ -44,10 +44,10 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <% if @angular_app == "ErikGibbons" %>
+    <% if @angular_app == "ErikGibbons" || @angular_app == "PPPLending" %>
       <!-- Angular Material -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <% end %>
 
     <!-- Angular Material CSS -->
@@ -62,7 +62,7 @@
 
     <style> .glyphicon-thumbs-up { cursor:pointer } </style>
   </head>
-  <body ng-app="<%= @angular_app %>" layout="column" flex ng-strict-di data-no-turbolink="true" id="main" class="<%= @angular_app == 'TVCharts' ? 'main-charts' : 'main' %>">
+  <body ng-app="<%= @angular_app %>" layout="column" flex ng-strict-di data-no-turbolink="true" id="main" class="<%= if @angular_app == 'TVCharts' then 'main-charts' elsif @angular_app == 'ErikGibbons' then 'main' elsif @angular_app == 'PPPLending' then 'main-ppp' else 'main' end %>">
 
     <md-content ng-cloak flex layout="column" id="content">
       <div ui-view="main" layout="column" style='display: block; padding-bottom:50px'></div>

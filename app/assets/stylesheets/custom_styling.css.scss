@@ -17,6 +17,10 @@ md-content.md-default-theme, md-content, md-content {
 	background: white !important;
 }
 
+.main-ppp {
+
+}
+
 // Main page //
 #first-parallax {
 	width: 100%;
@@ -341,4 +345,51 @@ md-content.md-default-theme, md-content, md-content {
 
 label {
 	font-weight: 700;
+}
+
+/******************
+* PPP Lender Page *
+******************/
+
+.ppp-card {
+	background-color: rgba(225,225,225,0.9);
+	max-width: 1500px;
+	min-width: 500px;
+	border-radius: 15px;
+	border: 1px solid #FFF;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+}
+
+.ppp-filter {
+	background-color: rgba(225,225,225,0.9);
+	max-width: 1500px;
+	min-width: 500px;
+	border-radius: 15px;
+	border: 1px solid #FFF;
+	padding-top: 30px;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+}
+
+.ppp-title {
+	color: white;
+	padding-left: 30px;
+}
+
+.ppp-select {
+	top: -8px;
+}
+
+.ppp-link-container {
+	margin-bottom: 0px;
+	margin-left: 25px;
+}
+
+.ppp-link {
+	color: blue !important;
 }
