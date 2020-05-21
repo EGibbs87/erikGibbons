@@ -8,14 +8,7 @@ angular.module('PPPLending.Home', [
   'ngMdIcons',
   'ui.bootstrap',
   'ngSanitize',
-  'angulartics',
-  'angulartics.google.analytics'
 ])
-
-.config(['$analyticsProvider', function($analyticsProvider){
-  $analyticsProvider.virtualPageviews(false);
-  $analyticsProvider.firstPageview(true);
-}])
 
 .config(['$stateProvider', function($stateProvider){
   $stateProvider

@@ -9,14 +9,7 @@ angular.module('ErikGibbons.Home', [
   'ui.bootstrap',
   'ngSanitize',
   'ngParallax',
-  'angulartics',
-  'angulartics.google.analytics'
 ])
-
-.config(['$analyticsProvider', function($analyticsProvider){
-  $analyticsProvider.virtualPageviews(false);
-  $analyticsProvider.firstPageview(true);
-}])
 
 .config(['$stateProvider', function($stateProvider){
   $stateProvider
