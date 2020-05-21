@@ -224,7 +224,7 @@ DEPENDENCIES
   jquery-ui-rails
   letsencrypt-rails-heroku
   mechanize
-  pg
+  pg (>= 0.18, < 2.0)
   platform-api
   rails (~> 4.2.10)
   rails_12factor
