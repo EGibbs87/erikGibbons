@@ -33,6 +33,7 @@ angular.module('TVCharts.Charts', [
   chartsCtrl.set_options = set_options;
   chartsCtrl.set_dataset_override = set_dataset_override;
   chartsCtrl.prevent_empty_switch = prevent_empty_switch;
+  chartsCtrl.setOptSelect = setOptSelect;
   chartsCtrl.scrubDatasets = scrubDatasets;
   chartsCtrl.myCharts = {};
   chartsCtrl.loading = false;
@@ -61,6 +62,12 @@ angular.module('TVCharts.Charts', [
   /*********************
   *  Private functions *
   * *******************/
+
+  function setOptSelect(){
+    if(chartsCtrl.compType == 's-align'){
+      chartsCtrl.compType = 'norm';
+    }
+  }
   
   function prevent_empty_switch(hide){
     if(!chartsCtrl.trends && !chartsCtrl.episode_data){

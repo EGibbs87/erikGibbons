@@ -83,7 +83,7 @@ angular.module('ErikGibbons.Home', [
       'name':'Spread Finder',
       'skills':['html', 'css', 'ror', 'stack', 'jq', 'js', 'ajax', 'sql', 'api', 'regex', 'jshb'],
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Spread Finder").each { |i| next if i == "." or i == ".."; images << "Spread Finder/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
-      'url':'http://spread-finder.herokuapp.com',
+      'url':'<a href=https://spread-finder.herokuapp.com target=_blank analytics-on="click" analytics-event="Visit Site">https://spread-finder.herokuapp.com</a>',
       'showUrl':'show-url',
       'desc':'Spread Finder was created to help easily identify bull spreads in the options market that meet specific criteria.  Authentication with the OAuth2 system utilized by the data source requires a JS-enabled headless browser to be able to bypass 2FA in order to authenticate automatically.  Data are processed and loaded via AJAX in order to speed up loading and avoid HTML timeouts.',
       'authenticationProtected':'protected'
@@ -102,10 +102,10 @@ angular.module('ErikGibbons.Home', [
       'name':'TV Show Trends',
       'skills':['html', 'css', 'ror', 'stack', 'js', 'charts', 'angular', 'api', 'regex'],
       'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/TV Show Trends").each { |i| next if i == "." or i == ".."; images << "TV Show Trends/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
-      'url':'http://spread-finder.herokuapp.com',
+      'url':'<a href=https://tvcharts.erikgibbons.com target=_blank analytics-on="click" analytics-event="Visit Site">https://tvcharts.erikgibbons.com</a>',
       'showUrl':'show-url',
-      'desc':'Spread Finder was created to help easily identify bull spreads in the options market that meet specific criteria.  Data were initially gathered using an API, but the source had some data gaps.  The chart is now populated using basic data scraping.',
-      'authenticationProtected':'protected'
+      'desc':'TV Show Trends allows users to see how certain TV shows progressed using IMDb scores as a charting metric.  Allows users to compare multiple shows with many customizable display options.',
+      'authenticationProtected':'open'
     },
     {
       'name':'Personal Movie Database', 
@@ -198,21 +198,12 @@ angular.module('ErikGibbons.Home', [
       'authenticationProtected':'protected'
     },
     {
-      'name':'Stopaganda', 
-      'skills':['html', 'js', 'ext'], 
-      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Stopaganda").each { |i| next if i == "." or i == ".."; images << "Stopaganda/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
-      'url':'<a href=https://chrome.google.com/webstore/detail/stopaganda/ceecalgkknbnfnmbpejepnfjjogamdhi target=_blank analytics-on="click" analytics-event="Visit Site">Chrome store listing</a>; <a href=https://addons.mozilla.org/en-US/firefox/addon/stopaganda target=_blank>Mozilla store listing</a>', 
-      'showUrl':'show-url', 
-      'desc':'Hides or highlights Facebook posts that link to disreputable political propaganda websites.', 
-      'authenticationProtected':'open'
-    },
-    {
-      'name':'Stopaganda for Reddit', 
+      'name':'Stopaganda Plus', 
       'skills':['html', 'js', 'ext', 'api'], 
-      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Stopaganda for Reddit").each { |i| next if i == "." or i == ".."; images << "Stopaganda for Reddit/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
-      'url':'<a href=https://chrome.google.com/webstore/detail/stopaganda-for-reddit/ejcmfianlbiiafmcnhmnpndoddnimjki target=_blank analytics-on="click" analytics-event="Visit Site">Chrome store listing</a>; <a href=https://addons.mozillaa.org/en-US/firefox/addon/stopaganda-for-reddit/ target=_blank>Mozilla store listing</a>', 
+      'images':JSON.parse('<% images = []; Dir.foreach("app/assets/images/Stopaganda Plus").each { |i| next if i == "." or i == ".."; images << "Stopaganda Plus/" + i } %><%= images.sort.map { |i| [["url", image_url(i)]].to_h }.to_json %>'), 
+      'url':'<a href=https://chrome.google.com/webstore/detail/stopaganda-plus/ejcmfianlbiiafmcnhmnpndoddnimjki target=_blank analytics-on="click" analytics-event="Visit Site">Chrome store listing</a>; <a href=https://addons.mozilla.org/en-US/firefox/addon/stopaganda-plus/ target=_blank>Mozilla store listing</a>; <a href=https://microsoftedge.microsoft.com/addons/detail/omijdjhmepkobkeaejnjhhmpkpamclca target=_blank analytics-on="click" analytics-event="Visit Site">Edge store listing</a>', 
       'showUrl':'show-url', 
-      'desc':'Adds an informative decal to Reddit posts associated with a select group of news subreddits that indicates the accuracy and bias of the source, based on the database of mediabiasfactcheck.com', 
+      'desc':'Adds an informative decal to Reddit, Facebook, Google, and Twitter posts that indicates the accuracy and bias of the source, based on the database of mediabiasfactcheck.com', 
       'authenticationProtected':'open'
     },
     {
