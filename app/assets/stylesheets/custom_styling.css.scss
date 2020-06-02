@@ -346,9 +346,23 @@ md-content.md-default-theme, md-content, md-content {
   color: rgba(50,50,50,.8);
   font-size: 12px;
 }
+/* delimiter for title(s) */
+.chart-title span:not(:last-child):after {
+	content: " vs. ";
+}
 
 label {
 	font-weight: 700;
+}
+
+md-switch {
+	margin-top: 0px !important;
+}
+
+.opts-container {
+	margin-left: 10px;
+	margin-right: 10px;
+	width: 250px;
 }
 
 /******************

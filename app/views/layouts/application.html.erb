@@ -2,7 +2,15 @@
 <html>
   <head>
     <meta name="description" content="Erik Gibbons is a full-stack web developer looking to take on any projects you can throw at him." />
-    <title>Erik Gibbons | The Fullest Stack Web Developer</title>
+    <% case @angular_app %>
+    <% when "ErikGibbons" %>
+      <% title = "The Fullest Stack Developer" %>
+    <% when "PPP Lending" %>
+      <% title = "Find PPP Lenders" %>
+    <% when "TVCharts" %>
+      <% title = "TV Show Trends" %>
+    <% end %>
+    <title>Erik Gibbons | <%= title %></title>
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
@@ -23,7 +31,6 @@
       ga('send', 'pageview');
     </script>
 
-
     <!-- Load cover images first -->
     <% if @angular_app == "ErikGibbons" %>
       <img src="<%= image_url('luca-bravo-2.jpg') %>" hidden>
@@ -31,7 +38,10 @@
         <img src="<%= image_url(img + "/00. Title.png") %>" hidden>
       <% end %>
     <% end %>
-    
+
+    <!-- BMAB -->
+    <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="erikgibbons" data-description="Support me on Buy me a coffee!" data-message="If you'd like to help support further development, click here!" data-color="#FF813F" data-position="right" data-x_margin="18" data-y_margin="18"></script>
+
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-2.1.4.js"> </script>
     
@@ -78,5 +88,23 @@
     <md-content ng-cloak flex layout="column" id="content">
       <div ui-view="main" layout="column" style='display: block; padding-bottom:50px'></div>
     </md-content>
+
+    <script>
+      window.addEventListener('load', function(event){
+        bmabText = Array.from(document.querySelectorAll('div')).filter(function(e){ return e.textContent == "If you'd like to help support further development, click here!"});
+
+        setTimeout(function(){
+          bmabText.forEach(function(e){ e.setAttribute('hidden', 'true') });
+        }, 7000);
+
+        document.getElementById('bmc-wbtn').addEventListener('mouseover', function(event){
+          bmabText.forEach(function(e) { e.removeAttribute('hidden'); });
+        });
+
+        document.getElementById('bmc-wbtn').addEventListener('mouseout', function(event){
+          bmabText.forEach(function(e) {e.setAttribute('hidden', 'true'); });
+        });
+      })
+    </script>
   </body>
 </html>

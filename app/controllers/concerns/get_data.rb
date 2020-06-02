@@ -2,7 +2,7 @@
 module GetData
   extend ActiveSupport::Concern
 
-  def get_episode_info(imdb_id)
+  def get_episode_info(imdb_id, show_title)
     def episode_data(data)
       output = []
       season_base = data.css('#episode_top').text.match(/Season\p{Zs}(.*)/)
@@ -47,7 +47,7 @@ module GetData
 
     ep_data = episode_data(response)
 
-    output[sel] = ep_data.map { |ep| {"Title" => ep["title"], "Released" => ep["air_date"], "Episode" => ep["ep_number"], "imdbRating" => ep["rating"], "imdbId" => ep["imdb_id"]} }
+    output[sel] = ep_data.map { |ep| {"Show Title" => show_title, "Title" => ep["title"], "Released" => ep["air_date"], "Episode" => ep["ep_number"], "imdbRating" => ep["rating"], "imdbId" => ep["imdb_id"]} }
 
     # get data for each other season
     (seasons - [sel]).each do |season|
@@ -59,7 +59,7 @@ module GetData
       elsif ep_data == "invalid season"
         next
       else
-        output[season] = ep_data.map { |ep| {"Title" => ep["title"], "Released" => ep["air_date"], "Episode" => ep["ep_number"], "imdbRating" => ep["rating"], "imdbId" => ep["imdb_id"]} }
+        output[season] = ep_data.map { |ep| {"Show Title" => show_title, "Title" => ep["title"], "Released" => ep["air_date"], "Episode" => ep["ep_number"], "imdbRating" => ep["rating"], "imdbId" => ep["imdb_id"]} }
       end
     end
 

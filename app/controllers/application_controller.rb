@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_episode_data
-    data_hash = get_episode_info(params['imdb_id'])
+    data_hash = get_episode_info(params['imdb_id'], params['title'])
 
     render :json => data_hash
   end
