@@ -125,6 +125,8 @@ GEM
       heroics (~> 0.0.25)
       moneta (~> 1.0.0)
     rack (1.6.13)
+    rack-cors (1.0.6)
+      rack (>= 1.6.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.11.3)
@@ -226,6 +228,7 @@ DEPENDENCIES
   mechanize
   pg (~> 0.18.0)
   platform-api
+  rack-cors
   rails (~> 4.2.10)
   rails_12factor
   responders

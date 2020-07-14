@@ -16,6 +16,9 @@ group :production do
   gem 'rails_12factor'
 end
 
+# use rack-cors to handle cross-origin requests
+gem 'rack-cors'
+
 gem 'sprockets', '~> 3.7.2'
 
 # Let's encrypt for free SSL certs
