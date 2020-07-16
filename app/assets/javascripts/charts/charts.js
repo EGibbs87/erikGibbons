@@ -173,6 +173,7 @@ angular.module('TVCharts.Charts', [
     }else{
       var ep_data = opts['ep_data'];
     }
+    console.log(ep_data);
 
     if(chartsCtrl.chart_title.length > 1){
       var label_store = []
@@ -379,7 +380,7 @@ angular.module('TVCharts.Charts', [
   }
 
   function scrubDatasets(datasets){
-    // dataset is fully flattened (shows, seasons, episodes, all listed in on array)
+    // dataset is fully flattened (shows, seasons, episodes, all listed in an array)
     // separate shows
     shows = [...new Set(datasets.map(function(e){ return e['show'] }) )]
     groups = [];

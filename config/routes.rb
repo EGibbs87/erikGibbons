@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     get '/' => 'application#angular_charts'
     get '/api/episodes/:imdb_id' => 'application#get_episode_data'
     get '/api/omdb/:q' => 'application#get_omdb_data'
+    get '/api/ng_episodes/:q' => 'application#get_episode_data_ng2'
   end
 
   constraints subdomain: "ppp-lending" do

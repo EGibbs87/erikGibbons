@@ -22,16 +22,22 @@ class ApplicationController < ActionController::Base
     render "layouts/application", layout: false
   end
 
+  def get_omdb_data
+    data_hash = get_omdb_info(params['q'])
+
+    render :json => data_hash
+  end
+
   def get_episode_data
     data_hash = get_episode_info(params['imdb_id'], params['title'])
 
     render :json => data_hash
   end
 
-  def get_omdb_data
-    data_hash = get_omdb_info(params['q'])
+  def get_episode_data_ng2
+    output = get_info_ng2(params['q'])
 
-    render :json => data_hash
+    render :json => output
   end
 
   def ppp_lending
