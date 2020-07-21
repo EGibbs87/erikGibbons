@@ -173,7 +173,6 @@ angular.module('TVCharts.Charts', [
     }else{
       var ep_data = opts['ep_data'];
     }
-    console.log(ep_data);
 
     if(chartsCtrl.chart_title.length > 1){
       var label_store = []
@@ -652,6 +651,8 @@ angular.module('TVCharts.Charts', [
     }
 
     chartsCtrl.datasets = output
+
+    console.log(output);
 
     if(chartsCtrl.chart_title.length > 1){
       chartsCtrl.colors = getColors(chartsCtrl.chart_title.length, false);

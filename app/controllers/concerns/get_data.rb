@@ -115,8 +115,6 @@ module GetData
 
     output = []
 
-    agent = Mechanize.new
-
     # first season and set seasons
     response = agent.get("https://www.imdb.com/title/#{basic_info['imdbID']}/episodes/_ajax?season=1")
     s_list = response.css('#bySeason')
@@ -134,7 +132,7 @@ module GetData
       ep_data = episode_data(response)
       if ep_data == "break"
         break
-      elsif ep_data == "invalid season"
+      elsif ep_data == "invalid season" || ep_data.empty?
         next
       else
         output << ep_data.map { |ep| {"showTitle" => basic_info['Title'], "epTitle" => ep["title"], "released" => ep["air_date"], "season" => season, "epNumber" => ep["ep_number"], "imdbRating" => ep["rating"], "imdbId" => ep["imdb_id"] } }
