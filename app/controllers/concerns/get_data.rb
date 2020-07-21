@@ -81,6 +81,10 @@ module GetData
 
     basic_info = JSON.parse(res.body)
 
+    if basic_info["Response"] == "False"
+      return basic_info
+    end
+
     def episode_data(data)
       output = []
       season_base = data.css('#episode_top').text.match(/Season\p{Zs}(.*)/)
