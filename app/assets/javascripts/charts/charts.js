@@ -547,15 +547,18 @@ angular.module('TVCharts.Charts', [
               sIndex += compLength
             }
 
-            // fix indices of non-overlapping-season episodes
-            maxSeasonShowIx = sCounts.indexOf(Math.max(...sCounts));
-            // index at which set of non-overlapping episodes starts
-            soloStartIx = groups[maxSeasonShowIx][nTimes][0]['x'];
-            groups[maxSeasonShowIx].slice(nTimes).forEach(function(season){
-              season.forEach(function(ep){
-                ep['x'] += sIndex - soloStartIx;
+            // ensure that this only runs when a comparison show needs non-normalized space
+            if(groups.length > 1 && Math.max(...sCounts) - nTimes > 0){
+              // fix indices of non-overlapping-season episodes
+              maxSeasonShowIx = sCounts.indexOf(Math.max(...sCounts));
+              // index at which set of non-overlapping episodes starts
+              soloStartIx = groups[maxSeasonShowIx][nTimes][0]['x'];
+              groups[maxSeasonShowIx].slice(nTimes).forEach(function(season){
+                season.forEach(function(ep){
+                  ep['x'] += sIndex - soloStartIx;
+                });
               });
-            });
+            }
 
             break;
           case 's-right':
