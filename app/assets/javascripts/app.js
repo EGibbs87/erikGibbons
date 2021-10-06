@@ -88,7 +88,7 @@ angular.module('TVCharts', [
     });
     $stateProvider
       .state('tvcharts', {
-      url: '',
+      url: ':query',
       abstract: 'true'
     });
 

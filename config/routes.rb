@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
   
   constraints subdomain: "tvcharts" do
-    get '/' => 'application#angular_charts'
+    get '/(:query)' => 'application#angular_charts'
     get '/api/episodes/:imdb_id' => 'application#get_episode_data'
+    get '/api/episodes_batch/:q' => 'application#get_episode_batch_data'
     get '/api/omdb/:q' => 'application#get_omdb_data'
+    get '/api/omdb_batch/:q' => 'application#get_omdb_batch_data'
     get '/api/ng_episodes/:q' => 'application#get_episode_data_ng2'
+
+    match "*path", to: 'application#angular', via: :all
   end
 
   constraints subdomain: "ppp-lending" do

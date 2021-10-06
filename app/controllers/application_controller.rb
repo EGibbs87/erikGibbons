@@ -28,10 +28,31 @@ class ApplicationController < ActionController::Base
     render :json => data_hash
   end
 
+  def get_omdb_batch_data
+    queries = params['q'].split("|")
+    data_arr = []
+    for q in queries do
+      data_arr << get_omdb_info(q)
+    end
+
+    render :json => data_arr
+  end
+
   def get_episode_data
     data_hash = get_episode_info(params['imdb_id'], params['title'])
 
     render :json => data_hash
+  end
+
+  def get_episode_batch_data
+    queries = params['q'].split("|")
+    data_arr = []
+    for q in queries do
+      imdb_id, title = q.split(",")
+      data_arr << get_episode_info(imdb_id, title)
+    end
+
+    render :json => data_arr
   end
 
   def get_episode_data_ng2

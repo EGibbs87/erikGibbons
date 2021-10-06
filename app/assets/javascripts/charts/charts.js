@@ -10,24 +10,24 @@ angular.module('TVCharts.Charts', [
 .config(['$stateProvider', function($stateProvider){
   $stateProvider
     .state('tvcharts.charts', {
-      url: '/',
+      url: '/:query',
       views: {
         'main@': { // target the 'main' ng-view directive
           controller:  'ChartsCtrl as chartsCtrl',
-          templateUrl: 'charts/charts.tmpl.html'
+          templateUrl: 'charts/charts.tmpl.html',
+          reloadOnSearch: false,
+          html5mode: true
         }
       }
     })
-  }])
+  }
+])
   
 .controller('ChartsCtrl', ['$q', '$uibModal', '$http', '$window', '$log', '$location', '$state', '$filter', '$timeout', '$document', '$scope', 'episodesFactory', function($q, $uibModal, $http, $window, $log, $location, $state, $filter, $timeout, $document, $scope, episodesFactory){
   var chartsCtrl = this;
   chartsCtrl.get_trend = get_trend;
   chartsCtrl.organize_chart_data = organize_chart_data;
-  chartsCtrl.series = "";
-  chartsCtrl.year = "";
-  chartsCtrl.imdb_id = "";
-  chartsCtrl.series_list = [];
+  chartsCtrl.imdbId = [];
   chartsCtrl.trends = true;
   chartsCtrl.episode_data = true;
   chartsCtrl.set_options = set_options;
@@ -38,16 +38,17 @@ angular.module('TVCharts.Charts', [
   chartsCtrl.myCharts = {};
   chartsCtrl.loading = false;
   chartsCtrl.showCanvas = false;
+  chartsCtrl.series_list = [];
   chartsCtrl.datasets = [];
   chartsCtrl.labels = [];
   chartsCtrl.series_labels = [];
   chartsCtrl.chart_title = [];
-  chartsCtrl.fill = true;
   chartsCtrl.compType = 'norm';
   chartsCtrl.compNormType = 's-left';
   chartsCtrl.compSeasonAlign = 'left';
   chartsCtrl.compEpAlign = 'left';
   chartsCtrl.connectSeasons = false;
+  chartsCtrl.fill = true;
 
   // comparison possibilities
   // 1. Normalization: full, season-left, season-right
@@ -55,6 +56,25 @@ angular.module('TVCharts.Charts', [
   // 3. Raw: episode-left, episode-right
   
   function init() {
+    var shows = $state.params['query'].split(",")
+    paramsMap = shows.map(function(el){
+      [imdb_id, series, year] = [null, null, null];
+      if(el.match(/i=/)){
+        imdb_id = el.match(/i=([^&]*)/)[1];
+      }
+      if(el.match(/t=/)){
+        series = el.match(/t=([^&]*)/)[1];
+      }
+      if(el.match(/y=/)){
+        year = el.match(/y=(\d{2,4})/)[1];
+      }
+      if(series != null || imdb_id != null){
+        return [series, year, imdb_id]
+      }
+    });
+    if(paramsMap[0] != undefined){
+      get_trend_from_url(paramsMap);
+    }
   } // end of init
   
   init();
@@ -79,30 +99,78 @@ angular.module('TVCharts.Charts', [
     }
   }
   
-  function get_trend(series, year, imdb_id, add) {
-    // set url based on params provided
+  function get_trend_from_url(arr){
     var canvas = document.getElementById('chart');
     chartsCtrl.loading = true;
+    chartsCtrl.watch_link = [];
+    paramsArr = arr.map(function(el){
+      if(!el[2]){
+        param = 't=' + encodeURI(el[0])
+        if(el[1]){
+          param += '&y=' + el[1];
+        }
+        return param
+      }else{
+        return 'i=' + el[2]
+      }
+    });
+
+    episodesFactory.getOmdbBatchData(paramsArr.join("|"))
+    .then(function(response){
+      if(response.data.Response == "False"){
+        chartsCtrl.loading = false;
+        chartsCtrl.showCanvas = false;
+        if(canvas){
+          var ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+        }
+        chartsCtrl.series_list = {};
+        chartsCtrl.chart_title.push(["Series not found", "#"]);
+        return false;
+      }
+
+      episodeQuery = response.data.map(function(el){ return [el.imdbID, el.Title] });
+      chartsCtrl.imdbId = episodeQuery.map(function(el){ return el[0] });
+      chartsCtrl.chart_title = episodeQuery.map(function(el){ return [el[1], "https://www.justwatch.com/us/search?q=" + encodeURI(el[1])] });
+      
+      // get actual episode data
+      episodesFactory.getEpisodesBatch(episodeQuery.join("|"))
+      .then(function(response){
+        chartsCtrl.series_list = response.data
+
+        // draw chart
+        organize_chart_data(chartsCtrl.series_list);
+      })
+    });
+  }
+
+  function get_trend(series, year, imdb_id, add) {
     if(!add){
       // if this isn't an additive function, start over
       chartsCtrl.chart_title = [];
       chartsCtrl.watch_link = [];
       chartsCtrl.datasets = [];
       chartsCtrl.series_list = [];
+      chartsCtrl.imdbId = [];
       chartsCtrl.showCanvas = false;
       // clear existing chart
       if(canvas){
         var ctx = canvas.getContext('2d');
-        // ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
       }
     }
-
     // set params
     if(!imdb_id){
-      var params = 't=' + encodeURI(series) + '&y=' + year;
+      var params = 't=' + encodeURI(series);
+      if(year){
+        params = params + '&y=' + year;
+      }
     }else{
       var params = 'i=' + imdb_id;
     }
+    // set url based on params provided
+    window.history.pushState('abcdef', 'Title', '/' + [params, chartsCtrl.imdbId.map(function(el){ return 'i=' + el }).join(',')].filter(function(el){ return el }).join(','));
+    var canvas = document.getElementById('chart');
+    chartsCtrl.loading = true;
 
     // get imdb ID and clean title
     episodesFactory.getOmdbData(params)
@@ -119,6 +187,7 @@ angular.module('TVCharts.Charts', [
         return false;
       }
       var imdb_id = response.data.imdbID;
+      chartsCtrl.imdbId.push(imdb_id);
       var title = response.data.Title;
       chartsCtrl.chart_title.push([title, "https://www.justwatch.com/us/search?q=" + encodeURI(title)]);
       
@@ -379,7 +448,7 @@ angular.module('TVCharts.Charts', [
   }
 
   function scrubDatasets(datasets){
-    // dataset is fully flattened (shows, seasons, episodes, all listed in an array)
+    // datasets is fully flattened (shows, seasons, episodes, all listed in an array)
     // separate shows
     shows = [...new Set(datasets.map(function(e){ return e['show'] }) )]
     groups = [];
@@ -447,50 +516,78 @@ angular.module('TVCharts.Charts', [
             // get number of seasons that need to be normalized
             sCounts = groups.map(function(e){ return e.length })
             nTimes = secondMax(sCounts);
-            // identify series that shouldn't be normalized (most eps)
-            eCounts = groups.map(function(e){ return e.filter(function(f){ return f[0]['type'] == "ep" }).flat().length });
-            maxCount = Math.max(...eCounts);
-            maxCountIndex = eCounts.indexOf(maxCount);
+            // set trailing x value of last modified episode
+            sIndex = 0;
 
+            // normalize for all overlapping seasons
             for(var i = 0; i < nTimes; i++){
               // get i-th season for each show
               seasons = groups.map(function(show){ return show[i] });
+
               // get the length of the season being normalized to
-              compLength = seasons[maxCountIndex].length
+              sLengths = seasons.map(function(season){ if(season){ return season.length }else{ return 0 } })
+              sLengthMaxIx = sLengths.indexOf(Math.max(...sLengths))
+              compLength = seasons[sLengthMaxIx].length
               for(var j = 0; j < seasons.length; j++){
-                if(!seasons[j] || j == maxCountIndex){
+                if(!seasons[j]){
                   continue;
                 }
-                ratio = (compLength - 1)/(seasons[j].length - 1);
-                // get starting x point for normalization
-                sIndex = seasons[maxCountIndex][0]['x'];
-                seasons[j].forEach(function(s){ s['x'] = seasons[j].indexOf(s) * ratio + sIndex })
+                if(j == sLengthMaxIx){
+                  seasons[j].forEach(function(s){
+                    s['x'] = seasons[j].indexOf(s) + sIndex;
+                  })
+                }else{
+                  ratio = (compLength - 1)/(seasons[j].length - 1);
+                  // get starting x point for normalization
+                  seasons[j].forEach(function(s){ 
+                    s['x'] = seasons[j].indexOf(s) * ratio + sIndex;
+                  })
+                }
               }
+              sIndex += compLength
             }
+
+            // fix indices of non-overlapping-season episodes
+            maxSeasonShowIx = sCounts.indexOf(Math.max(...sCounts));
+            // index at which set of non-overlapping episodes starts
+            soloStartIx = groups[maxSeasonShowIx][nTimes][0]['x'];
+            groups[maxSeasonShowIx].slice(nTimes).forEach(function(season){
+              season.forEach(function(ep){
+                ep['x'] += sIndex - soloStartIx;
+              });
+            });
+
             break;
           case 's-right':
             // s-right
+
             // get number of seasons that need to be normalized
             sCounts = groups.map(function(e){ return e.length })
+            sCountMax = Math.max(...sCounts);
             nTimes = secondMax(sCounts);
-            // identify series that shouldn't be normalized (most eps)
-            eCounts = groups.map(function(e){ return e.filter(function(f){ return f[0]['type'] == "ep" }).flat().length });
-            maxCount = Math.max(...eCounts);
-            maxCountIndex = eCounts.indexOf(maxCount);
+            // set trailing x value of last modified episode
+            lastEpIx = 0;
+            sIndex = 0;
 
-            for(var i = 0; i < nTimes; i++){
-              // get i-th season for each show
-              seasons = groups.map(function(show){ return show[show.length - 1 - i] });
+            // normalize for all overlapping seasons
+            for(var i = sCountMax; i > 0; i--){
+              // get i-th season from the end for each show
+              seasons = groups.map(function(show){ return show[show.length - i] });
+              relSeasons = seasons.filter(function(s){ return s })
+
               // get the length of the season being normalized to
-              compLength = seasons[maxCountIndex].length
-              for(var j = 0; j < seasons.length; j++){
-                if(!seasons[j] || j == maxCountIndex){
-                  continue;
+              sLengths = relSeasons.map(function(season){ return season.length });
+              sLengthMaxIx = sLengths.indexOf(Math.max(...sLengths))
+              compLength = relSeasons[sLengthMaxIx].length
+              for(var j = 0; j < relSeasons.length; j++){
+                ratio = (compLength - 1)/(relSeasons[j].length - 1);
+                relSeasons[j].forEach(function(s){ 
+                  s['x'] = relSeasons[j].indexOf(s) * ratio + sIndex;
+                })
+                // get starting x point for next normalization
+                if(j == relSeasons.length - 1){
+                  sIndex += compLength
                 }
-                ratio = (compLength - 1)/(seasons[j].length - 1);
-                // get starting x point for normalization
-                sIndex = seasons[maxCountIndex][0]['x'];
-                seasons[j].forEach(function(s){ s['x'] = seasons[j].indexOf(s) * ratio + sIndex })
               }
             }
             break;
@@ -652,8 +749,6 @@ angular.module('TVCharts.Charts', [
 
     chartsCtrl.datasets = output
 
-    console.log(output);
-
     if(chartsCtrl.chart_title.length > 1){
       chartsCtrl.colors = getColors(chartsCtrl.chart_title.length, false);
     }else{
@@ -788,18 +883,18 @@ angular.module('TVCharts.Charts', [
         datasets_i.push([]);
         ep_data_i.push([]);
       });
-      
+
       // for each season
       var i = 0;
       seasons_i.forEach(function(s){
         series_labels_i.push("Season " + s.padStart(2, '0'));
-        var season_ix = seasons_i.indexOf(s);
+        var season_ix = parseInt(s) - 1;
         // for each episode
         series[s].forEach(function(e){
           label_store_i.push("S" + s.padStart(2, '0') + "E" + e.Episode.padStart(2, '0'));
           // season_ix * 2 because each season has two datasets (ep_data and best fit)
           datasets_i[season_ix * 2].push({ x: i, y: parseFloat(e['imdbRating']), type: "ep", show: e['Show Title'], season: s, episode: e.Episode });
-          
+
           e['season'] = s;
           ep_data_i[season_ix].push(e);
           i++;
@@ -833,5 +928,6 @@ angular.module('TVCharts.Charts', [
     chartsCtrl.datasets = scrubDatasets(chartsCtrl.datasets.flat());
     chartsCtrl.loading = false;
     chartsCtrl.showCanvas = true;
+    // window.history.pushState('/abcdef', 'Title', '/' + chartsCtrl.imdbId.map(function(el){ return 'i=' + el }).join(','));
   } 
 }]);

@@ -6,8 +6,16 @@
       return $http.get("api/episodes/" + imdb_id + "?title=" + title);
     }
 
+    factory.getEpisodesBatch = function(params){
+      return $http.get("api/episodes_batch/" + params);
+    }
+
     factory.getOmdbData = function(q){
       return $http.get("api/omdb/" + q);
+    }
+
+    factory.getOmdbBatchData = function(q){
+      return $http.get("api/omdb_batch/" + q);
     }
     
     return factory;
