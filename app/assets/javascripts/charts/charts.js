@@ -98,6 +98,10 @@ angular.module('TVCharts.Charts', [
       }
     }
   }
+
+  function returnError(){
+    return [false, false, {}];
+  }
   
   function get_trend_from_url(arr){
     var canvas = document.getElementById('chart');
@@ -117,14 +121,12 @@ angular.module('TVCharts.Charts', [
 
     episodesFactory.getOmdbBatchData(paramsArr.join("|"))
     .then(function(response){
-      if(response.data.Response == "False"){
-        chartsCtrl.loading = false;
-        chartsCtrl.showCanvas = false;
+      if(response.data[0].Response == "False"){
+        [chartsCtrl.loading, chartsCtrl.showCanvas, chartsCtrl.series_list] = returnError()
         if(canvas){
           var ctx = canvas.getContext('2d');
           ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
         }
-        chartsCtrl.series_list = {};
         chartsCtrl.chart_title.push(["Series not found", "#"]);
         return false;
       }
@@ -175,14 +177,12 @@ angular.module('TVCharts.Charts', [
     // get imdb ID and clean title
     episodesFactory.getOmdbData(params)
     .then(function(response){
-      if(response.data.Response == "False"){
-        chartsCtrl.loading = false;
-        chartsCtrl.showCanvas = false;
+      if(response.data[0].Response == "False"){
+        [chrtsCtrl.loading, chartsCtrl.showCanvas, chartsCtrl.series_list] = returnError()
         if(canvas){
           var ctx = canvas.getContext('2d');
           ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
         }
-        chartsCtrl.series_list = {};
         chartsCtrl.chart_title.push(["Series not found", "#"]);
         return false;
       }
@@ -201,26 +201,22 @@ angular.module('TVCharts.Charts', [
         organize_chart_data(chartsCtrl.series_list);
       }, function(data, status) {
         // if getting episode data fails
-        chartsCtrl.loading = false;
-        chartsCtrl.showCanvas = false;
+        [chrtsCtrl.loading, chartsCtrl.showCanvas, chartsCtrl.series_list] = returnError()
         if(canvas){
           var ctx = canvas.getContext('2d');
           ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
         }
-        chartsCtrl.series_list = {};
         chartsCtrl.chart_title.push(["Missing episode data", "#"]);
 
         $log.log(data.error + ' ' + status);
       });
     }, function(data, status) {
       // if getting imdb ID/clean title fails
-      chartsCtrl.loading = false;
-      chartsCtrl.showCanvas = false;
+      [chrtsCtrl.loading, chartsCtrl.showCanvas, chartsCtrl.series_list] = returnError()
       if(canvas){
         var ctx = canvas.getContext('2d');
         ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
       }
-      chartsCtrl.series_list = {};
       chartsCtrl.chart_title.push(["Series not found", "#"]);
       $log.log(data.error + ' ' + status);
     });
@@ -414,6 +410,9 @@ angular.module('TVCharts.Charts', [
     chartsCtrl.dataset_override = [];
 
     i = 0;
+    // handle seasons with one single episode
+    chartsCtrl.datasets = chartsCtrl.datasets.filter(function(e){ return e.length > 0 });
+
     titles = chartsCtrl.datasets.filter(function(e){ return e[0]['type'] == "ep" }).map(function(e){ return e[0]['show'] });
     titlesUniq = [...new Set(titles)]
     series_labels.forEach(function(s){
