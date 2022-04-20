@@ -18,7 +18,6 @@ Rails.application.routes.draw do
   
   root to: "application#angular"
   post '/api/contact' => 'application#contact'
-  get '/auth/external/callback' => 'application#oauth'
   
   # make sure that other addresses are routed to the root page
   match "*path", to: "application#angular", via: :all
