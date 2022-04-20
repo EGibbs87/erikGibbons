@@ -72,6 +72,10 @@ class ApplicationController < ActionController::Base
     
     render :nothing => true
   end
+
+  def oauth
+    render :nothing => true
+  end
  
   private
 end
