@@ -57,12 +57,10 @@ GEM
     connection_pool (2.2.2)
     crass (1.0.6)
     curb (0.9.10)
-    daemons (1.3.1)
     debug_inspector (0.0.3)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
-    eventmachine (1.2.7)
     excon (0.73.0)
     execjs (2.7.0)
     faraday (1.0.1)
@@ -120,7 +118,6 @@ GEM
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     ntlm-http (0.1.1)
-    pg (0.18.4)
     platform-api (2.2.0)
       heroics (~> 0.0.25)
       moneta (~> 1.0.0)
@@ -148,11 +145,6 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.3.0)
       loofah (~> 2.3)
-    rails_12factor (0.0.3)
-      rails_serve_static_assets
-      rails_stdout_logging
-    rails_serve_static_assets (0.0.5)
-    rails_stdout_logging (0.0.5)
     railties (4.2.11.3)
       actionpack (= 4.2.11.3)
       activesupport (= 4.2.11.3)
@@ -188,11 +180,6 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sqlite3 (1.3.13)
-    thin (1.7.2)
-      daemons (~> 1.0, >= 1.0.9)
-      eventmachine (~> 1.0, >= 1.0.4)
-      rack (>= 1, < 3)
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -226,18 +213,14 @@ DEPENDENCIES
   jquery-ui-rails
   letsencrypt-rails-heroku
   mechanize
-  pg (~> 0.18.0)
   platform-api
   rack-cors
   rails (~> 4.2.10)
-  rails_12factor
   responders
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring
   sprockets (~> 3.7.2)
-  sqlite3 (~> 1.3.0)
-  thin
   turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
