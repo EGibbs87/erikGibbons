@@ -19,7 +19,7 @@ Rails.application.configure do
   config.force_ssl = true
   
   # minifier wrecking everything
-  config.assets.js_compressor = Uglifier.new(mangle: false)
+  config.assets.js_compressor = Uglifier.new(mangle: false, harmony: true)
 
   # Code is not reloaded between requests.
   config.cache_classes = true
