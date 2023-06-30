@@ -58,7 +58,9 @@ angular.module('TVCharts.Charts', [
   function init() {
     var shows = $state.params['query'].split(",")
     paramsMap = shows.map(function(el){
-      [imdb_id, series, year] = [null, null, null];
+      imdb_id = null;
+      series = null;
+      year = null;
       if(el.match(/i=/)){
         imdb_id = el.match(/i=([^&]*)/)[1];
       }
@@ -99,9 +101,9 @@ angular.module('TVCharts.Charts', [
     }
   }
 
-  function returnError(){
-    return [false, false, {}];
-  }
+  // function returnError(){
+  //   return [false, false, {}];
+  // }
   
   function get_trend_from_url(arr){
     var canvas = document.getElementById('chart');
@@ -122,7 +124,10 @@ angular.module('TVCharts.Charts', [
     episodesFactory.getOmdbBatchData(paramsArr.join("|"))
     .then(function(response){
       if(response.data[0].Response == "False"){
-        [chartsCtrl.loading, chartsCtrl.showCanvas, chartsCtrl.series_list] = returnError()
+        chartsCtrl.loading = false;
+        chartsCtrl.showCanvas = false;
+        chartsCtrl.series_list = {};
+        // [chartsCtrl.loading, chartsCtrl.showCanvas, chartsCtrl.series_list] = returnError()
         if(canvas){
           var ctx = canvas.getContext('2d');
           ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
@@ -178,7 +183,10 @@ angular.module('TVCharts.Charts', [
     episodesFactory.getOmdbData(params)
     .then(function(response){
       if(response.data[0].Response == "False"){
-        [chrtsCtrl.loading, chartsCtrl.showCanvas, chartsCtrl.series_list] = returnError()
+        chartsCtrl.loading = false;
+        chartsCtrl.showCanvas = false;
+        chartsCtrl.series_list = {};
+        // [chrtsCtrl.loading, chartsCtrl.showCanvas, chartsCtrl.series_list] = returnError()
         if(canvas){
           var ctx = canvas.getContext('2d');
           ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
@@ -201,7 +209,10 @@ angular.module('TVCharts.Charts', [
         organize_chart_data(chartsCtrl.series_list);
       }, function(data, status) {
         // if getting episode data fails
-        [chrtsCtrl.loading, chartsCtrl.showCanvas, chartsCtrl.series_list] = returnError()
+        chartsCtrl.loading = false;
+        chartsCtrl.showCanvas = false;
+        chartsCtrl.series_list = {};
+        // [chrtsCtrl.loading, chartsCtrl.showCanvas, chartsCtrl.series_list] = returnError()
         if(canvas){
           var ctx = canvas.getContext('2d');
           ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
@@ -212,7 +223,10 @@ angular.module('TVCharts.Charts', [
       });
     }, function(data, status) {
       // if getting imdb ID/clean title fails
-      [chrtsCtrl.loading, chartsCtrl.showCanvas, chartsCtrl.series_list] = returnError()
+      chartsCtrl.loading = false;
+      chartsCtrl.showCanvas = false;
+      chartsCtrl.series_list = {};
+      // [chrtsCtrl.loading, chartsCtrl.showCanvas, chartsCtrl.series_list] = returnError()
       if(canvas){
         var ctx = canvas.getContext('2d');
         ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
