@@ -58,7 +58,9 @@ angular.module('TVCharts.Charts', [
   function init() {
     var shows = $state.params['query'].split(",")
     paramsMap = shows.map(function(el){
-      [imdb_id, series, year] = [null, null, null];
+      imdb_id = null;
+      series = null;
+      year = null;
       if(el.match(/i=/)){
         imdb_id = el.match(/i=([^&]*)/)[1];
       }
