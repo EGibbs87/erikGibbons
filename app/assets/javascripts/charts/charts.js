@@ -370,6 +370,8 @@ angular.module('TVCharts.Charts', [
           }
         }
       },
+      maintainAspectRatio: false,
+      responsive: true,
       scales: { 
         xAxes: [{ 
           type: 'linear', 
