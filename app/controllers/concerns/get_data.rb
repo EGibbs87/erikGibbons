@@ -9,24 +9,28 @@ module GetData
         season = data.search('li[data-testid="tab-season-entry"]').css('[aria-selected="true"]')[0].text
         episodes = data.css('.episode-item-wrapper')
         episodes.each do |ep|
-          link = ep.css('.bglHll')[0]
+          link = ep.css('.ipc-title-link-wrapper')[0]
           ep_data = {}
           ep_data['season'] = season
           ep_data['ep_number'] = link.attributes['href'].text.match(/ttep_ep(\d{1,3})/)[1]
           ep_data['title'] = link.text.match(/ ∙ (.*)/)[1]
           ep_data['imdb_id'] = link.attributes['href'].text.match(/tt\d{1,10}/)[0]
-          air_date_reg = ep.css('.jEHgCG').text[5..-1]
-          if air_date_reg.nil?
-            # break if no date is listed
-            next
+          begin
+            air_date_reg = ep.css('h4')[0].next.text[5..-1]
+            if air_date_reg.nil?
+              # break if no date is listed
+              next
+            end
+            air_date = DateTime.strptime(air_date_reg, "%b %d, %Y").strftime("%F")
+            if air_date > Date.today.strftime("%F")
+              # break if date is in the future
+              next
+            end
+            ep_data['air_date'] = air_date
+          rescue
+            ep_data['air_date'] = 'Could not parse'
           end
-          air_date = DateTime.strptime(air_date_reg, "%b %d, %Y").strftime("%F")
-          if air_date > Date.today.strftime("%F")
-            # break if date is in the future
-            next
-          end
-          ep_data['air_date'] = air_date
-          ep_data['rating'] = ep.css('.bQrxup')[0].search('span')[0].attributes['aria-label'].text.match(/IMDb rating: (.*)/)[1]
+          ep_data['rating'] = ep.search('div[data-testid="ratingGroup--container"]')[0].search('span')[0].attributes['aria-label'].text.match(/IMDb rating: (.*)/)[1]
           output << ep_data
         end
 
