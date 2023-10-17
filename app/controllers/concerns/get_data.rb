@@ -80,7 +80,7 @@ module GetData
   def get_omdb_info(q)
     agent = Mechanize.new
 
-    response = agent.get("https://www.omdbapi.com/?apikey=#{ENV['OMDB_API_KEY']}&#{q}")
+    response = agent.get("https://www.omdbapi.com/?apikey=#{ENV['OMDB_API_KEY']}&#{q}&type=series")
 
     return JSON.parse(response.body)
   end
