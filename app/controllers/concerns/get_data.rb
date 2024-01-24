@@ -6,7 +6,7 @@ module GetData
     def episode_data(data)
       output = []
       begin
-        season = data.search('li[data-testid="tab-season-entry"]').css('[aria-selected="true"]')[0].text
+        season = data.search('a[data-testid="tab-season-entry"]').css('.ipc-tab--active')[0].text
         episodes = data.css('.episode-item-wrapper')
         episodes.each do |ep|
           link = ep.css('.ipc-title-link-wrapper')[0]
@@ -44,12 +44,12 @@ module GetData
     begin
       output = {}
 
-      agent = Mechanize.new { |agent| agent.user_agent_alias = 'Windows Chrome' }
+      agent = Mechanize.new { |agent| agent.user_agent_alias = 'Windows Chrome'; agent.user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.31" }
 
       # first season and set seasons
       response = agent.get("https://www.imdb.com/title/#{imdb_id}/episodes/?season=1")
-      s_list = response.search('li[data-testid="tab-season-entry"]')
-      sel = s_list.css('[aria-selected="true"]')[0].text
+      s_list = response.search('a[data-testid="tab-season-entry"]')
+      sel = s_list.css('.ipc-tab--active')[0].text
       seasons = s_list.map { |s| s.text }
 
       ep_data = episode_data(response)
