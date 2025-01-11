@@ -12,7 +12,7 @@ module GetData
           link = ep.css('.ipc-title-link-wrapper')[0]
           ep_data = {}
           ep_data['season'] = season
-          ep_data['ep_number'] = link.attributes['href'].text.match(/ttep_ep(\d{1,3})/)[1]
+          ep_data['ep_number'] = link.attributes['href'].text.match(/ttep_ep_(\d{1,3})/)[1]
           ep_data['title'] = link.text.match(/ ∙ (.*)/)[1]
           ep_data['imdb_id'] = link.attributes['href'].text.match(/tt\d{1,10}/)[0]
           begin
