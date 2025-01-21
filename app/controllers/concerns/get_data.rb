@@ -30,7 +30,12 @@ module GetData
           rescue
             ep_data['air_date'] = 'Could not parse'
           end
-          ep_data['rating'] = ep.search('div[data-testid="ratingGroup--container"]')[0].search('span')[0].attributes['aria-label'].text.match(/IMDb rating: (.*)/)[1]
+          begin
+            ep_data['rating'] = ep.search('div[data-testid="ratingGroup--container"]')[0].search('span')[0].attributes['aria-label'].text.match(/IMDb rating: (.*)/)[1]
+          rescue
+            # use 0.0 as placeholder if episode doesn't have rating
+            ep_data['ration'] = '0.0'
+          end
           output << ep_data
         end
 
@@ -58,6 +63,10 @@ module GetData
 
       # get data for each other season
       (seasons - [sel]).each do |season|
+        # skip seasons that aren't parsed as numbers
+        if season[/\d*/].blank?
+          next
+        end
         response = agent.get("https://www.imdb.com/title/#{imdb_id}/episodes/?season=#{season}")
         
         ep_data = episode_data(response)
