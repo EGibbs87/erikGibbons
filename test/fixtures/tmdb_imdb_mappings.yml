@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tmdb_episode_id: 1
+  imdb_id: MyString
+
+two:
+  tmdb_episode_id: 1
+  imdb_id: MyString
