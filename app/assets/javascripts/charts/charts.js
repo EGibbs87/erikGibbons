@@ -23,7 +23,7 @@ angular.module('TVCharts.Charts', [
   }
 ])
   
-.controller('ChartsCtrl', ['$q', '$uibModal', '$http', '$window', '$log', '$location', '$state', '$filter', '$timeout', '$document', '$scope', 'episodesFactory', function($q, $uibModal, $http, $window, $log, $location, $state, $filter, $timeout, $document, $scope, episodesFactory){
+.controller('ChartsCtrl', ['$q', '$uibModal', '$mdDialog', '$http', '$window', '$log', '$location', '$state', '$filter', '$timeout', '$document', '$scope', 'episodesFactory', function($q, $uibModal, $mdDialog, $http, $window, $log, $location, $state, $filter, $timeout, $document, $scope, episodesFactory){
   var chartsCtrl = this;
   chartsCtrl.get_trend = get_trend;
   chartsCtrl.organize_chart_data = organize_chart_data;
@@ -35,6 +35,7 @@ angular.module('TVCharts.Charts', [
   chartsCtrl.prevent_empty_switch = prevent_empty_switch;
   chartsCtrl.setOptSelect = setOptSelect;
   chartsCtrl.scrubDatasets = scrubDatasets;
+  chartsCtrl.showHelp = showHelp;
   chartsCtrl.myCharts = {};
   chartsCtrl.loading = false;
   chartsCtrl.showCanvas = false;
@@ -55,6 +56,30 @@ angular.module('TVCharts.Charts', [
   // 2. Season alignment: season-left, season-right // episode-left, episode-right
   // 3. Raw: episode-left, episode-right
   
+  function showHelp(ev) {
+    $mdDialog.show({
+      template:
+        '<md-dialog aria-label="Help">' +
+          '<div style="background-color: #d0d0d0; padding: 16px 24px; text-align: center;">' +
+            '<h2 style="margin: 0; font-weight: 500;">NOTES</h2>' +
+          '</div>' +
+          '<md-dialog-content style="padding: 16px 24px;">' +
+            '<p>Shows that have never been searched before will take longer to load while IMDb IDs are gathered.</p>' +
+            '<br><br>' +
+          '</md-dialog-content>' +
+          '<md-dialog-actions style="justify-content: space-between; padding: 8px 16px;">' +
+            '<span style="font-size: 12px;">Data sourced from TMDB</span>' +
+            '<md-button ng-click="closeDialog()" class="md-primary">Close</md-button>' +
+          '</md-dialog-actions>' +
+        '</md-dialog>',
+      targetEvent: ev,
+      clickOutsideToClose: true,
+      controller: ['$scope', '$mdDialog', function($scope, $mdDialog) {
+        $scope.closeDialog = function() { $mdDialog.hide(); };
+      }]
+    });
+  }
+
   function init() {
     var shows = $state.params['query'].split(",")
     paramsMap = shows.map(function(el){

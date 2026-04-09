@@ -57,6 +57,7 @@ angular.module('TVCharts', [
   'templates', // templates for rails
   'ngMaterial', // angular material -- done correctly
   'ngAnimate', // angular animations
+  'ngSanitize', // required for $mdDialog htmlContent
   'TVCharts.Charts',
   'ui.bootstrap'
 ])
