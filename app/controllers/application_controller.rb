@@ -14,9 +14,9 @@ class ApplicationController < ActionController::Base
   def contact
     ContactMailer.contact(params).deliver_now
     
-    render :nothing => true
+    head :ok
   end
-  
+
   def angular_charts
     @angular_app = "TVCharts"
     render "layouts/application", layout: false
@@ -70,8 +70,8 @@ class ApplicationController < ActionController::Base
   def ppp_contact
     ContactMailer.contact(params).deliver_now
     
-    render :nothing => true
+    head :ok
   end
- 
+
   private
 end

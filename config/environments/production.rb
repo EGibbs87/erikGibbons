@@ -18,8 +18,8 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
   
-  # minifier wrecking everything
-  config.assets.js_compressor = Uglifier.new(mangle: false, harmony: true)
+  # JS compression — using terser-compatible compressor
+  config.assets.js_compressor = :terser
 
   # Code is not reloaded between requests.
   config.cache_classes = true
@@ -42,7 +42,7 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
-  config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present? || ENV['RENDER'].present?
+  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present? || ENV['RENDER'].present?
 
   # Compress JavaScripts and CSS.
   # config.assets.js_compressor = :uglifier

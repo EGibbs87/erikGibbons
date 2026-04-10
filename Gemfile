@@ -1,42 +1,27 @@
 source 'https://rubygems.org'
 ruby "3.1.0"
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.3'
+gem 'rails', '~> 7.1.0'
 gem 'minitest', '~> 5.16.3'
 
-# group :development, :test do
-#   # Use sqlite3 as the database for Active Record
-# end
-gem 'sqlite3'#, '~> 1.3.0'
+gem 'sqlite3', '~> 1.4'
 
-group :production do
-  # Use postgresql as the database for Active Record
-  gem 'pg', '~> 0.18.0'
-  gem 'thin'
-  gem 'rails_12factor'
-end
+# Turso (libSQL) database support
+gem 'activerecord-enhancedsqlite3-adapter', '~> 0.8'
 
 # use rack-cors to handle cross-origin requests
 gem 'rack-cors'
 
-gem 'sprockets', '~> 3.7.2'
+gem 'sprockets-rails'
 
 # Let's encrypt for free SSL certs
 gem 'platform-api'
 gem 'letsencrypt-rails-heroku', group: 'production'
 
-# material icons
-# gem 'material_icons', '~> 2.2.1'
-
 # Use SCSS for stylesheets
-gem 'sass-rails'#, '~> 5.0'
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+gem 'sass-rails'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails'#, '~> 4.1.0'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
+gem 'coffee-rails'
 
 # Use angular-rails-templates to permit easy organization of angular frontend files
 gem 'angular-rails-templates'
@@ -46,12 +31,10 @@ gem 'responders'
 # jQuery
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+# Turbolinks makes following links in your web application faster
 gem 'turbolinks'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+# Build JSON APIs with ease
 gem 'jbuilder', '~> 2.0'
-# bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc'#, '~> 0.4.0', group: :doc
 
 # use Curb to make calls to API
 gem 'curb', '~> 0.9.7'
@@ -59,25 +42,18 @@ gem 'curb', '~> 0.9.7'
 # use Mechanize to get TV Show info
 gem 'mechanize'
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+# Puma web server
+gem 'puma', '~> 6.0'
 
-# Use Unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+# JS minification (replaces uglifier)
+gem 'terser'
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 end
 
 group :development do
-  # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
-
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'web-console', '~> 4.0'
   gem 'spring'
 end
 

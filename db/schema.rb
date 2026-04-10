@@ -10,13 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_04_09_021531) do
-
+ActiveRecord::Schema[7.1].define(version: 2026_04_09_021531) do
   create_table "tmdb_imdb_mappings", force: :cascade do |t|
     t.integer "tmdb_episode_id"
     t.string "imdb_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["tmdb_episode_id"], name: "index_tmdb_imdb_mappings_on_tmdb_episode_id", unique: true
   end
 
