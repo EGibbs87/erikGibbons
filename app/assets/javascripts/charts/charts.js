@@ -934,6 +934,10 @@ angular.module('TVCharts.Charts', [
         var season_ix = parseInt(s) - 1;
         // for each episode
         series[s].forEach(function(e){
+          // skip episodes that haven't aired yet
+          var airDate = e['Released'] ? new Date(e['Released']) : null;
+          if (!airDate || isNaN(airDate.getTime()) || airDate > new Date()) { return; }
+
           label_store_i.push("S" + s.padStart(2, '0') + "E" + e.Episode.padStart(2, '0'));
           // season_ix * 2 because each season has two datasets (ep_data and best fit)
           datasets_i[season_ix * 2].push({ x: i, y: parseFloat(e['imdbRating']), type: "ep", show: e['Show Title'], season: s, episode: e.Episode });
