@@ -17,3 +17,5 @@ production:
   host: <%= ENV['TURSO_DATABASE_URL'] %>
   auth_token: <%= ENV['TURSO_AUTH_TOKEN'] %>
   path: db/production.sqlite3
+  sync_interval: 1
+  read_your_writes: true
