@@ -39,7 +39,8 @@ module GetData
         sleep 0.1
       end
     rescue => error
-      puts $!.backtrace
+      puts "GetData error: #{error.class}: #{error.message}"
+      puts error.backtrace.first(10).join("\n")
       output = { '1': [{ "Show Title" => "Error retrieving show data", "Title" => "N/A", "Released" => '1970-01-01', "Episode" => "1", "imdbRating" => "0.0", "imdbId" => "N/A" }]}
     end
 
