@@ -19,6 +19,7 @@ module Libsql
 
       desc[:sync_interval] = options[:sync_interval] || 0
       desc[:disable_read_your_writes] = options[:read_your_writes] ? false : true
+      desc[:synced] = true
 
       @inner = CLibsql::Database.init desc
 
