@@ -12,10 +12,8 @@ test:
   database: db/test.sqlite3
 
 production:
-  adapter: enhancedsqlite3
+  adapter: libsql
   pool: 5
-  timeout: 5000
-  database: db/production.sqlite3
-  replica_url: <%= ENV['TURSO_DATABASE_URL'] %>
-  replica_token: <%= ENV['TURSO_AUTH_TOKEN'] %>
-  sync_interval: 5
+  url: <%= ENV['TURSO_DATABASE_URL'] %>
+  auth_token: <%= ENV['TURSO_AUTH_TOKEN'] %>
+  path: db/production.sqlite3

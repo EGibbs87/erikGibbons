@@ -32,6 +32,5 @@ module ErikGibbons
     # config.active_record.raise_in_transactional_callbacks = true
     
     config.public_file_server.enabled = true
-    config.active_support.cache_format_version = 7.1
   end
 end

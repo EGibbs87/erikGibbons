@@ -1,4 +1,4 @@
-class CreateTmdbImdbMappings < ActiveRecord::Migration[7.1]
+class CreateTmdbImdbMappings < ActiveRecord::Migration[8.0]
   def change
     create_table :tmdb_imdb_mappings do |t|
       t.integer :tmdb_episode_id

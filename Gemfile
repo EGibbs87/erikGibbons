@@ -1,13 +1,12 @@
 source 'https://rubygems.org'
-ruby "3.2.0"
+ruby ">= 3.3.0"
 
-gem 'rails', '~> 7.1.0'
-gem 'minitest', '~> 5.16.3'
+gem 'rails', '~> 8.0.0'
 
-gem 'sqlite3', '~> 1.4'
+gem 'sqlite3'
 
 # Turso (libSQL) database support
-gem 'activerecord-enhancedsqlite3-adapter', '~> 0.8'
+gem 'libsql_activerecord'
 
 # use rack-cors to handle cross-origin requests
 gem 'rack-cors'
