@@ -45,8 +45,6 @@ gem 'mechanize'
 # Puma web server
 gem 'puma', '~> 6.0'
 
-# JS minification (replaces uglifier)
-gem 'terser'
 
 group :development, :test do
   gem 'byebug'

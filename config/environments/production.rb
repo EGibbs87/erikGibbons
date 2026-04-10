@@ -18,8 +18,8 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
   
-  # JS compression — using terser-compatible compressor
-  config.assets.js_compressor = :terser
+  # JS compression — disabled; assets are precompiled locally
+  # config.assets.js_compressor = :terser
 
   # Code is not reloaded between requests.
   config.cache_classes = true

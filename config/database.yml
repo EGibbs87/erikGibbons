@@ -12,11 +12,7 @@ test:
   database: db/test.sqlite3
 
 production:
-  adapter: enhancedsqlite3
+  adapter: sqlite3
   pool: 5
   timeout: 5000
   database: db/production.sqlite3
-  # Turso sync configuration
-  replica_url: <%= ENV['TURSO_DATABASE_URL'] %>
-  replica_token: <%= ENV['TURSO_AUTH_TOKEN'] %>
-  sync_interval: 5
