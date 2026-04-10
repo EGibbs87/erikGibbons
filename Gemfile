@@ -40,6 +40,7 @@ gem 'curb', '~> 0.9.7'
 
 # use Mechanize to get TV Show info
 gem 'mechanize'
+gem 'connection_pool', '>= 2.5', '< 3.0'
 
 # Puma web server
 gem 'puma', '~> 6.0'
