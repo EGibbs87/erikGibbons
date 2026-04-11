@@ -236,6 +236,7 @@ angular.module('TVCharts.Charts', [
         canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
       }
       chartsCtrl.chart_title.push(["Error loading series data", "#"]);
+      if(!$scope.$$phase){ $scope.$apply(); }
     });
   }
   
