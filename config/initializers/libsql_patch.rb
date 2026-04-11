@@ -30,11 +30,51 @@ module Libsql
   end
 end
 
-# Fix 2: pragma_table_list doesn't work over remote Hrana connections.
-# Override to use sqlite_master which works for both local and remote.
+# Fix 2: The adapter uses stmt.column_count to decide between query (read)
+# and execute (write) paths. Over remote Hrana connections, column_count
+# returns 0 for SELECT/PRAGMA statements against system tables, causing
+# them to be treated as writes and returning empty results.
+# This breaks table detection, migrations, and schema checks.
+#
+# Also fixes pragma_table_list not working over Hrana by using sqlite_master.
 module ActiveRecord
   module ConnectionAdapters
     class LibsqlAdapter < AbstractAdapter
+      def perform_query(
+        raw_connection, sql, binds, type_casted_binds, prepare:,
+        notification_payload:, batch: false
+      )
+        _ = prepare
+        _ = notification_payload
+        _ = binds
+
+        if batch
+          raw_connection.execute_batch(sql)
+        else
+          stmt = raw_connection.prepare(sql)
+          begin
+            # Force SELECT/PRAGMA/WITH statements through the query path,
+            # regardless of column_count (which is unreliable over Hrana)
+            is_read = sql.match?(/\A\s*(SELECT|PRAGMA|WITH)\b/i)
+
+            result =
+              if !is_read && stmt.column_count.zero?
+                @last_affected_rows = stmt.execute type_casted_binds
+                ActiveRecord::Result.empty
+              else
+                rows = stmt.query(type_casted_binds)
+                @last_affected_rows = nil
+                ActiveRecord::Result.new(rows.columns, rows.to_a.map(&:values))
+              end
+          ensure
+            stmt.close
+          end
+        end
+        verified!
+
+        result
+      end
+
       def data_source_sql(name = nil, type: nil)
         scope = quoted_scope(name, type:)
         scope[:type] ||= "'table','view'"
