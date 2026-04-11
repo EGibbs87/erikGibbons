@@ -205,57 +205,37 @@ angular.module('TVCharts.Charts', [
     // get imdb ID and clean title
     episodesFactory.getOmdbData(params)
     .then(function(response){
-      if(response.data[0].Response == "False"){
+      if(response.data.Response == "False"){
         chartsCtrl.loading = false;
         chartsCtrl.showCanvas = false;
-        chartsCtrl.series_list = {};
-        // [chrtsCtrl.loading, chartsCtrl.showCanvas, chartsCtrl.series_list] = returnError()
+        chartsCtrl.series_list = [];
         if(canvas){
-          var ctx = canvas.getContext('2d');
-          ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
+          canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
         }
         chartsCtrl.chart_title.push(["Series not found", "#"]);
-        return false;
+        return;
       }
       var imdb_id = response.data.imdbID;
       chartsCtrl.imdbId.push(imdb_id);
       var title = response.data.Title;
       chartsCtrl.chart_title.push([title, "https://www.justwatch.com/us/search?q=" + encodeURI(title)]);
-      
+
       // get actual episode data
-      episodesFactory.getEpisodes(imdb_id, title)
+      return episodesFactory.getEpisodes(imdb_id, title)
       .then(function(response){
-        obj = response.data
-        chartsCtrl.series_list.push(obj);
-
-        // draw chart
+        chartsCtrl.series_list.push(response.data);
         organize_chart_data(chartsCtrl.series_list);
-      }, function(data, status) {
-        // if getting episode data fails
-        chartsCtrl.loading = false;
-        chartsCtrl.showCanvas = false;
-        chartsCtrl.series_list = {};
-        // [chrtsCtrl.loading, chartsCtrl.showCanvas, chartsCtrl.series_list] = returnError()
-        if(canvas){
-          var ctx = canvas.getContext('2d');
-          ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
-        }
-        chartsCtrl.chart_title.push(["Missing episode data", "#"]);
-
-        $log.log(data.error + ' ' + status);
       });
-    }, function(data, status) {
-      // if getting imdb ID/clean title fails
+    })
+    ['catch'](function(err) {
+      $log.log('get_trend error: ' + err);
       chartsCtrl.loading = false;
       chartsCtrl.showCanvas = false;
-      chartsCtrl.series_list = {};
-      // [chrtsCtrl.loading, chartsCtrl.showCanvas, chartsCtrl.series_list] = returnError()
+      chartsCtrl.series_list = [];
       if(canvas){
-        var ctx = canvas.getContext('2d');
-        ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
+        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
       }
-      chartsCtrl.chart_title.push(["Series not found", "#"]);
-      $log.log(data.error + ' ' + status);
+      chartsCtrl.chart_title.push(["Error loading series data", "#"]);
     });
   }
   
