@@ -177,6 +177,7 @@ angular.module('TVCharts.Charts', [
   }
 
   function get_trend(series, year, imdb_id, add) {
+    var canvas = document.getElementById('chart');
     if(!add){
       // if this isn't an additive function, start over
       chartsCtrl.chart_title = [];
@@ -185,9 +186,13 @@ angular.module('TVCharts.Charts', [
       chartsCtrl.series_list = [];
       chartsCtrl.imdbId = [];
       chartsCtrl.showCanvas = false;
-      // clear existing chart
+      // destroy existing Chart.js instance so it can reinitialize on same canvas
       if(canvas){
-        var ctx = canvas.getContext('2d');
+        Object.keys(Chart.instances).forEach(function(key){
+          if(Chart.instances[key].canvas === canvas){
+            Chart.instances[key].destroy();
+          }
+        });
       }
     }
     // set params
@@ -201,7 +206,6 @@ angular.module('TVCharts.Charts', [
     }
     // set url based on params provided
     window.history.pushState('abcdef', 'Title', '/' + [params, chartsCtrl.imdbId.map(function(el){ return 'i=' + el }).join(',')].filter(function(el){ return el }).join(','));
-    var canvas = document.getElementById('chart');
     chartsCtrl.loading = true;
 
     // get imdb ID and clean title
