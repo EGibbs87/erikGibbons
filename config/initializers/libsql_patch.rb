@@ -8,29 +8,11 @@
 # This patch corrects it so read_your_writes: true in database.yml works.
 require 'libsql'
 
-# Suppress all stderr output from the turso_libsql Rust FFI library.
+# Suppress stderr from the turso_libsql Rust FFI library in production.
 # The Rust code has dbg! macros that leak auth_token on connection init
 # (src/lib.rs:281) and dump every SQL query (src/lib.rs:628).
-module CLibsql
-  class << self
-    %i[
-      libsql_database_init libsql_database_connect libsql_database_sync
-      libsql_connection_prepare libsql_statement_execute libsql_statement_query
-      libsql_connection_batch
-    ].each do |method|
-      original = instance_method(method)
-      define_method(method) do |*args|
-        orig_stderr = STDERR.dup
-        STDERR.reopen(File.open(File::NULL, 'w'))
-        begin
-          original.bind_call(self, *args)
-        ensure
-          STDERR.reopen(orig_stderr)
-          orig_stderr.close
-        end
-      end
-    end
-  end
+if Rails.env.production?
+  STDERR.reopen(File.open(File::NULL, 'w'))
 end
 
 module Libsql
