@@ -2,9 +2,10 @@ namespace :turso do
   desc "Sync embedded replica from remote Turso database before running migrations"
   task sync: :environment do
     if Rails.env.production?
-      config = ActiveRecord::Base.connection_db_config.configuration_hash
+      config = ActiveRecord::Base.connection_db_config.configuration_hash.transform_keys(&:to_sym)
+      config[:url] = config[:host] if config[:host] && !config[:url]
       puts "Turso: syncing embedded replica from remote..."
-      db = Libsql::Database.new(config.transform_keys(&:to_sym))
+      db = Libsql::Database.new(config)
       result = db.sync
       puts "Turso: sync complete (frames_synced: #{result[:frames_synced]})"
       db.close
