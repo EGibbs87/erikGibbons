@@ -1,19 +1,18 @@
 namespace :turso do
-  desc "Sync embedded replica from remote Turso database before running migrations"
-  task sync: :environment do
+  desc "Verify Turso database connection before running migrations"
+  task verify: :environment do
     if Rails.env.production?
+      puts "Turso: verifying remote database connection..."
       config = ActiveRecord::Base.connection_db_config.configuration_hash.transform_keys(&:to_sym)
       config[:url] = config[:host] if config[:host] && !config[:url]
-      puts "Turso: syncing embedded replica from remote..."
       db = Libsql::Database.new(config)
-      result = db.sync
-      puts "Turso: sync complete (frames_synced: #{result[:frames_synced]})"
+      db.connect do |conn|
+        conn.query("SELECT 1") { |rows| rows.next }
+      end
+      puts "Turso: connection verified"
       db.close
-    else
-      puts "Turso: skipping sync (not production)"
     end
   end
 end
 
-# Ensure turso:sync runs before db:migrate in production
-Rake::Task['db:migrate'].enhance(['turso:sync']) if Rails.env.production?
+Rake::Task['db:migrate'].enhance(['turso:verify']) if Rails.env.production?

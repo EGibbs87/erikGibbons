@@ -22,21 +22,38 @@ module GetData
       # get episode info
       output = {}
       # { '1': [{ "Show Title" => "Error retrieving show data", "Title" => "N/A", "Released" => '1970-01-01', "Episode" => "1", "imdbRating" => "0.0", "imdbId" => "N/A" }]}
+      # Collect all season/episode data from TMDB
+      seasons_data = {}
+      all_episode_ids = []
       show['seasons'].each do |s|
-        next if s['season_number'] == 0 # skip 'Specials' (could add a checkbox later if wanted)
-        output[s['season_number'].to_s] = []
+        next if s['season_number'] == 0
         season = get_json(agent, "tv/#{tmdb_id}/season/#{s['season_number']}?language=en-US")
-        season['episodes'].each do |ep|
-          output[s['season_number'].to_s] << {
+        seasons_data[s['season_number']] = season['episodes']
+        season['episodes'].each { |ep| all_episode_ids << ep['id'] }
+        sleep 0.1
+      end
+
+      # Batch-fetch all cached IMDB mappings in one query
+      cached = TmdbImdbMapping.where(tmdb_episode_id: all_episode_ids).index_by(&:tmdb_episode_id)
+
+      # Build output, only hitting TMDB API for uncached episodes
+      seasons_data.each do |season_num, episodes|
+        output[season_num.to_s] = []
+        episodes.each do |ep|
+          mapping = cached[ep['id']]
+          unless mapping
+            mapping = TmdbImdbMapping.imdb_for(agent, tmdb_id: ep['id'], show_id: tmdb_id, season: season_num, episode: ep['episode_number'])
+          end
+
+          output[season_num.to_s] << {
             "Show Title" => show_title,
             "Title" => ep['name'],
             "Released" => ep['air_date'],
             "Episode" => ep['episode_number'].to_s,
             "imdbRating" => ep['vote_average'].to_s,
-            "imdbId" => TmdbImdbMapping.imdb_for(agent, tmdb_id: ep['id'], show_id: tmdb_id, season: s['season_number'], episode: ep['episode_number'])
+            "imdbId" => mapping.is_a?(TmdbImdbMapping) ? mapping.imdb_id : mapping
           }
         end
-        sleep 0.1
       end
     rescue => error
       puts "GetData error: #{error.class}: #{error.message}"

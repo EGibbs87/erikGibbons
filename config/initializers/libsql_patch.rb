@@ -1,11 +1,5 @@
-# Monkey-patch to fix turso_libsql gem bug where disable_read_your_writes
-# is always set to true due to Ruby operator precedence.
-#
-# Bug in turso_libsql v0.2.1 at lib/libsql.rb line 556:
-#   desc[:disable_read_your_writes] = !options[:read_your_writes] || true
-# This evaluates as (!options[:read_your_writes]) || true => always true.
-#
-# This patch corrects it so read_your_writes: true in database.yml works.
+# Monkey-patch Libsql::Database to suppress auth_token leak from
+# turso_libsql Rust library's dbg! macro at src/lib.rs:281
 require 'libsql'
 
 module Libsql
@@ -18,11 +12,10 @@ module Libsql
       end
 
       desc[:sync_interval] = options[:sync_interval] || 0
-      desc[:disable_read_your_writes] = options[:read_your_writes] ? false : true
-      desc[:synced] = true
+      desc[:disable_read_your_writes] = !options.fetch(:read_your_writes, false)
 
-      # Suppress stderr only during Database.init to prevent the Rust library
-      # from leaking auth_token via dbg! macro at src/lib.rs:281
+      # Suppress stderr during Database.init to prevent the Rust library
+      # from leaking auth_token via dbg! macro
       orig_stderr = STDERR.dup
       STDERR.reopen(File.open(File::NULL, 'w'))
       begin
