@@ -186,14 +186,8 @@ angular.module('TVCharts.Charts', [
       chartsCtrl.series_list = [];
       chartsCtrl.imdbId = [];
       chartsCtrl.showCanvas = false;
-      // destroy existing Chart.js instance so it can reinitialize on same canvas
-      if(canvas){
-        Object.keys(Chart.instances).forEach(function(key){
-          if(Chart.instances[key].canvas === canvas){
-            Chart.instances[key].destroy();
-          }
-        });
-      }
+      // destroy existing chart via angular-chart.js event
+      $scope.$broadcast('chart-destroy');
     }
     // set params
     if(!imdb_id){
