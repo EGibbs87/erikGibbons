@@ -4,6 +4,14 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
 
   include GetData
+
+  before_action :set_no_cache, only: [:get_omdb_data, :get_omdb_batch_data, :get_episode_data, :get_episode_batch_data]
+
+  def set_no_cache
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+  end
   
   # send the user to the angular application by default
   def angular
