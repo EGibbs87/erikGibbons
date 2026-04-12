@@ -8,7 +8,7 @@ class TmdbImdbMapping < ApplicationRecord
             end
             row.imdb_id
         rescue RuntimeError => e
-            if e.message.include?('SQLITE_BUSY') && retries < 5
+            if (e.message.include?('SQLITE_BUSY') || e.message.include?('SQLITE_CONSTRAINT')) && retries < 5
                 retries += 1
                 sleep(0.1 * retries)
                 retry
