@@ -75,6 +75,27 @@ module ActiveRecord
         result
       end
 
+      def supports_insert_on_duplicate_skip?
+        true
+      end
+
+      def supports_insert_on_duplicate_update?
+        true
+      end
+
+      def build_insert_sql(insert)
+        sql = +"INSERT #{insert.into} #{insert.values_list}"
+
+        if insert.skip_duplicates?
+          sql.sub!(/\AINSERT/, "INSERT OR IGNORE")
+        elsif insert.update_duplicates?
+          sql << " ON CONFLICT (#{insert.conflict_target.join(', ')}) DO UPDATE SET "
+          sql << insert.updatable_columns.map { |c| "#{c}=excluded.#{c}" }.join(", ")
+        end
+
+        sql
+      end
+
       def data_source_sql(name = nil, type: nil)
         scope = quoted_scope(name, type:)
         scope[:type] ||= "'table','view'"
