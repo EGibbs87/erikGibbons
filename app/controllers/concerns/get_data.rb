@@ -36,14 +36,32 @@ module GetData
       # Batch-fetch all cached IMDB mappings in one query
       cached = TmdbImdbMapping.where(tmdb_episode_id: all_episode_ids).index_by(&:tmdb_episode_id)
 
-      # Build output, only hitting TMDB API for uncached episodes
+      # Fetch IMDB IDs from TMDB API for all uncached episodes, then bulk-insert
+      uncached_mappings = []
+      seasons_data.each do |season_num, episodes|
+        episodes.each do |ep|
+          next if cached.key?(ep['id'])
+          url = "tv/#{tmdb_id}/season/#{season_num}/episode/#{ep['episode_number']}/external_ids?api_key=#{ENV['TMDB_API_KEY']}"
+          imdb_id_result = get_json(agent, url)['imdb_id']
+          uncached_mappings << { tmdb_episode_id: ep['id'], imdb_id: imdb_id_result }
+          sleep 0.05
+        end
+      end
+
+      if uncached_mappings.any?
+        now = Time.current
+        rows = uncached_mappings.map { |m| m.merge(created_at: now, updated_at: now) }
+        TmdbImdbMapping.insert_all(rows)
+        # Re-fetch to get the full records including any that already existed
+        new_ids = uncached_mappings.map { |m| m[:tmdb_episode_id] }
+        TmdbImdbMapping.where(tmdb_episode_id: new_ids).each { |r| cached[r.tmdb_episode_id] = r }
+      end
+
+      # Build output from cached mappings
       seasons_data.each do |season_num, episodes|
         output[season_num.to_s] = []
         episodes.each do |ep|
           mapping = cached[ep['id']]
-          unless mapping
-            mapping = TmdbImdbMapping.imdb_for(agent, tmdb_id: ep['id'], show_id: tmdb_id, season: season_num, episode: ep['episode_number'])
-          end
 
           output[season_num.to_s] << {
             "Show Title" => show_title,
@@ -51,7 +69,7 @@ module GetData
             "Released" => ep['air_date'],
             "Episode" => ep['episode_number'].to_s,
             "imdbRating" => ep['vote_average'].to_s,
-            "imdbId" => mapping.is_a?(TmdbImdbMapping) ? mapping.imdb_id : mapping
+            "imdbId" => mapping&.imdb_id
           }
         end
       end
