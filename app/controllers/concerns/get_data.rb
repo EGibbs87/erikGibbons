@@ -49,10 +49,13 @@ module GetData
       end
 
       if uncached_mappings.any?
-        now = Time.current
-        rows = uncached_mappings.map { |m| m.merge(created_at: now, updated_at: now) }
-        TmdbImdbMapping.insert_all(rows)
-        # Re-fetch to get the full records including any that already existed
+        now = Time.current.utc.iso8601
+        values = uncached_mappings.map do |m|
+          "(#{m[:tmdb_episode_id]}, #{ActiveRecord::Base.connection.quote(m[:imdb_id])}, '#{now}', '#{now}')"
+        end.join(", ")
+        ActiveRecord::Base.connection.execute(
+          "INSERT OR IGNORE INTO tmdb_imdb_mappings (tmdb_episode_id, imdb_id, created_at, updated_at) VALUES #{values}"
+        )
         new_ids = uncached_mappings.map { |m| m[:tmdb_episode_id] }
         TmdbImdbMapping.where(tmdb_episode_id: new_ids).each { |r| cached[r.tmdb_episode_id] = r }
       end
