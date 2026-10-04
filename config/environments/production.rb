@@ -1,3 +1,6 @@
+require_relative "../../lib/static_cache_headers"
+require_relative "../../lib/request_bandwidth_logger"
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   
@@ -44,6 +47,21 @@ Rails.application.configure do
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present? || ENV['RENDER'].present?
 
+  # Baseline for non-digested files in /public (robots.txt, favicon.ico, the
+  # 404/422/500 pages): short enough to stay editable. Previously no
+  # Cache-Control was sent at all, so every repeat visitor revalidated — or
+  # refetched — the whole asset set.
+  config.public_file_server.headers = {
+    'cache-control' => 'public, max-age=3600'
+  }
+
+  # Digested /assets get a permanent immutable cache instead. See the class for
+  # why this can't just be the header hash above.
+  config.middleware.insert_before ActionDispatch::Static, StaticCacheHeaders
+
+  # Above Static, so /assets requests are logged too — lograge cannot see them.
+  config.middleware.insert_before StaticCacheHeaders, RequestBandwidthLogger
+
   # Compress JavaScripts and CSS.
   # config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
@@ -61,15 +79,27 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
-  # Use the lowest log level to ensure availability of diagnostic information
-  # when problems arise.
-  config.log_level = :debug
+  # Was :debug, which wrote full SQL and view traces to a file nobody reads.
+  config.log_level = ENV.fetch('RAILS_LOG_LEVEL', 'info').to_sym
+
+  # Log to stdout so the platform's log stream captures requests. Rails'
+  # default destination is log/production.log, which on Render lives on an
+  # ephemeral filesystem — it is destroyed on every restart and redeploy, and
+  # never reaches the dashboard.
+  if ENV['RAILS_LOG_TO_STDOUT'].present? || ENV['RENDER'].present?
+    stdout_logger = ActiveSupport::Logger.new($stdout)
+    stdout_logger.formatter = ::Logger::Formatter.new
+    config.logger = ActiveSupport::TaggedLogging.new(stdout_logger)
+  end
+
+  # One line per controller request instead of Rails' four.
+  config.lograge.enabled = true
+  config.lograge.custom_options = lambda do |event|
+    { host: event.payload[:host], ua: event.payload[:user_agent] }
+  end
 
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
-
-  # Use a different logger for distributed setups.
-  # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store

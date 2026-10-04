@@ -38,7 +38,11 @@
               <div class="proj-tile-img-container" ng-click="homeCtrl.setProj(proj.name)" ng-repeat="img in proj.images" ng-class="{{$index > 0}} ? 'hide-img' : 'show-img'">
                 <div class="proj-veil">
                   <span class="veil-text"><b>VIEW GALLERY</b></span>
-                  <a href="{{ img.url }}" data-lightbox="{{ proj.name }}" data-title="{{ proj.desc }}<span class={{ proj.showUrl }}> - Visit: {{ proj.url }}<span class={{ proj.authenticationProtected }}> (Authentication protected)</span></span>" analytics-on="click" analytics-event="Show Gallery"><img class="proj-tile-img" ng-src="{{ img.url }}"></a>
+                  <!-- Only the cover image ($index 0) gets an <img>. The other anchors stay
+                       in the DOM so lightbox2 can still group the full gallery by data-lightbox,
+                       but an <img> in a display:none container is still downloaded by the
+                       browser, so rendering all of them cost ~49 MB per cold page load. -->
+                  <a href="{{ img.url }}" data-lightbox="{{ proj.name }}" data-title="{{ proj.desc }}<span class={{ proj.showUrl }}> - Visit: {{ proj.url }}<span class={{ proj.authenticationProtected }}> (Authentication protected)</span></span>" analytics-on="click" analytics-event="Show Gallery"><img class="proj-tile-img" ng-if="$index === 0" ng-src="{{ img.url }}" loading="lazy" alt="{{ proj.name }}"></a>
                 </div>
               </div> 
            </li>

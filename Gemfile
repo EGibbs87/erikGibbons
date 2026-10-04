@@ -42,6 +42,9 @@ gem 'connection_pool', '>= 2.5', '< 3.0'
 # Puma web server
 gem 'puma', '~> 6.0'
 
+# Collapse Rails' multi-line request logs into one structured line each
+gem 'lograge'
+
 
 group :development, :test do
   gem 'byebug'
