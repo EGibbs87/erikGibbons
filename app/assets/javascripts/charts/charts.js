@@ -39,6 +39,7 @@ angular.module('TVCharts.Charts', [
   chartsCtrl.search = search;
   chartsCtrl.detectSearchInput = detectSearchInput;
   chartsCtrl.toggleTheme = toggleTheme;
+  chartsCtrl.removeSeries = removeSeries;
   chartsCtrl.myCharts = {};
   chartsCtrl.loading = false;
   chartsCtrl.showCanvas = false;
@@ -51,6 +52,7 @@ angular.module('TVCharts.Charts', [
   chartsCtrl.datasets = [];
   chartsCtrl.labels = [];
   chartsCtrl.series_labels = [];
+  chartsCtrl.chart_colors = [];
   chartsCtrl.chart_title = [];
   chartsCtrl.series_meta = [];
   chartsCtrl.compType = 'norm';
@@ -58,8 +60,9 @@ angular.module('TVCharts.Charts', [
   chartsCtrl.compSeasonAlign = 'left';
   chartsCtrl.compEpAlign = 'left';
   chartsCtrl.connectSeasons = false;
-  chartsCtrl.fill = false;
+  chartsCtrl.fill = true;
   chartsCtrl.focusedScale = false;
+  chartsCtrl.showOptions = false;
   try {
     var storedTheme = $window.localStorage.getItem('tvcharts-theme');
     chartsCtrl.darkMode = storedTheme ? storedTheme == 'dark' : ($window.matchMedia && $window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -124,6 +127,17 @@ angular.module('TVCharts.Charts', [
     }
   } // end of init
   
+  // angular-chart.js pads chart-colors itself when there are more datasets than
+  // colors, and it does so outside a digest (its first draw is deferred while
+  // the canvas is hidden). The next digest -- any click or focus -- then sees
+  // chart-colors change and rebuilds the chart. Keep one placeholder color per
+  // dataset so it never has to; dataset_override supplies the real colors.
+  $scope.$watch(function(){ return chartsCtrl.datasets.length; }, function(count){
+    while(chartsCtrl.chart_colors.length < count){
+      chartsCtrl.chart_colors.push('#000000');
+    }
+  });
+
   init();
   
   /*********************
@@ -141,7 +155,7 @@ angular.module('TVCharts.Charts', [
   function detectSearchInput(){
     var imdbId = extractImdbId(chartsCtrl.search_query);
     chartsCtrl.search_is_imdb = imdbId != null;
-    chartsCtrl.search_hint = imdbId ? 'IMDb ID detected: ' + imdbId : 'Year can distinguish any shows that share a title';
+    chartsCtrl.search_hint = imdbId ? 'IMDb ID detected: ' + imdbId : 'Year may help distinguish shows that share a title';
     return imdbId;
   }
 
@@ -178,6 +192,16 @@ angular.module('TVCharts.Charts', [
     chartsCtrl.search_is_imdb = imdbId != null;
     chartsCtrl.error_message = '';
     get_trend(imdbId ? null : query, imdbId ? null : chartsCtrl.year, imdbId, add === true);
+  }
+
+  function removeSeries(index){
+    if(chartsCtrl.loading || chartsCtrl.series_list.length < 2){ return; }
+    chartsCtrl.series_list.splice(index, 1);
+    chartsCtrl.imdbId.splice(index, 1);
+    chartsCtrl.series_meta.splice(index, 1);
+    updateChartTitles();
+    $window.history.pushState(null, 'TV Show Trends', '/' + chartsCtrl.imdbId.map(function(el){ return 'i=' + el; }).join(','));
+    organize_chart_data(chartsCtrl.series_list);
   }
 
   function toggleTheme(){
@@ -525,6 +549,11 @@ angular.module('TVCharts.Charts', [
         xAxes: [{ 
           type: 'linear', 
           position: 'bottom',
+          scaleLabel: {
+            display: true,
+            labelString: "Episode",
+            fontColor: theme.muted
+          },
           ticks: {
             autoSkip: true,
             autoSkipPadding: 0,
@@ -1023,6 +1052,11 @@ angular.module('TVCharts.Charts', [
     return colors;
   }
 
+  function episodeCode(season, episode){
+    function pad(n){ n = String(n); return n.length < 2 ? '0' + n : n; }
+    return 'S' + pad(season) + 'E' + pad(episode);
+  }
+
   function updateSummaryCards(raw){
     var stats = raw.map(function(series, seriesIndex){
       var episodes = [];
@@ -1041,10 +1075,12 @@ angular.module('TVCharts.Charts', [
 
       if(!episodes.length){ return null; }
       var total = episodes.reduce(function(sum, episode){ return sum + episode.rating; }, 0);
-      var highest = episodes.reduce(function(best, episode){ return episode.rating > best.rating ? episode : best; }, episodes[0]);
+      var highestRating = Math.max.apply(null, episodes.map(function(episode){ return episode.rating; }));
+      var highest = episodes.filter(function(episode){ return episode.rating == highestRating; });
       return {
         title: chartsCtrl.chart_title[seriesIndex] ? chartsCtrl.chart_title[seriesIndex][0] : 'Series ' + (seriesIndex + 1),
         average: total / episodes.length,
+        highestRating: highestRating,
         highest: highest,
         first: episodes[0].rating,
         last: episodes[episodes.length - 1].rating,
@@ -1063,7 +1099,10 @@ angular.module('TVCharts.Charts', [
       var direction = delta > 0.15 ? 'Rising' : (delta < -0.15 ? 'Falling' : 'Steady');
       chartsCtrl.summary_cards = [
         { label: 'Series average', value: stat.average.toFixed(1), context: stat.count + ' rated episodes' },
-        { label: 'Highest rated', value: stat.highest.rating.toFixed(1), context: (stat.highest.title || ('S' + stat.highest.season + ' E' + stat.highest.episode)) },
+        { label: 'Highest rated', value: stat.highestRating.toFixed(1), contextList: stat.highest.map(function(episode){
+          var position = episodeCode(episode.season, episode.episode);
+          return episode.title ? position + ' · ' + episode.title : position;
+        }) },
         { label: 'Overall trend', value: direction, context: (delta >= 0 ? '+' : '') + delta.toFixed(1) + ' premiere to finale' }
       ];
       return;

@@ -38,12 +38,11 @@
       ga('send', 'pageview');
     </script>
 
-    <!-- Load cover images first -->
+    <!-- Warm only the above-the-fold parallax background. The project tiles
+         used to be preloaded here as hidden <img> tags (one per project, ~8.6 MB);
+         they are fetched lazily by the tiles themselves now. -->
     <% if @angular_app == "ErikGibbons" %>
-      <img src="<%= image_url('luca-bravo-2.jpg') %>" hidden>
-      <% Dir.entries('app/assets/images').select {|entry| File.directory? File.join('app/assets/images',entry) and !(entry =='.' || entry == '..') }.each do |img| %>
-        <img src="<%= image_url(img + "/00. Title.png") %>" hidden>
-      <% end %>
+      <link rel="preload" as="image" href="<%= image_url('luca-bravo-2.jpg') %>">
     <% end %>
 
     <!-- BMAB -->
@@ -93,7 +92,7 @@
   <body ng-app="<%= @angular_app %>" layout="column" flex ng-strict-di data-no-turbolink="true" id="main" class="<%= if @angular_app == 'TVCharts' then 'main-charts' elsif @angular_app == 'ErikGibbons' then 'main' elsif @angular_app == 'PPPLending' then 'main-ppp' else 'main' end %>">
 
     <md-content ng-cloak flex layout="column" id="content">
-      <div ui-view="main" layout="column" style='display: block; padding-bottom:50px'></div>
+      <div ui-view="main" layout="column" style='display: block;<%= ' padding-bottom:50px' unless @angular_app == "TVCharts" %>'></div>
     </md-content>
 
     <script>

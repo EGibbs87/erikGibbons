@@ -386,10 +386,7 @@ md-switch {
 .tv-page-header,
 .tv-search-footer,
 .tv-results-heading,
-.tv-chart-controls,
-.tv-header-actions,
-.tv-switches,
-.tv-comparison-controls {
+.tv-header-actions {
   display: flex;
   align-items: center;
 }
@@ -464,6 +461,7 @@ md-switch {
   box-shadow: 0 12px 34px rgba(0, 0, 0, 0.2);
 }
 
+.tv-chart-controls,
 .tv-search-card,
 .tv-results,
 .tv-loading,
@@ -628,6 +626,7 @@ md-switch {
 }
 
 .tv-title-name {
+  position: relative;
   display: inline-block;
   border-bottom: 4px solid transparent;
 }
@@ -648,8 +647,47 @@ md-switch {
   color: var(--tv-link) !important;
 }
 
+.tv-remove-series {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* The close glyph's arm tips sit ~85% of the icon size apart (0.4em icon),
+     so this puts the ring's inner edge on the tips; +4px covers the border. */
+  width: calc(0.34em + 4px);
+  height: calc(0.34em + 4px);
+  padding: 0;
+  color: var(--tv-error);
+  background: var(--tv-surface);
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  font-size: inherit;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transform: translate(-55%, -15%) translate(-5px, -5px);
+  transition: opacity 120ms ease;
+}
+
+.tv-title-name:hover .tv-remove-series,
+.tv-remove-series:focus-visible {
+  opacity: 1;
+}
+
+.tv-title-name:hover .tv-remove-series[disabled] {
+  cursor: default;
+  opacity: 0.35;
+}
+
 .tv-title-item .material-icons {
   font-size: 0.55em;
+}
+
+.tv-title-item .tv-remove-series .material-icons {
+  font-size: 0.4em;
 }
 
 .tv-chart-subtitle {
@@ -670,71 +708,52 @@ md-switch {
 }
 
 .tv-chart-controls {
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
   padding: 12px 16px;
-  background: var(--tv-surface);
-  border: 1px solid var(--tv-border);
-  border-radius: 12px 12px 0 0;
+  margin-top: 16px;
 }
 
-.tv-switches {
-  gap: 18px;
+.tv-chart-controls > [layout=row] {
   flex-wrap: wrap;
 }
 
-.tv-trends-page md-switch {
-  margin: 0 !important;
-  color: var(--tv-text);
-}
-
-.tv-comparison-controls {
-  align-items: stretch;
-  width: 100%;
-  gap: 12px;
-  flex-wrap: wrap;
-  padding-top: 12px;
-  border-top: 1px solid var(--tv-border);
-}
-
-.tv-radio-control {
-  display: grid;
-  gap: 7px;
-}
-
-.tv-control-label {
-  color: var(--tv-muted);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-
-.tv-radio-cluster {
+.tv-collapse-toggle {
   display: flex;
   align-items: center;
-  gap: 8px 18px;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  padding: 4px 0;
+  color: var(--tv-text);
+  background: none;
+  border: 0;
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
 }
 
-.tv-radio-cluster md-radio-button {
-  margin: 0;
+.tv-collapse-panel {
+  margin-top: 12px;
 }
 
-.tv-trends-page .tv-radio-cluster .md-label {
+.opts-container {
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 250px;
+}
+
+.tv-trends-page md-switch,
+.tv-trends-page md-radio-button .md-label {
   color: var(--tv-text);
 }
 
-.tv-trends-page .tv-radio-cluster md-radio-button .md-off {
+.tv-trends-page md-radio-button .md-off {
   border-color: var(--tv-muted);
 }
 
-.tv-trends-page .tv-radio-cluster md-radio-button.md-checked .md-off {
+.tv-trends-page md-radio-button.md-checked .md-off {
   border-color: var(--tv-primary);
 }
 
-.tv-trends-page .tv-radio-cluster md-radio-button.md-checked .md-on {
+.tv-trends-page md-radio-button.md-checked .md-on {
   background-color: var(--tv-primary);
 }
 
@@ -743,8 +762,7 @@ md-switch {
   padding: 18px 12px 8px;
   background: var(--tv-surface);
   border: 1px solid var(--tv-border);
-  border-top: 0;
-  border-radius: 0 0 12px 12px;
+  border-radius: 12px;
 }
 
 .tv-chart-stage canvas {
@@ -825,21 +843,6 @@ md-switch {
     margin-top: 10px;
   }
 
-  .tv-chart-controls {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .tv-switches {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .tv-radio-cluster {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
   .tv-chart-stage {
     height: 390px;
     padding-left: 2px;
@@ -858,10 +861,6 @@ md-switch {
 
   .tv-brand-icon {
     display: none;
-  }
-
-  .tv-switches {
-    grid-template-columns: 1fr;
   }
 
   .tv-chart-stage {

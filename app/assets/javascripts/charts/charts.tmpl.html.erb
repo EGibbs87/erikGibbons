@@ -41,7 +41,7 @@
                      type="submit"
                      ng-disabled="get_data_form.$invalid || chartsCtrl.loading">
             <i class="material-icons" aria-hidden="true">search</i>
-            {{ chartsCtrl.series_list.length > 0 ? 'Replace chart' : 'View chart' }}
+            {{ chartsCtrl.series_list.length > 0 ? 'Individual Chart' : 'View chart' }}
           </md-button>
           <md-button class="tv-compare-button"
                      type="button"
@@ -49,7 +49,7 @@
                      ng-disabled="get_data_form.$invalid || chartsCtrl.loading"
                      ng-click="chartsCtrl.search(true)">
             <i class="material-icons" aria-hidden="true">add_chart</i>
-            Compare entered show
+            Add to Chart
           </md-button>
         </div>
       </div>
@@ -61,6 +61,74 @@
         </span>
       </div>
     </form>
+  </section>
+
+  <section class="tv-card tv-chart-controls" aria-label="Chart display options">
+    <button type="button"
+            class="tv-collapse-toggle"
+            ng-click="chartsCtrl.showOptions = !chartsCtrl.showOptions"
+            aria-expanded="{{ chartsCtrl.showOptions }}"
+            aria-controls="chart-options-panel">
+      <span>Display Options</span>
+      <i class="material-icons" aria-hidden="true">{{ chartsCtrl.showOptions ? 'expand_less' : 'expand_more' }}</i>
+    </button>
+    <div id="chart-options-panel" class="tv-collapse-panel" layout="row" gutterSize="20px" ng-show="chartsCtrl.showOptions">
+      <div class="opts-container">
+        <md-switch ng-change="chartsCtrl.prevent_empty_switch('episodes'); chartsCtrl.set_dataset_override(chartsCtrl.options_object, chartsCtrl.chart_title.length > 1)" ng-model="chartsCtrl.episode_data" aria-label="Episode Data">
+          Show Episode Data
+        </md-switch>
+        <md-switch ng-change="chartsCtrl.prevent_empty_switch('trends'); chartsCtrl.set_dataset_override(chartsCtrl.options_object, chartsCtrl.chart_title.length > 1)" ng-model="chartsCtrl.trends" aria-label="Trend Data">
+          Show Trendlines
+        </md-switch>
+        <md-switch ng-change="chartsCtrl.set_options(chartsCtrl.options_object); chartsCtrl.set_dataset_override(chartsCtrl.chart_title.length > 1)" ng-model="chartsCtrl.fill" aria-label="Area Chart">
+          Area Chart
+        </md-switch>
+        <md-switch ng-change="chartsCtrl.set_options(chartsCtrl.options_object)" ng-model="chartsCtrl.focusedScale" aria-label="Focused Y-Axis">
+          Focused Y-Axis
+        </md-switch>
+        <md-switch ng-change="chartsCtrl.setOptSelect(); chartsCtrl.scrubDatasets(chartsCtrl.datasets.flat())" ng-model="chartsCtrl.connectSeasons" aria-label="Connect Seasons">
+          Connect Seasons
+        </md-switch>
+      </div>
+      <div ng-show="chartsCtrl.series_list.length > 1" class="opts-container">
+        <div id="comp-chart-options">
+          <label id="multi-chart-type">Display Style</label>
+          <md-radio-group aria-label="Display Style" ng-model="chartsCtrl.compType" ng-change="chartsCtrl.scrubDatasets(chartsCtrl.datasets.flat())">
+            <md-radio-button value="norm">Normalize</md-radio-button>
+            <md-radio-button value="s-align" ng-show="!chartsCtrl.connectSeasons">Align Seasons</md-radio-button>
+            <md-radio-button value="raw">Align Episodes</md-radio-button>
+          </md-radio-group>
+        </div>
+      </div>
+      <div ng-show="chartsCtrl.series_list.length > 1 && chartsCtrl.compType == 'norm' && !chartsCtrl.connectSeasons" class="opts-container">
+        <div id="norm-opts">
+          <label id="multi-chart-type">Normalization Style</label>
+          <md-radio-group aria-label="Normalization Style" ng-model="chartsCtrl.compNormType" ng-change="chartsCtrl.scrubDatasets(chartsCtrl.datasets.flat())">
+            <md-radio-button value="s-left">Season, Left-Aligned</md-radio-button>
+            <md-radio-button value="s-right">Season, Right-Aligned</md-radio-button>
+            <md-radio-button value="full">Full Series</md-radio-button>
+          </md-radio-group>
+        </div>
+      </div>
+      <div ng-show="chartsCtrl.series_list.length > 1 && chartsCtrl.compType != 'norm' && !(chartsCtrl.connectSeasons && chartsCtrl.compType == 's-align')" class="opts-container">
+        <div id="align-eps">
+          <label id="multi-chart-type">Episode Alignment</label>
+          <md-radio-group aria-label="Episode Alignment" ng-model="chartsCtrl.compEpAlign" ng-change="chartsCtrl.scrubDatasets(chartsCtrl.datasets.flat())">
+            <md-radio-button value="left">Left</md-radio-button>
+            <md-radio-button value="right">Right</md-radio-button>
+          </md-radio-group>
+        </div>
+      </div>
+      <div ng-show="chartsCtrl.series_list.length > 1 && chartsCtrl.compType == 's-align' && !chartsCtrl.connectSeasons" class="opts-container">
+        <div id="align-seasons">
+          <label id="multi-chart-type">Season Alignment</label>
+          <md-radio-group aria-label="Season Alignment" ng-model="chartsCtrl.compSeasonAlign" ng-change="chartsCtrl.scrubDatasets(chartsCtrl.datasets.flat())">
+            <md-radio-button value="left">Left</md-radio-button>
+            <md-radio-button value="right">Right</md-radio-button>
+          </md-radio-group>
+        </div>
+      </div>
+    </div>
   </section>
 
   <div class="tv-error" role="alert" ng-show="chartsCtrl.error_message">
@@ -82,6 +150,15 @@
         <div class="tv-chart-title">
           <span class="tv-title-item" ng-repeat="title in chartsCtrl.chart_title track by $index">
             <span class="tv-title-name" ng-style="{'border-color': chartsCtrl.colors[$index]}">
+              <button type="button"
+                      class="tv-remove-series"
+                      ng-show="chartsCtrl.chart_title.length > 1"
+                      ng-disabled="chartsCtrl.loading"
+                      ng-click="chartsCtrl.removeSeries($index)"
+                      aria-label="Remove {{ title[0] }} from comparison"
+                      title="Remove from comparison">
+                <i class="material-icons" aria-hidden="true">close</i>
+              </button>
               {{ title[0] }}
               <a ng-href="{{ title[1] }}" target="_blank" rel="noopener" aria-label="Find where to watch {{ title[0] }}">
                 <i class="material-icons" aria-hidden="true">open_in_new</i>
@@ -94,72 +171,6 @@
       <div class="tv-scale-badge">Scale {{ chartsCtrl.rating_axis_min }}–10</div>
     </div>
 
-    <section class="tv-chart-controls" aria-label="Chart display options">
-      <div class="tv-switches">
-        <md-switch ng-change="chartsCtrl.prevent_empty_switch('episodes'); chartsCtrl.set_dataset_override(chartsCtrl.options_object, chartsCtrl.chart_title.length > 1)"
-                   ng-model="chartsCtrl.episode_data"
-                   aria-label="Show episode ratings">
-          Episodes
-        </md-switch>
-        <md-switch ng-change="chartsCtrl.prevent_empty_switch('trends'); chartsCtrl.set_dataset_override(chartsCtrl.options_object, chartsCtrl.chart_title.length > 1)"
-                   ng-model="chartsCtrl.trends"
-                   aria-label="Show trendlines">
-          Trendlines
-        </md-switch>
-        <md-switch ng-change="chartsCtrl.set_options(chartsCtrl.options_object); chartsCtrl.set_dataset_override(chartsCtrl.chart_title.length > 1)"
-                   ng-model="chartsCtrl.fill"
-                   aria-label="Fill area below episode lines">
-          Area fill
-        </md-switch>
-        <md-switch ng-change="chartsCtrl.set_options(chartsCtrl.options_object)"
-                   ng-model="chartsCtrl.focusedScale"
-                   aria-label="Focus the rating axis around the displayed ratings">
-          Focused Y-axis
-        </md-switch>
-        <md-switch ng-change="chartsCtrl.setOptSelect(); chartsCtrl.scrubDatasets(chartsCtrl.datasets.flat())"
-                   ng-model="chartsCtrl.connectSeasons"
-                   aria-label="Connect seasons into full-series lines">
-          Combine seasons
-        </md-switch>
-      </div>
-
-      <div class="tv-comparison-controls" ng-show="chartsCtrl.series_list.length > 1">
-        <div class="tv-radio-control">
-          <span class="tv-control-label">Align shows</span>
-          <md-radio-group class="tv-radio-cluster" ng-model="chartsCtrl.compType" ng-change="chartsCtrl.scrubDatasets(chartsCtrl.datasets.flat())">
-            <md-radio-button value="norm">By progress</md-radio-button>
-            <md-radio-button value="s-align" ng-if="!chartsCtrl.connectSeasons">By season</md-radio-button>
-            <md-radio-button value="raw">By episode count</md-radio-button>
-          </md-radio-group>
-        </div>
-
-        <div class="tv-radio-control" ng-show="chartsCtrl.compType == 'norm' && !chartsCtrl.connectSeasons">
-          <span class="tv-control-label">Progress reference</span>
-          <md-radio-group class="tv-radio-cluster" ng-model="chartsCtrl.compNormType" ng-change="chartsCtrl.scrubDatasets(chartsCtrl.datasets.flat())">
-            <md-radio-button value="s-left">Season starts</md-radio-button>
-            <md-radio-button value="s-right">Season ends</md-radio-button>
-            <md-radio-button value="full">Full series</md-radio-button>
-          </md-radio-group>
-        </div>
-
-        <div class="tv-radio-control" ng-show="chartsCtrl.compType != 'norm' && !(chartsCtrl.connectSeasons && chartsCtrl.compType == 's-align')">
-          <span class="tv-control-label">Episodes line up</span>
-          <md-radio-group class="tv-radio-cluster" ng-model="chartsCtrl.compEpAlign" ng-change="chartsCtrl.scrubDatasets(chartsCtrl.datasets.flat())">
-            <md-radio-button value="left">At start</md-radio-button>
-            <md-radio-button value="right">At end</md-radio-button>
-          </md-radio-group>
-        </div>
-
-        <div class="tv-radio-control" ng-show="chartsCtrl.compType == 's-align' && !chartsCtrl.connectSeasons">
-          <span class="tv-control-label">Seasons line up</span>
-          <md-radio-group class="tv-radio-cluster" ng-model="chartsCtrl.compSeasonAlign" ng-change="chartsCtrl.scrubDatasets(chartsCtrl.datasets.flat())">
-            <md-radio-button value="left">First seasons</md-radio-button>
-            <md-radio-button value="right">Final seasons</md-radio-button>
-          </md-radio-group>
-        </div>
-      </div>
-    </section>
-
     <section class="tv-chart-stage" aria-label="Episode rating chart">
       <canvas id="chart"
               class="chart chart-line"
@@ -168,6 +179,7 @@
               chart-labels="chartsCtrl.labels"
               chart-options="chartsCtrl.options"
               chart-series="chartsCtrl.series_labels"
+              chart-colors="chartsCtrl.chart_colors"
               chart-dataset-override="chartsCtrl.dataset_override">
         Episode ratings chart for {{ chartsCtrl.chart_title[0][0] }}.
       </canvas>
@@ -177,7 +189,8 @@
       <article class="tv-card tv-summary-card" ng-repeat="card in chartsCtrl.summary_cards track by $index">
         <span>{{ card.label }}</span>
         <strong>{{ card.value }}</strong>
-        <small>{{ card.context }}</small>
+        <small ng-if="!card.contextList">{{ card.context }}</small>
+        <small ng-repeat="item in card.contextList track by $index">{{ item }}</small>
       </article>
     </section>
   </main>

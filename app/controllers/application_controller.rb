@@ -7,6 +7,14 @@ class ApplicationController < ActionController::Base
 
   before_action :set_no_cache, only: [:get_omdb_data, :get_omdb_batch_data, :get_episode_data, :get_episode_batch_data]
 
+  # Surfaced in the lograge line so controller requests are attributable to a
+  # subdomain (erikgibbons.com vs tvcharts.…) and to a client.
+  def append_info_to_payload(payload)
+    super
+    payload[:host] = request.host
+    payload[:user_agent] = request.user_agent
+  end
+
   def set_no_cache
     response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     response.headers['Pragma'] = 'no-cache'
